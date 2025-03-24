@@ -2,9 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ShopController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::get('/home', [HomeController::class, 'home'])->name('home');
+Route::get('/login', [LoginController::class, 'login'])->name('login');
+Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
