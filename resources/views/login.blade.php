@@ -1,252 +1,135 @@
-<!--
-MULAI
-
-    MASUKKAN koneksi basis data (database.php)
-    
-    TANGANI proses pendaftaran:
-        JIKA formulir “daftar” dikirimkan:
-            - Ambil email, kata sandi, kontak, dan alamat dari data POST
-            - Hash kata sandi menggunakan password_hash() untuk keamanan
-            - Siapkan kueri SQL untuk memasukkan data ke dalam tabel 'users' dengan penampung
-            - JIKA pernyataan SQL berhasil disiapkan:
-                - Mengikat parameter (email, hash_password, kontak, alamat)
-                - Jalankan kueri:
-                    - JIKA pendaftaran berhasil:
-                        - Tampilkan pesan sukses menggunakan SweetAlert
-                        - Alihkan ke index.php
-                    - ELSE tampilkan pesan kesalahan menggunakan SweetAlert
-            - ELSE tampilkan pesan kesalahan jika pernyataan SQL tidak dapat disiapkan
-
-    Menangani proses login:
-        JIKA formulir “login” dikirimkan:
-            - Ambil email dan kata sandi dari data POST
-            - Siapkan kueri SQL untuk memilih pengguna berdasarkan email yang diberikan
-            - Mengikat parameter (email)
-            - Jalankan kueri tersebut:
-                - JIKA pengguna ada di dalam database:
-                    - Ambil data pengguna
-                    - Memulai sesi dan menyimpan data pengguna (user_id, email, role) dalam variabel sesi
-                    - JIKA peran pengguna adalah “Penjual”:
-                        - Tampilkan pesan sukses menggunakan SweetAlert
-                        - Alihkan ke halaman dasbor untuk penjual (dasbor.php)
-                    - ELSE tampilkan pesan sukses menggunakan SweetAlert dan alihkan ke halaman beranda (index.php)
-                - ELSE tampilkan pesan kesalahan menggunakan SweetAlert untuk kredensial yang salah
-
-    Tampilkan struktur HTML untuk formulir pendaftaran dan login:
-        - Tampilkan formulir pendaftaran dengan kolom untuk email, kontak, alamat, dan kata sandi
-        - Tampilkan formulir login dengan kolom untuk email dan kata sandi
-        - Sediakan tombol untuk beralih antara formulir pendaftaran dan login
-
-    Akhiri struktur HTML
-
-    Sertakan JS eksternal untuk interaksi formulir dan fungsionalitas sakelar (script2.js)
-
-AKHIR
--->
-
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register & Login</title>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel="stylesheet">
-    <!-- SweetAlert CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.10/dist/sweetalert2.min.css">
-
-    <!-- SweetAlert JS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.10/dist/sweetalert2.min.js"></script>
-
-    <link rel="stylesheet" href="style6.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CameraMart - Login & Sign Up</title>
+  <script src="{{ asset('styles/tailwindcss3.4.1.js') }}"></script>
 </head>
-
-<body>
-<div class="container">
-<?php 
-if (isset($_POST['register'])) {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $contact = $_POST['contact'];
-    $address = $_POST['address'];
-
-    // Hash password menggunakan password_hash() untuk keamanan
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-    // Query dengan prepared statement untuk menghindari SQL Injection
-    $sql = "INSERT INTO users (email, password, no_telp, address) VALUES (?, ?, ?, ?)";
-
-    // Persiapkan statement
-    if ($stmt = mysqli_prepare($conn, $sql)) {
-        // Mengikat parameter
-        mysqli_stmt_bind_param($stmt, "ssss", $email, $hashed_password, $contact, $address);
-
-        // Eksekusi query
-        if (mysqli_stmt_execute($stmt)) {
-            // Jika registrasi berhasil
-            echo "<script>
-                    Swal.fire({
-                        title: 'Berhasil!',
-                        text: 'Anda berhasil melakukan registrasi.',
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = 'index.php';  // Ganti dengan URL tujuan Anda
-                        }
-                    });
-                  </script>";
-        } else {
-            // Jika gagal mengeksekusi query
-            echo "<script>
-                    Swal.fire({
-                        title: 'Gagal!',
-                        text: 'Registrasi gagal, coba lagi.',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                  </script>";
-        }
-
-        // Tutup prepared statement
-        mysqli_stmt_close($stmt);
-    } else {
-        // Jika query tidak bisa dipersiapkan
-        echo "<script>
-                Swal.fire({
-                    title: 'Error!',
-                    text: 'Terjadi kesalahan pada server.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-              </script>";
-    }
-}
-// Jika ingin menggunakan query MySQLi untuk login, misalnya
-if (isset($_POST['login'])) {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    // Menghindari SQL Injection dengan MySQLi (gunakan prepared statements)
-    $sql = "SELECT * FROM users WHERE email = ?";
-    $stmt = mysqli_prepare($conn, $sql);
-    
-    // Mengikat parameter (bind_param pada MySQLi)
-    mysqli_stmt_bind_param($stmt, "s", $email); // "s" menunjukkan bahwa parameter adalah string
-    
-    // Eksekusi statement
-    mysqli_stmt_execute($stmt);
-    
-    // Ambil hasil query
-    $result = mysqli_stmt_get_result($stmt);
-    
-    if (mysqli_num_rows($result) > 0) {
-        // Ambil data pengguna
-        $data = mysqli_fetch_assoc($result);
-        
-        // Simpan informasi pengguna dalam sesi
-        $_SESSION['user_id'] = $data['user_id'];
-        $_SESSION['email'] = $data['email'];
-        $_SESSION['role'] = $data['role'];
-        
-        // Redirect sesuai dengan role pengguna
-        if ($data['role'] == "Penjual") {
-            echo "<script>
-                    Swal.fire({
-                        title: 'Selamat datang!',
-                        text: 'Role: " . $data['role'] . "',
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = 'dashboard.php'; // Halaman dashboard untuk penjual
-                        }
-                    });
-                  </script>";
-        } else {
-            echo "<script>
-                    Swal.fire({
-                        title: 'Selamat datang!',
-                        text: 'Role: " . $data['role'] . "',
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = 'index.php'; // Halaman home untuk pengguna lainnya
-                        }
-                    });
-                  </script>";
-        }
-    } else {
-        echo "<script>
-                Swal.fire({
-                    title: 'Gagal!',
-                    text: 'Akun tidak ada atau password salah.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-              </script>";
-    }
-    
-    mysqli_stmt_close($stmt); // Menutup statement
-}
-?>
-
-        <div class="form-box register">
-            <form  method="POST">
-                <h1>Register</h1>
-                <div class="input-box">
-                    <input type="text" placeholder="Email" name="email" required>
-                    <i class='bx bxs-envelope'></i>
-                </div>
-                <div class="input-box">
-                    <input type="number" placeholder="No. Handphone" name="contact" required>
-                    <i class='bx bxs-contact'></i>
-                </div>
-                <div class="input-box">
-                    <input type="text" placeholder="Address" name="address" required>
-                    <i class='bx bxs-map'></i>
-                </div>
-                <div class="input-box">
-                    <input type="password" placeholder="Password" name="password" required>
-                    <i class='bx bxs-lock-alt'></i>
-                </div>
-                <button type="submit" class="btn" name="register">Register</button>
-            </form>
-        </div>
-
-        <div class="form-box login">
-            <form  method="POST">
-                <h1>Login</h1>
-                <div class="input-box">
-                    <input type="email" name="email" placeholder="Email" required> 
-                    <i class='bx bxs-envelope'></i>
-                </div>
-                    <div class="input-box">
-                    <input type="password" name="password" placeholder="Password" required>
-                    <i class='bx bxs-lock-alt'></i>
-                </div>
-                <button type="submit" class="btn" name="login">Login</button>
-            </form>
-        </div>
-
-        <div class="toggle-box">
-            <div class="toggle-panel toggle-left">
-                <h1>Welcome to BagItUp</h1>
-                <p>Already have an account?</p>
-                <button class="btn login-btn">Login</button>
-            </div>
-            <div class="toggle-panel toggle-right">
-                <h1>BagItUp!</h1>
-                <p>Don't have an account?</p>
-                <button class="btn register-btn">Register</button>
-            </div>
-        </div>
+<body class="flex flex-col min-h-screen bg-gray-100 font-sans">
+  <!-- Header -->
+  <header class="bg-white shadow sticky top-0 z-10">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex justify-between items-center py-4">
+        <a href="#" class="text-2xl font-bold text-gray-800">Le<span class="text-red-500">Portrait</span></a>
+      </div>
     </div>
+  </header>
+  
+  <!-- Auth Container -->
+  <div class="flex-1 flex justify-center items-center py-10">
+    <div class="flex w-full max-w-4xl bg-white rounded-lg shadow-lg overflow-hidden">
+      <div class="w-5/12 bg-gray-800 bg-opacity-60 bg-blend-overlay bg-cover bg-center flex flex-col justify-center items-center text-white p-8 text-center" style="background-image: url('public/images/camera2.jpg')">
+        <div class="text-3xl font-bold mb-5">Le<span class="text-red-500">Portrait</span></div>
+        <h2 class="text-2xl mb-4">Welcome to LePortrait</h2>
+        <p class="text-base mb-8 leading-relaxed">Discover the most complete and trusted camera collection. Get the best prices for your dream camera.</p>
+      </div>
+      
+      <div class="w-7/12 p-10">
+        <div class="flex mb-8 border-b">
+          <div id="login-tab" class="px-4 py-2 text-base font-semibold text-gray-500 cursor-pointer mr-5 transition-all duration-300 border-b-2 border-red-500 text-red-500" onclick="switchTab('login')">Login</div>
+          <div id="signup-tab" class="px-4 py-2 text-base font-semibold text-gray-500 cursor-pointer mr-5 transition-all duration-300" onclick="switchTab('signup')">Sign Up</div>
+        </div>
+        
+        <div class="form-container">
+          <!-- Login Form -->
+          <form id="login-form" class="block">
+            <div class="mb-5">
+              <label for="login-email" class="block mb-2 font-medium text-gray-700">Email</label>
+              <input type="email" id="login-email" placeholder="Enter your email" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300">
+            </div>
+            
+            <div class="mb-5">
+              <label for="login-password" class="block mb-2 font-medium text-gray-700">Password</label>
+              <input type="password" id="login-password" placeholder="Enter your password" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300">
+            </div>
+            
+            <div class="flex items-center mt-4">
+              <input type="checkbox" id="remember-me" class="mr-2">
+              <label for="remember-me" class="text-sm text-gray-600">Remember me</label>
+            </div>
+            
+            <div class="text-right mt-2">
+              <a href="#" class="text-red-500 text-sm">Forgot password?</a>
+            </div>
+            
+            <div class="mt-8">
+              <button type="submit" class="w-full py-3 px-6 bg-red-500 text-white font-bold rounded-md hover:bg-red-600 transition duration-300">Login</button>
+            </div>
 
-
-    <script src="script2.js"></script>
+            <div class="mt-6 text-center text-sm text-gray-500">
+              Don't have an account? <a href="#" class="text-red-500 font-medium" onclick="switchTab('signup')">Sign up now</a>
+            </div>
+          </form>
+          
+          <!-- Signup Form -->
+          <form id="signup-form" class="hidden">
+            <div class="mb-5">
+              <label for="signup-name" class="block mb-2 font-medium text-gray-700">Full Name</label>
+              <input type="text" id="signup-name" placeholder="Enter your full name" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300">
+            </div>
+            
+            <div class="mb-5">
+              <label for="signup-email" class="block mb-2 font-medium text-gray-700">Email</label>
+              <input type="email" id="signup-email" placeholder="Enter your email" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300">
+            </div>
+            
+            <div class="mb-5">
+              <label for="signup-phone" class="block mb-2 font-medium text-gray-700">Phone Number</label>
+              <input type="tel" id="signup-phone" placeholder="Enter your phone number" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300">
+            </div>
+            
+            <div class="mb-5">
+              <label for="signup-password" class="block mb-2 font-medium text-gray-700">Password</label>
+              <input type="password" id="signup-password" placeholder="Create a password (min. 8 characters)" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300">
+            </div>
+            
+            <div class="mb-5">
+              <label for="signup-confirm-password" class="block mb-2 font-medium text-gray-700">Confirm Password</label>
+              <input type="password" id="signup-confirm-password" placeholder="Confirm your password" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300">
+            </div>
+            
+            <div class="mt-8">
+              <button type="submit" class="w-full py-3 px-6 bg-red-500 text-white font-bold rounded-md hover:bg-red-600 transition duration-300">Sign Up</button>
+            </div>
+            
+            <div class="mt-6 text-center text-sm text-gray-500">
+              Already have an account? <a href="#" class="text-red-500 font-medium" onclick="switchTab('login')">Login now</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-5 mt-auto">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center text-sm text-gray-300">
+        &copy; 2025 CameraMart. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+  
+  <script>
+    function switchTab(tab) {
+      // Toggle active class on tabs
+      if (tab === 'login') {
+        document.getElementById('login-tab').classList.add('border-b-2', 'border-red-500', 'text-red-500');
+        document.getElementById('signup-tab').classList.remove('border-b-2', 'border-red-500', 'text-red-500');
+        document.getElementById('login-form').classList.remove('hidden');
+        document.getElementById('login-form').classList.add('block');
+        document.getElementById('signup-form').classList.remove('block');
+        document.getElementById('signup-form').classList.add('hidden');
+      } else {
+        document.getElementById('signup-tab').classList.add('border-b-2', 'border-red-500', 'text-red-500');
+        document.getElementById('login-tab').classList.remove('border-b-2', 'border-red-500', 'text-red-500');
+        document.getElementById('signup-form').classList.remove('hidden');
+        document.getElementById('signup-form').classList.add('block');
+        document.getElementById('login-form').classList.remove('block');
+        document.getElementById('login-form').classList.add('hidden');
+      }
+    }
+  </script>
 </body>
 </html>
