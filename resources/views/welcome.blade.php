@@ -9,5 +9,7 @@
     
     <img src="{{ asset('images/camera1.jpg') }}" alt="Gambar 1" width="300">
     <img src="{{ asset('images/camera2.jpg') }}" alt="Gambar 2" width="300">
+    <img src="{{ asset('images/camera3.jpeg') }}" alt="Gambar 3" width="300">
+    <img src="{{ asset('images/camera4.jpeg') }}" alt="Gambar 4" width="300">
 </body>
 </html>
