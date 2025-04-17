@@ -5,7 +5,7 @@
     <table>
         <thead>
             <tr>
-                <th>ID</th>
+                <th>Id</th>
                 <th>Produk</th>
                 <th>Price</th>
             </tr>
