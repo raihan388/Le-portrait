@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\ListProdukController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -16,8 +17,6 @@ Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
 Route::get('/registrasi', [RegistrasiController::class, 'registrasi'])->name('registrasi');
 Route::get('/about' , [AboutController::class, 'about'])->name('about');
+Route::get('/listproduk', [ListProdukController::class, 'list'])->name('listproduk');
 
-// Route untuk halaman kamera 3 dan 4
-Route::get('/camera/{camera}', function ($camera) {
-    return view('camera', ['camera' => $camera]);
-})->name('camera');
+
