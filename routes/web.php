@@ -8,7 +8,7 @@ use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ListProdukController;
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('welcome');
 });
 
