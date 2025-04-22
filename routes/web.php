@@ -9,7 +9,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ListProdukController;
 use App\Http\Controllers\ProdukController;
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('welcome');
 });
 

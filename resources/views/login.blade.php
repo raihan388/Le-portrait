@@ -33,7 +33,7 @@
         
         <div class="form-container">
           <!-- Login Form -->
-          <form id="login-form" class="block">
+          <form method="POST" action="{{ route('login') }}">
             <div class="mb-5">
               <label for="login-email" class="block mb-2 font-medium text-gray-700">Email</label>
               <input type="email" id="login-email" placeholder="Enter your email" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300">
