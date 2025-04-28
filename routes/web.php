@@ -7,6 +7,7 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ListProdukController;
+use App\Http\Controllers\HomePageController;
 
 Route::get('/welcome', function () {
     return view('welcome');
@@ -18,5 +19,5 @@ Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
 Route::get('/registrasi', [RegistrasiController::class, 'registrasi'])->name('registrasi');
 Route::get('/about' , [AboutController::class, 'about'])->name('about');
 Route::get('/listproduk', [ListProdukController::class, 'list'])->name('listproduk');
-
+Route::get('/homepage', [HomePageController::class, 'homepage'])->name('homepage');
 
