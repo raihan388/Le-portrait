@@ -21,9 +21,16 @@ class CheckOutDetailsController extends Controller
             'phone'      => 'required|numeric|digits_between:10,15',
             'notes'      => 'nullable|string|max:1000',
         ]);
+    }
+
+    public function checkoutform()
+    { 
+    return view('checkout');
+    {
 
         CheckoutDetails::create($validated);
 
         return view('checkoutsuccess', ['data' => $validated]);
     }
+}
 }

@@ -29,6 +29,7 @@ Route::get('/checkout', [CheckOutController::class, 'checkout'])->name('checkout
 Route::get('/checkoutdetails', [CheckOutDetailsController::class, 'checkoutdetails'])->name('checkoutdetails');
 Route::get('/checkout', [CheckOutDetailsController::class, 'checkoutform'])->name('checkout.form');
 Route::post('/checkout-submit', [CheckOutDetailsController::class, 'checkoutsubmit'])->name('checkoutsubmit');
+Route::get('/checkout', [CheckOutDetailsController::class, 'checkoutform']);
 Route::get('/dslr', [PageController::class, 'dslr'])->name('dslr');
 Route::get('/mirrorless', [PageController::class, 'mirrorless'])->name('mirrorless');
 Route::get('/film', [PageController::class, 'film'])->name('film');
