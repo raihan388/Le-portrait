@@ -4,13 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HomePage Le-Portrait</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="{{ asset('styles/tailwindcss3.4.1.js') }}"></script>
 </head>
 <body class="font-sans bg-gray-50 text-gray-900">
   <!-- Header -->
-  <header class="border-b shadow-sm">
-    <div class="max-w-7xl mx-auto flex items-center justify-between p-4">
-      <div class="text-2xl font-bold">📸 Portrait</div>
+  <div class="flex items-center justify-between p-4 shadow bg-white">
+  <!-- Logo -->
+  <div class="flex items-center gap-2">
+    <img src="logo.png" alt="Logo" class="h-8 w-auto" />
+  </div>
       <input type="text" placeholder="Search cameras, lenses, accessories..." class="border p-2 rounded w-1/2" />
       <div class="space-x-4">
         <a href="#" class="hover:underline">Login</a>
@@ -80,83 +82,119 @@
   </div>
 </section>
 
-  <!-- About Us -->
+<!-- Special Offers & Best Selling Product -->
+<div class="max-w-7xl mx-auto px-4 py-12">
+  <h2 class="text-2xl font-bold mb-6">Special Offers</h2>
+  <div class="grid md:grid-cols-3 gap-6 mb-12">
+    <!-- Tempatkan kartu produk spesial di sini -->
+    <div class="bg-white p-4 rounded shadow">Produk Spesial 1</div>
+    <div class="bg-white p-4 rounded shadow">Produk Spesial 2</div>
+    <div class="bg-white p-4 rounded shadow">Produk Spesial 3</div>
+  </div>
+
+  <h2 class="text-2xl font-bold mb-6">Best Selling Product</h2>
+  <div class="grid md:grid-cols-3 gap-6">
+    <!-- Tempatkan kartu produk best seller di sini -->
+    <div class="bg-white p-4 rounded shadow">Best Seller 1</div>
+    <div class="bg-white p-4 rounded shadow">Best Seller 2</div>
+    <div class="bg-white p-4 rounded shadow">Best Seller 3</div>
+  </div>
+</div>
+
+<!-- About Us -->
 <section class="max-w-7xl mx-auto px-4 py-12">
   <h2 class="text-2xl font-bold text-center mb-10">About Us</h2>
-  <div class="grid grid-cols-3 gap-6 text-sm">
-    
-  <!-- Baris 1 -->
-  <div class="max-w-7xl mx-auto px-4 py-10">
-  <div class="flex flex-col md:flex-row gap-12 items-start">
-  <div class="bg-white p-4 rounded shadow hover:shadow-xl transition duration-300 transform hover:-translate-y-1 text-center">
-  <img src="image.jpg" class="w-full h-52 object-cover rounded-lg mb-4" />
-    <p class="text-sm font-semibold">Front-End Developer</p>
-    <h2 class="text-lg font-bold">Muhammad Raihan Fauzan</h2>
-    <p class="text-sm mt-2 text-justify">
-      The man behind the cool look of this website! Raihan is our Front-End Developer who is really good at making websites look good and easy to use.
-    </p>
-    <p class="text-sm mt-2 text-justify">
-      He works with HTML, CSS, JavaScript, and frameworks like Vue and Tailwind to turn designs into interactive and responsive web pages.
-    </p>
+  <div class="grid md:grid-cols-2 gap-8 justify-items-center">
+
+    <!-- Raihan -->
+    <div class="bg-white p-4 rounded shadow hover:shadow-xl transition duration-300 transform hover:-translate-y-1 text-center w-full max-w-xs">
+      <img src="image.jpg" class="w-full h-52 object-cover rounded-lg mb-4" />
+      <p class="text-sm font-semibold">Front-End Developer</p>
+      <h2 class="text-lg font-bold">Muhammad Raihan Fauzan</h2>
+      <p class="text-sm mt-2 text-justify">
+        The man behind the cool look of this website! Raihan is our Front-End Developer who is really good at making websites look good and easy to use.
+      </p>
+      <p class="text-sm mt-2 text-justify">
+        He works with HTML, CSS, JavaScript, and frameworks like Vue and Tailwind to turn designs into interactive and responsive web pages.
+      </p>
+    </div>
+
+    <!-- Sabrina -->
+    <div class="bg-white p-4 rounded shadow hover:shadow-xl transition duration-300 transform hover:-translate-y-1 text-center w-full max-w-xs">
+      <img src="image.jpg" class="w-full h-52 object-cover rounded-lg mb-4" />
+      <p class="text-sm font-semibold">Front-End Developer</p>
+      <h2 class="text-lg font-bold">Sabrina Rosa</h2>
+      <p class="text-sm mt-2 text-justify">
+        The woman behind the cool look of this website! Sabrina is our Front-End Developer who is really good at making websites look good and easy to use.
+      </p>
+      <p class="text-sm mt-2 text-justify">
+        She works with HTML, CSS, JavaScript, and frameworks like Vue and Tailwind to turn designs into interactive and responsive web pages.
+      </p>
+    </div>
+
+    <!-- Yuki -->
+    <div class="bg-white p-4 rounded shadow hover:shadow-xl transition duration-300 transform hover:-translate-y-1 text-center w-full max-w-xs">
+      <img src="image.jpg" class="w-full h-52 object-cover rounded-lg mb-4" />
+      <p class="text-sm font-semibold">Back-End Developer</p>
+      <h2 class="text-lg font-bold">Muhamad Yuki</h2>
+      <p class="text-sm mt-2 text-justify">
+        Yuki is the powerhouse behind our server-side logic! He ensures data flows smoothly and securely.
+      </p>
+      <p class="text-sm mt-2 text-justify">
+        He works with Node.js, Express, and database systems to build solid back-end architecture for our site.
+      </p>
+    </div>
+
+    <!-- Dilla -->
+    <div class="bg-white p-4 rounded shadow hover:shadow-xl transition duration-300 transform hover:-translate-y-1 text-center w-full max-w-xs">
+      <img src="image.jpg" class="w-full h-52 object-cover rounded-lg mb-4" />
+      <p class="text-sm font-semibold">Back-End Developer</p>
+      <h2 class="text-lg font-bold">Annisa Fadilla</h2>
+      <p class="text-sm mt-2 text-justify">
+        Dilla makes sure our backend runs like a charm! She’s passionate about clean code and efficient queries.
+      </p>
+      <p class="text-sm mt-2 text-justify">
+        Her skills include Laravel, PHP, and RESTful API development for scalable applications.
+      </p>
+    </div>
+
   </div>
-</div>
-</div>
-</div>
-
-  <!-- Baris 2 -->
-  <div class="max-w-5xl mx-auto px-4 py-10 grid grid-cols-2 gap-8">
-  
-  <!-- Muhamad Yuki -->
-  <div class="flex flex-col items-center">
-    <div class="bg-gray-300 w-full h-52 rounded mb-2"></div>
-    <p class="text-xs font-semibold">Back-End Developer</p>
-    <h3 class="font-bold text-md">Muhamad Yuki</h3>
-  </div>
-
-  <!-- Annisa Fadillla -->
-  <div class="flex flex-col items-center">
-    <div class="bg-gray-300 w-full h-52 rounded mb-2"></div>
-    <p class="text-xs font-semibold">Back-End Developer</p>
-    <h3 class="font-bold text-md">Annisa Fadilla</h3>
-  </div>
-
-  <!-- Baris 3 -->
-
 </section>
+
 
   <!-- Footer -->
   <footer class="bg-gray-800 text-white text-sm">
-    <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4 px-4 py-8">
-      <div>
-        <h4 class="font-bold mb-2">📸 Portrait</h4>
-        <ul>
+    <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 px-6 py-8">
+      <div class="flex-1 min-w-[150px]">
+        <h3 class="font-bold mb-2">Le Portrait</h3>
+        <ul class="space-y-1 text-sm text-left inline-block">
           <li><a href="#" class="hover:underline">Tentang Kami</a></li>
           <li><a href="#" class="hover:underline">Karir</a></li>
           <li><a href="#" class="hover:underline">Blog</a></li>
           <li><a href="#" class="hover:underline">Kebijakan Privasi</a></li>
         </ul>
       </div>
-      <div>
+      <div class="flex-1 min-w-[150px]">
         <h4 class="font-bold mb-2">Layanan Pelanggan</h4>
-        <ul>
+        <ul class="space-y-1 text-sm text-left inline-block">
           <li><a href="#" class="hover:underline">Bantuan</a></li>
           <li><a href="#" class="hover:underline">Cara Berbelanja</a></li>
           <li><a href="#" class="hover:underline">Pengiriman</a></li>
           <li><a href="#" class="hover:underline">Pengembalian</a></li>
         </ul>
       </div>
-      <div>
+      <div class="flex-1 min-w-[150px]">
         <h4 class="font-bold mb-2">Pembayaran</h4>
-        <ul>
+        <ul class="space-y-1 text-sm text-left inline-block">
           <li><a href="#" class="hover:underline">Transfer Bank</a></li>
           <li><a href="#" class="hover:underline">Kartu Kredit</a></li>
           <li><a href="#" class="hover:underline">QRIS</a></li>
           <li><a href="#" class="hover:underline">Cicilan</a></li>
         </ul>
       </div>
-      <div>
+      <div class="flex-1 min-w-[150px]">
         <h4 class="font-bold mb-2">Ikuti Kami</h4>
-        <ul>
+        <ul class="space-y-1 text-sm text-left inline-block">
           <li><a href="#" class="hover:underline">Instagram</a></li>
           <li><a href="#" class="hover:underline">Facebook</a></li>
           <li><a href="#" class="hover:underline">Twitter</a></li>
@@ -164,7 +202,7 @@
         </ul>
       </div>
     </div>
-    <div class="text-center text-xs py-4 bg-gray-900">© 2025 Camera Store. Semua Hak Dilindungi.</div>
+    <div class="text-center text-xs py-4 bg-gray-900">© 2025 Le Portrait. Semua Hak Cipta Dilindungi.</div>
   </footer>
 </body>
 </html>

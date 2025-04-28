@@ -8,6 +8,8 @@ use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ListProdukController;
 use App\Http\Controllers\HomePageController;
+use App\Http\Controllers\CheckOutController;
+use App\Http\Controllers\CheckOutDetailsController;
 
 Route::get('/welcome', function () {
     return view('welcome');
@@ -20,4 +22,7 @@ Route::get('/registrasi', [RegistrasiController::class, 'registrasi'])->name('re
 Route::get('/about' , [AboutController::class, 'about'])->name('about');
 Route::get('/listproduk', [ListProdukController::class, 'list'])->name('listproduk');
 Route::get('/homepage', [HomePageController::class, 'homepage'])->name('homepage');
-
+Route::get('/checkout', [CheckOutController::class, 'checkout'])->name('checkout');
+Route::get('/checkoutdetails', [CheckOutDetailsController::class, 'checkoutdetails'])->name('checkoutdetails');
+Route::get('/checkout', [CheckOutDetailsController::class, 'checkoutform'])->name('checkout.form');
+Route::post('/checkout-submit', [CheckOutDetailsController::class, 'checkoutsubmit'])->name('checkoutsubmit');

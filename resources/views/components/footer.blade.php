@@ -1,3 +1,3 @@
 <div>
-    <p>&copy; {{ date('Y') }} My Apppp</p>
+    <p>&copy; {{ date('Y') }} Myjhhj Apppp</p>
 </div>
