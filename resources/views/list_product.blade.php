@@ -5,17 +5,15 @@
     <table>
         <thead>
             <tr>
-                <th>Id</th>
+                <th>ID</th>
                 <th>Produk</th>
-                <th>Price</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($data as $post)
                 <tr>
                     <td>{{ $post['id'] }}</td>
-                    <td>{{ $post['name'] }}</td>
-                    <td>{{ $post['price'] }}</td>
+                    <td>{{ $post['produk'] }}</td>
                         
                 </tr>
             @endforeach
