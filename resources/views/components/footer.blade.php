@@ -1,8 +1,7 @@
-<<<<<<< HEAD
+
 <div>
     <p>&copy; {{ date('Y') }} Myjhhj Apppp</p>
 </div>
-=======
 <footer class="bg-gray-900 text-white mt-16">
     <div class="container mx-auto grid grid-cols-4 gap-8 p-10 text-sm">
       <div>

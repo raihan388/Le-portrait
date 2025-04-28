@@ -7,17 +7,6 @@
     "content-hash": "13f7a78e706043d355380d69a182845a",
     "packages": [
         {
-<<<<<<< HEAD
-            "name": "brick/math",
-            "version": "0.12.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/brick/math.git",
-                "reference": "866551da34e9a618e64a819ee1e01c20d8a588ba"
-            },
-            "dist": {
-                "type": "zip",
-=======
             "name": "anourvalar/eloquent-serialize",
             "version": "1.3.1",
             "source": {
@@ -243,7 +232,6 @@
             },
             "dist": {
                 "type": "zip",
->>>>>>> 57fa7ae3f189afeb99b7c7ee987e6a73a4f178fb
                 "url": "https://api.github.com/repos/brick/math/zipball/866551da34e9a618e64a819ee1e01c20d8a588ba",
                 "reference": "866551da34e9a618e64a819ee1e01c20d8a588ba",
                 "shasum": ""
@@ -996,8 +984,6 @@
                 }
             ],
             "time": "2025-03-06T22:45:56+00:00"
-<<<<<<< HEAD
-=======
         },
         {
             "name": "filament/actions",
@@ -1430,7 +1416,6 @@
                 "source": "https://github.com/filamentphp/filament"
             },
             "time": "2025-02-19T08:42:37+00:00"
->>>>>>> 57fa7ae3f189afeb99b7c7ee987e6a73a4f178fb
         },
         {
             "name": "fruitcake/php-cors",
@@ -1977,17 +1962,6 @@
             "time": "2025-02-03T10:55:03+00:00"
         },
         {
-<<<<<<< HEAD
-            "name": "laravel/framework",
-            "version": "v12.9.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/framework.git",
-                "reference": "3db59aa0f382c349c78a92f3e5b5522e00e3301b"
-            },
-            "dist": {
-                "type": "zip",
-=======
             "name": "kirschbaum-development/eloquent-power-joins",
             "version": "4.2.3",
             "source": {
@@ -2052,17 +2026,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v12.9.2",
+            "version": "v12.10.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "3db59aa0f382c349c78a92f3e5b5522e00e3301b"
+                "reference": "0f123cc857bc177abe4d417448d4f7164f71802a"
             },
             "dist": {
                 "type": "zip",
->>>>>>> 57fa7ae3f189afeb99b7c7ee987e6a73a4f178fb
-                "url": "https://api.github.com/repos/laravel/framework/zipball/3db59aa0f382c349c78a92f3e5b5522e00e3301b",
-                "reference": "3db59aa0f382c349c78a92f3e5b5522e00e3301b",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/0f123cc857bc177abe4d417448d4f7164f71802a",
+                "reference": "0f123cc857bc177abe4d417448d4f7164f71802a",
                 "shasum": ""
             },
             "require": {
@@ -2264,7 +2237,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2025-04-16T15:44:19+00:00"
+            "time": "2025-04-24T14:11:20+00:00"
         },
         {
             "name": "laravel/prompts",
@@ -3095,17 +3068,6 @@
             "time": "2024-12-08T08:18:47+00:00"
         },
         {
-<<<<<<< HEAD
-            "name": "monolog/monolog",
-            "version": "3.9.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "10d85740180ecba7896c87e06a166e0c95a0e3b6"
-            },
-            "dist": {
-                "type": "zip",
-=======
             "name": "livewire/livewire",
             "version": "v3.6.3",
             "source": {
@@ -3258,7 +3220,6 @@
             },
             "dist": {
                 "type": "zip",
->>>>>>> 57fa7ae3f189afeb99b7c7ee987e6a73a4f178fb
                 "url": "https://api.github.com/repos/Seldaek/monolog/zipball/10d85740180ecba7896c87e06a166e0c95a0e3b6",
                 "reference": "10d85740180ecba7896c87e06a166e0c95a0e3b6",
                 "shasum": ""
@@ -5523,17 +5484,6 @@
             "time": "2024-12-30T19:00:17+00:00"
         },
         {
-<<<<<<< HEAD
-            "name": "symfony/http-foundation",
-            "version": "v7.2.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "371272aeb6286f8135e028ca535f8e4d6f114126"
-            },
-            "dist": {
-                "type": "zip",
-=======
             "name": "symfony/html-sanitizer",
             "version": "v7.2.3",
             "source": {
@@ -5612,7 +5562,6 @@
             },
             "dist": {
                 "type": "zip",
->>>>>>> 57fa7ae3f189afeb99b7c7ee987e6a73a4f178fb
                 "url": "https://api.github.com/repos/symfony/http-foundation/zipball/371272aeb6286f8135e028ca535f8e4d6f114126",
                 "reference": "371272aeb6286f8135e028ca535f8e4d6f114126",
                 "shasum": ""
@@ -7841,16 +7790,16 @@
         },
         {
             "name": "laravel/sail",
-            "version": "v1.41.0",
+            "version": "v1.41.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sail.git",
-                "reference": "fe1a4ada0abb5e4bd99eb4e4b0d87906c00cdeec"
+                "reference": "e5692510f1ef8e0f5096cde2b885d558f8d86592"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sail/zipball/fe1a4ada0abb5e4bd99eb4e4b0d87906c00cdeec",
-                "reference": "fe1a4ada0abb5e4bd99eb4e4b0d87906c00cdeec",
+                "url": "https://api.github.com/repos/laravel/sail/zipball/e5692510f1ef8e0f5096cde2b885d558f8d86592",
+                "reference": "e5692510f1ef8e0f5096cde2b885d558f8d86592",
                 "shasum": ""
             },
             "require": {
@@ -7900,7 +7849,7 @@
                 "issues": "https://github.com/laravel/sail/issues",
                 "source": "https://github.com/laravel/sail"
             },
-            "time": "2025-01-24T15:45:36+00:00"
+            "time": "2025-04-22T13:39:39+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -8587,16 +8536,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "11.5.17",
+            "version": "11.5.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "fd2e863a2995cdfd864fb514b5e0b28b09895b5c"
+                "reference": "fc3e887c7f3f9917e1bf61e523413d753db00a17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/fd2e863a2995cdfd864fb514b5e0b28b09895b5c",
-                "reference": "fd2e863a2995cdfd864fb514b5e0b28b09895b5c",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/fc3e887c7f3f9917e1bf61e523413d753db00a17",
+                "reference": "fc3e887c7f3f9917e1bf61e523413d753db00a17",
                 "shasum": ""
             },
             "require": {
@@ -8668,7 +8617,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.5.17"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.5.18"
             },
             "funding": [
                 {
@@ -8680,11 +8629,19 @@
                     "type": "github"
                 },
                 {
+                    "url": "https://liberapay.com/sebastianbergmann",
+                    "type": "liberapay"
+                },
+                {
+                    "url": "https://thanks.dev/u/gh/sebastianbergmann",
+                    "type": "thanks_dev"
+                },
+                {
                     "url": "https://tidelift.com/funding/github/packagist/phpunit/phpunit",
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-04-08T07:59:11+00:00"
+            "time": "2025-04-22T06:09:49+00:00"
         },
         {
             "name": "sebastian/cli-parser",
