@@ -44,6 +44,10 @@ Route::get('/tripods', function () {
     return view('tripods');
 })->name('tripods');
 
+Route::get('/', function () {
+    return view('homepage');
+})->name('homepage');
+
 Route::get('/home', [HomeController::class, 'home'])->name('home');
 Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/shop', [ShopController::class, 'shop'])->name('shop');

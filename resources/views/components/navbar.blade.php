@@ -2,7 +2,7 @@
   <div class="container mx-auto flex items-center p-4 gap-4">
     <!-- Logo -->
     <div class="flex-shrink-0">
-      <a href="/">
+      <a href="{{ route('homepage') }}">
         <img src="images/logo.png" alt="Logo"
              class="h-10 w-auto object-contain hover:opacity-90 transition-opacity">
       </a>
