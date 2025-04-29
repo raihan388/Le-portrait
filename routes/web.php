@@ -18,6 +18,32 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 
+// routes/web.php
+
+Route::get('/dslr-cameras', function () {
+    return view('dslr-cameras');
+})->name('dslr');
+
+Route::get('/mirrorless-cameras', function () {
+    return view('mirrorless-cameras');
+})->name('mirrorless');
+
+Route::get('/film-cameras', function () {
+    return view('film-cameras');
+})->name('film');
+
+Route::get('/lenses', function () {
+    return view('lenses');
+})->name('lenses');
+
+Route::get('/flash-units', function () {
+    return view('flash-units');
+})->name('flash');
+
+Route::get('/tripods', function () {
+    return view('tripods');
+})->name('tripods');
+
 Route::get('/home', [HomeController::class, 'home'])->name('home');
 Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
@@ -35,7 +61,10 @@ Route::get('/mirrorless', [PageController::class, 'mirrorless'])->name('mirrorle
 Route::get('/film', [PageController::class, 'film'])->name('film');
 Route::get('/lenses', [PageController::class, 'lenses'])->name('lenses');
 Route::get('/flash', [PageController::class, 'flash'])->name('flash');
-Route::get('/tripod', [PageController::class, 'tripod'])->name('tripod');
+Route::get('/tripods', [PageController::class, 'tripod'])->name('tripods');
 Route::get('/produk/{slug}', [PageController::class, 'show'])->name('produk.show');
+Route::get('/order-history', [PageController::class, 'index'])->name('pages.order-history');
+
+
 
 

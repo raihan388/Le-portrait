@@ -60,4 +60,25 @@ class PageController extends Controller
 
         return view('pages.detailproduk', compact('product'));
     }
+
+    public function index()
+    {
+        // Contoh data dummy (biasanya ini diambil dari database)
+        $orders = [
+                    [
+                        'name' => 'Canon EOS R6',
+                        'image' => 'path/to/canon.jpg',
+                        'quantity' => 1,
+                        'price' => 28500000
+                    ],
+                    [
+                        'name' => 'Lensa Canon 50mm',
+                        'image' => 'path/to/lensa.jpg',
+                        'quantity' => 1,
+                        'price' => 22750000
+                ]
+        ];
+
+        return view('pages.order-history', compact('orders'));
+    }
 }
