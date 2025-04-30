@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detail Produk Kamera</title>
+  <script src="{{ asset('styles/tailwindcss3.4.1.js') }}"></script>
   <title>Details Product</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
