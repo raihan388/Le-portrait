@@ -139,5 +139,9 @@
 
   <!-- Footer -->
   @include('components.footer')
+
+    <!-- Cart Sidebar -->
+    @include('components.cart')
+    
 </body>
 </html>

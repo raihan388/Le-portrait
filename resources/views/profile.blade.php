@@ -9,31 +9,8 @@
 <body class="font-sans bg-gray-50 text-gray-900">
 
   <!-- Header -->
-<div class="flex items-center justify-between p-4 shadow bg-white">
-  <div class="flex items-center gap-2 ml-6">  <!-- Added ml-4 for margin-left -->
-    <img src="poto.jpg" alt="Logo" class="h-12 w-auto" />
-  </div>
-  <input type="text" placeholder="Search cameras, lenses, accessories..." class="border p-2 rounded w-1/2" />
-  <div class="space-x-4">
-    <a href="/login" class="hover:underline">Login</a>
-    <a href="#" class="hover:underline">Sign Up</a>
-    <a href="#" class="hover:underline" onclick="toggleCart(); return false;">Cart (0)</a>
-  </div>
-</div>
 
-  <!-- Navigation Bar -->
-  <nav class="bg-white shadow-sm">
-    <div class="max-w-7xl mx-auto px-4">
-      <ul class="flex justify-center space-x-12 py-4 font-semibold text-sm">
-        <li><a href="#" class="hover:underline">DSLR Cameras</a></li>
-        <li><a href="#" class="hover:underline">Mirrorless Camera</a></li>
-        <li><a href="#" class="hover:underline">Film Cameras</a></li>
-        <li><a href="#" class="hover:underline">Lenses</a></li>
-        <li><a href="#" class="hover:underline">Flash units</a></li>
-        <li><a href="#" class="hover:underline">Tripods</a></li>
-      </ul>
-    </div>
-  </nav>
+  @include('components.navbar')
 
   <!-- Container Profile -->
   <div class="container flex justify-center items-start py-12">
@@ -113,72 +90,4 @@
   </footer>
 
   <!-- Cart Sidebar -->
-  <div id="cartSidebar" class="fixed top-0 right-0 w-[350px] h-full bg-gray-100 border-l border-gray-300 p-5 shadow-lg z-50 hidden">
-    <h2 class="text-xl font-bold mb-5">Shopping Cart</h2>
-    <button onclick="toggleCart()" class="absolute top-4 right-4 text-xl font-bold text-gray-600 hover:text-black">&times;</button>
-
-    <div class="cart-item flex justify-between items-center mb-5">
-      <div class="w-[50px] h-[50px] bg-gray-300 rounded"></div>
-      <div class="flex-grow mx-3">
-        <div class="font-bold mb-1">Canon EOS R6</div>
-        <div class="flex items-center gap-2">
-          <button onclick="decreaseQty(this)" class="w-6 h-6 border border-gray-400 bg-white text-sm rounded">-</button>
-          <input type="text" value="1" readonly class="w-8 text-center border border-gray-300 rounded">
-          <button onclick="increaseQty(this)" class="w-6 h-6 border border-gray-400 bg-white text-sm rounded">+</button>
-        </div>
-      </div>
-      <div class="font-bold text-right">Rp 28.500.000</div>
-    </div>
-
-    <div class="flex justify-between font-bold border-t border-gray-300 pt-3 mt-3 text-base">
-      <span>Subtotal:</span>
-      <span id="subtotal">Rp 28.500.000</span>
-    </div>
-
-    <div class="mt-5 flex flex-col gap-3">
-      <button class="bg-gray-800 text-white py-2 font-bold rounded hover:bg-gray-700 transition" onclick="location.href='/cart'">View cart</button>
-      <button class="bg-gray-800 text-white py-2 font-bold rounded hover:bg-gray-700 transition" onclick="location.href='/checkout'">Checkout</button>
-    </div>
-  </div>
-
-  <!-- JavaScript -->
-  <script>
-    function toggleCart() {
-      const cart = document.getElementById('cartSidebar');
-      cart.classList.toggle('hidden');
-    }
-
-    function increaseQty(button) {
-      const input = button.previousElementSibling;
-      let qty = parseInt(input.value);
-      input.value = qty + 1;
-      updateSubtotal();
-    }
-
-    function decreaseQty(button) {
-      const input = button.nextElementSibling;
-      let qty = parseInt(input.value);
-      if (qty > 1) {
-        input.value = qty - 1;
-        updateSubtotal();
-      }
-    }
-
-    function updateSubtotal() {
-      const input = document.querySelector('.cart-item input');
-      const price = 28500000;
-      const total = price * parseInt(input.value);
-      document.getElementById('subtotal').innerText = 'Rp ' + total.toLocaleString('id-ID');
-    }
-
-    function previewProfileImage(event) {
-      const reader = new FileReader();
-      reader.onload = function() {
-        const preview = document.getElementById('profileImagePreview');
-        preview.src = reader.result;
-      }
-      reader.readAsDataURL(event.target.files[0]);
-    }
-  </script>
-</body>
-</html>
+  @include('components.cart')
