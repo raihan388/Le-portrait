@@ -58,13 +58,10 @@
           <span id="cart-total" class="font-bold">Rp 28.500.000</span>
         </div>
 
-        <form action="{{ route('proceedToCheckout') }}" method="POST">
-        @csrf
-        <input type="hidden" name="quantity" id="checkout-qty" value="1">
-        <button type="submit" class="w-full bg-gray-800 hover:bg-gray-700 text-white py-2 font-semibold rounded">
-        Proceed to checkout
-        </button>
-        </form>
+        <!-- Proceed button -->
+        <a href="{{ route('checkoutdetails') }}" class="w-full block text-center bg-gray-800 hover:bg-gray-700 text-white py-2 font-semibold rounded transition-colors">
+          Proceed to checkout
+        </a>
       </div>
 
     </div>
@@ -82,25 +79,23 @@
         currency: 'IDR'
       }).format(num);
     }
-    <script>
-  const unitPrice = 28500000;
 
-  function changeQuantity(delta) {
-    const qtyInput = document.getElementById('qty');
-    const hiddenQtyInput = document.getElementById('checkoutQty');
-    let currentQty = parseInt(qtyInput.value);
+    function changeQuantity(delta) {
+      const qtyInput = document.getElementById('qty');
+      let qty = parseInt(qtyInput.value);
+      qty += delta;
+      if (qty < 1) qty = 1;
+      qtyInput.value = qty;
 
-    currentQty += delta;
-    if (currentQty < 1) currentQty = 1;
+      const subtotal = unitPrice * qty;
+      document.getElementById('item-subtotal').innerText = formatRupiah(subtotal);
+      document.getElementById('cart-subtotal').innerText = formatRupiah(subtotal);
+      document.getElementById('cart-total').innerText = formatRupiah(subtotal);
+    }
 
-    qtyInput.value = currentQty;
-    hiddenQtyInput.value = currentQty;
-
-    // Update subtotal
-    const subtotal = unitPrice * currentQty;
-    document.getElementById('subtotal').innerText = "Rp " + subtotal.toLocaleString("id-ID");
-  }
-</script>
+    // Inisialisasi saat pertama kali load
+    document.addEventListener('DOMContentLoaded', () => changeQuantity(0));
+  </script>
 
 </body>
 </html>

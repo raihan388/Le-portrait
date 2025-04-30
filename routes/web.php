@@ -57,6 +57,8 @@ Route::get('/registrasi', [RegistrasiController::class, 'registrasi'])->name('re
 Route::get('/about' , [AboutController::class, 'about'])->name('about');
 Route::get('/listproduk', [ListProdukController::class, 'list'])->name('listproduk');
 Route::get('/homepage', [HomePageController::class, 'homepage'])->name('homepage');
+Route::get('/cart', [CartController::class, 'cart'])->name('cart');
+Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
 Route::get('/checkout', [CheckOutController::class, 'index'])->name('checkout');
 Route::get('/checkout', [CheckOutController::class, 'index'])->name('cart');
 Route::post('/proceed-to-checkout', [CheckOutController::class, 'proceedToCheckout'])->name('proceedToCheckout');

@@ -8,32 +8,7 @@
 </head>
 <body class="font-sans bg-gray-50 text-gray-900">
 
-  <!-- Header -->
-<div class="flex items-center justify-between p-4 shadow bg-white">
-  <div class="flex items-center gap-2 ml-6">  <!-- Added ml-4 for margin-left -->
-    <img src="poto.jpg" alt="Logo" class="h-12 w-auto" />
-  </div>
-  <input type="text" placeholder="Search cameras, lenses, accessories..." class="border p-2 rounded w-1/2" />
-  <div class="space-x-4">
-    <a href="/login" class="hover:underline">Login</a>
-    <a href="#" class="hover:underline">Sign Up</a>
-    <a href="#" class="hover:underline" onclick="toggleCart(); return false;">Cart (0)</a>
-  </div>
-</div>
-
-  <!-- Navigation Bar -->
-  <nav class="bg-white shadow-sm">
-    <div class="max-w-7xl mx-auto px-4">
-      <ul class="flex justify-center space-x-12 py-4 font-semibold text-sm">
-        <li><a href="#" class="hover:underline">DSLR Cameras</a></li>
-        <li><a href="#" class="hover:underline">Mirrorless Camera</a></li>
-        <li><a href="#" class="hover:underline">Film Cameras</a></li>
-        <li><a href="#" class="hover:underline">Lenses</a></li>
-        <li><a href="#" class="hover:underline">Flash units</a></li>
-        <li><a href="#" class="hover:underline">Tripods</a></li>
-      </ul>
-    </div>
-  </nav>
+@include('components.navbar')
 
   <!-- Container Profile -->
   <div class="container flex justify-center items-start py-12">
@@ -62,55 +37,7 @@
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer class="bg-gray-800 text-white text-sm">
-    <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 px-6 py-8">
-      <!-- Footer Column 1 -->
-      <div class="flex-1 min-w-[150px]">
-        <h3 class="font-bold mb-2">Le Portrait</h3>
-        <ul class="space-y-1 text-sm text-left inline-block">
-          <li><a href="#" class="hover:underline">Tentang Kami</a></li>
-          <li><a href="#" class="hover:underline">Karir</a></li>
-          <li><a href="#" class="hover:underline">Blog</a></li>
-          <li><a href="#" class="hover:underline">Kebijakan Privasi</a></li>
-        </ul>
-      </div>
-
-      <!-- Footer Column 2 -->
-      <div class="flex-1 min-w-[150px]">
-        <h4 class="font-bold mb-2">Layanan Pelanggan</h4>
-        <ul class="space-y-1 text-sm text-left inline-block">
-          <li><a href="#" class="hover:underline">Bantuan</a></li>
-          <li><a href="#" class="hover:underline">Cara Berbelanja</a></li>
-          <li><a href="#" class="hover:underline">Pengiriman</a></li>
-          <li><a href="#" class="hover:underline">Pengembalian</a></li>
-        </ul>
-      </div>
-
-      <!-- Footer Column 3 -->
-      <div class="flex-1 min-w-[150px]">
-        <h4 class="font-bold mb-2">Pembayaran</h4>
-        <ul class="space-y-1 text-sm text-left inline-block">
-          <li><a href="#" class="hover:underline">Transfer Bank</a></li>
-          <li><a href="#" class="hover:underline">Kartu Kredit</a></li>
-          <li><a href="#" class="hover:underline">QRIS</a></li>
-          <li><a href="#" class="hover:underline">Cicilan</a></li>
-        </ul>
-      </div>
-
-      <!-- Footer Column 4 -->
-      <div class="flex-1 min-w-[150px]">
-        <h4 class="font-bold mb-2">Ikuti Kami</h4>
-        <ul class="space-y-1 text-sm text-left inline-block">
-          <li><a href="#" class="hover:underline">Instagram</a></li>
-          <li><a href="#" class="hover:underline">Facebook</a></li>
-          <li><a href="#" class="hover:underline">Twitter</a></li>
-          <li><a href="#" class="hover:underline">YouTube</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="text-center text-xs py-4 bg-gray-900">© 2025 Le Portrait. Semua Hak Cipta Dilindungi.</div>
-  </footer>
+  @include('components.footer')
 
   <!-- Cart Sidebar -->
   <div id="cartSidebar" class="fixed top-0 right-0 w-[350px] h-full bg-gray-100 border-l border-gray-300 p-5 shadow-lg z-50 hidden">
