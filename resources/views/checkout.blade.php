@@ -29,18 +29,18 @@
           <tbody>
             <tr class="border-t border-gray-200">
               <td class="p-4 flex items-center">
-                <div class="w-16 h-16 bg-gray-200 rounded mr-4 flex-shrink-0"></div>
+                <img src="{{ asset('images/canon r6.jpg') }}" alt="Canon EOS R6" class="w-16 h-16 object-cover rounded mr-4 flex-shrink-0">
                 <div class="font-medium">Canon EOS R6</div>
               </td>
               <td class="p-4 text-gray-600">Rp 28.500.000</td>
               <td class="p-4 text-center">
                 <div class="inline-flex items-center border border-gray-300 rounded">
-                  <button class="px-2 hover:bg-gray-100">−</button>
-                  <input type="text" value="1" class="w-10 text-center border-x border-gray-300 outline-none" />
-                  <button class="px-2 hover:bg-gray-100">+</button>
+                  <button onclick="changeQuantity(-1)" class="px-2 hover:bg-gray-100">−</button>
+                  <input id="qty" type="text" value="1" class="w-10 text-center border-x border-gray-300 outline-none" readonly />
+                  <button onclick="changeQuantity(1)" class="px-2 hover:bg-gray-100">+</button>
                 </div>
               </td>
-              <td class="p-4 text-right font-medium">Rp 28.500.000</td>
+              <td class="p-4 text-right font-medium" id="item-subtotal">Rp 28.500.000</td>
             </tr>
           </tbody>
         </table>
@@ -51,21 +51,56 @@
         <h3 class="font-semibold mb-4 border-b pb-2">Cart totals</h3>
         <div class="flex justify-between mb-2">
           <span class="text-gray-600">Subtotal</span>
-          <span>Rp 28.500.000</span>
+          <span id="cart-subtotal">Rp 28.500.000</span>
         </div>
         <div class="flex justify-between mb-4 border-b pb-2">
           <span class="font-medium">Total</span>
-          <span class="font-bold">Rp 28.500.000</span>
+          <span id="cart-total" class="font-bold">Rp 28.500.000</span>
         </div>
-        <button class="w-full bg-gray-800 hover:bg-gray-700 text-white py-2 font-semibold rounded transition-colors">
-          Proceed to checkout
+
+        <form action="{{ route('proceedToCheckout') }}" method="POST">
+        @csrf
+        <input type="hidden" name="quantity" id="checkout-qty" value="1">
+        <button type="submit" class="w-full bg-gray-800 hover:bg-gray-700 text-white py-2 font-semibold rounded">
+        Proceed to checkout
         </button>
+        </form>
       </div>
+
     </div>
   </main>
 
-  <!-- Footer -->
   @include('components.footer')
- 
+
+  <!-- Script -->
+  <script>
+    const unitPrice = 28500000;
+
+    function formatRupiah(num) {
+      return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR'
+      }).format(num);
+    }
+    <script>
+  const unitPrice = 28500000;
+
+  function changeQuantity(delta) {
+    const qtyInput = document.getElementById('qty');
+    const hiddenQtyInput = document.getElementById('checkoutQty');
+    let currentQty = parseInt(qtyInput.value);
+
+    currentQty += delta;
+    if (currentQty < 1) currentQty = 1;
+
+    qtyInput.value = currentQty;
+    hiddenQtyInput.value = currentQty;
+
+    // Update subtotal
+    const subtotal = unitPrice * currentQty;
+    document.getElementById('subtotal').innerText = "Rp " + subtotal.toLocaleString("id-ID");
+  }
+</script>
+
 </body>
 </html>

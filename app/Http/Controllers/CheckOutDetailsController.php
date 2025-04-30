@@ -7,9 +7,23 @@ use Illuminate\Http\Request;
 
 class CheckOutDetailsController extends Controller
 {
-    public function checkoutdetails() {
-        return view('checkout_details');
+    public function checkoutform()
+    {
+        return view('checkout');
     }
+
+    public function checkoutdetails(Request $request)
+{
+    // Update session cart
+    $cart = session('cart');
+    if ($cart) {
+        $cart['quantity'] = $request->input('quantity', 1);
+        session(['cart' => $cart]);
+    }
+
+    return view('checkout_details', compact('cart'));
+}
+
 
     public function checkoutsubmit(Request $request)
     {
@@ -21,16 +35,16 @@ class CheckOutDetailsController extends Controller
             'phone'      => 'required|numeric|digits_between:10,15',
             'notes'      => 'nullable|string|max:1000',
         ]);
-    }
-
-    public function checkoutform()
-    { 
-    return view('checkout');
-    {
 
         CheckoutDetails::create($validated);
 
-        return view('checkoutsuccess', ['data' => $validated]);
+        return redirect()->route('checkoutsuccess')->with('data', $validated);
     }
-}
+
+    public function checkoutsuccess()
+    {
+        $data = session('data');
+
+        return view('checkoutsuccess', compact('data'));
+    }
 }

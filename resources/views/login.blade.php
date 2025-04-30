@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CameraMart - Login & Sign Up</title>
+  <title>Login</title>
   <script src="{{ asset('styles/tailwindcss3.4.1.js') }}"></script>
 </head>
 <body class="flex flex-col min-h-screen bg-gray-100 font-sans">
@@ -106,7 +106,7 @@
   <footer class="bg-gray-800 text-white py-5 mt-auto">
     <div class="max-w-7xl mx-auto px-4">
       <div class="text-center text-sm text-gray-300">
-        &copy; 2025 CameraMart. All Rights Reserved.
+        &copy; 2025 Le Portrait. All Rights Reserved.
       </div>
     </div>
   </footer>
