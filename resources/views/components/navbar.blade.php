@@ -39,10 +39,10 @@
     <div class="container mx-auto">
       <div class="flex flex-wrap justify-center gap-x-32 gap-y-2 p-5 text-base font-medium text-center">
         <a href="{{ route('dslr') }}" class="hover:text-blue-600 transition-colors">DSLR Cameras</a>
-        <a href="{{ route('mirrorless') }}" class="hover:text-blue-600 transition-colors">Mirrorless Camera</a>
+        <a href="{{ route('mirrorless') }}" class="hover:text-blue-600 transition-colors">Mirrorless Cameras</a>
         <a href="{{ route('film') }}" class="hover:text-blue-600 transition-colors">Film Cameras</a>
         <a href="{{ route('lenses') }}" class="hover:text-blue-600 transition-colors">Lenses</a>
-        <a href="{{ route('flash') }}" class="hover:text-blue-600 transition-colors">Flash units</a>
+        <a href="{{ route('flash') }}" class="hover:text-blue-600 transition-colors">Flash Units</a>
         <a href="{{ route('tripods') }}" class="hover:text-blue-600 transition-colors">Tripods</a>
       </div>
     </div>
