@@ -16,8 +16,8 @@
 
     <!-- Kanan: Navigation -->
     <nav class="flex items-center gap-4 ml-auto">
-      <a href="#" class="hover:text-gray-600 transition-colors">Login</a>
-      <a href="#" class="hover:text-gray-600 transition-colors">Sign Up</a>
+      <a href="/login" class="hover:text-gray-600 transition-colors">Login</a>
+      <a href="/login" class="hover:text-gray-600 transition-colors">Sign Up</a>
       <a href="/cart"  class="hover:text-gray-600 hover:underline transition-colors flex items-center gap-1" 
    onclick="toggleCart(); return false;">
   <svg xmlns="http://www.w3.org/2000/svg" 
