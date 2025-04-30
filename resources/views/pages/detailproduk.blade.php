@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Detail Produk Kamera</title>
   <script src="{{ asset('styles/tailwindcss3.4.1.js') }}"></script>
+  <title>Details Product</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
 
@@ -45,7 +47,7 @@
         <div class="text-sm text-gray-500 mb-4">
           <span>Home</span>
           <span> / </span>
-          <span>Kamera</span>
+          <span>Camera</span>
           <span> / </span>
           <span class="text-gray-700">Canon EOS</span>
         </div>
@@ -56,12 +58,12 @@
         
         <!-- Features -->
         <div class="space-y-3 mb-8">
-          <p class="font-semibold text-lg">Fitur Utama:</p>
+          <p class="font-semibold text-lg">Key Features:</p>
           <ul class="list-disc list-inside text-gray-700 space-y-2">
-            <li>Sensor Full-Frame 45MP</li>
-            <li>Perekaman Video 8K</li>
+            <li>45MP Full-Frame Sensor</li>
+            <li>8K Video Recording</li>
             <li>Dual Pixel CMOS AF II</li>
-            <li>Stabilizer Gambar 5-axis</li>
+            <li>5-axis Image Stabilizer</li>
             <li>ISO 100-51200 (expandable to 102400)</li>
           </ul>
         </div>
@@ -75,12 +77,12 @@
 
         <!-- Add to Cart Button -->
         <button class="w-full md:w-auto px-8 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 mb-6 text-lg font-medium transition duration-200">
-          Tambah ke Keranjang
+          Add to Cart
         </button>
 
         <!-- Category -->
         <p class="text-gray-700">
-          Kategori: 
+          Categories: 
           <a href="#" class="text-blue-600 hover:underline">Kamera Mirrorless</a>
         </p>
       </div>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DSLR Camera</title>
+  <title>DSLR Cameras</title>
   <script src="styles/tailwindcss3.4.1.js"></script>
 </head>
 <body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
@@ -37,17 +37,18 @@
           'image' => 'images/fujifilm xt4.jpg'
         ],
         [
-          'title' => 'Fujifilm X-T4',
-          'price' => 'Rp 23.750.000',
-          'rating' => '4.6',
-          'reviews' => '76',
-          'image' => 'images/fujifilm xt4.jpg'
+          'title' => 'Nikon Z6 II',
+          'price' => 'Rp 26.200.000',
+          'rating' => '4.5',
+          'reviews' => '65',
+          'image' => 'images/nikon z6.jpg'
         ]
       ]
     ])
   </main>
 
   @include('components.footer')
+  @include('components.cart')
 
 </body>
 </html>

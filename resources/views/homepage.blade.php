@@ -18,61 +18,103 @@
     <button class="bg-red-500 text-white px-6 py-2 rounded">View Collection</button>
   </section>
 
-  <!-- Featured Product -->
   <section class="max-w-7xl mx-auto px-4 mt-8">
-    <h2 class="text-xl font-bold mb-4">Featured product</h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-      <!-- Product Cards -->
-    <div class="bg-white border rounded-lg shadow-sm p-4 flex flex-col h-full">
-      <div class="bg-gray-300 h-40 flex items-center justify-center rounded">280 × 200</div>
-      <h3 class="font-semibold text-sm mt-3">Canon EOS R6</h3>
-      <p class="text-red-600 font-bold text-base">Rp 28.500.000</p>
-      <p class="text-sm text-gray-700"><span class="text-yellow-500">★★★★★</span> (124 ulasan)</p>
-      <button class="mt-3 w-full bg-red-500 text-white font-semibold py-2 rounded hover:bg-red-600">Tambah ke Keranjang</button>
-    </div>
+  <h2 class="text-2xl font-bold mb-4">Featured Product</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
 
-    <div class="bg-white rounded-lg shadow p-4">
-      <div class="bg-gray-300 h-40 flex items-center justify-center rounded">280 × 200</div>
-      <h3 class="font-semibold text-sm mt-3">Sony Alpha a7 III</h3>
-      <p class="text-red-600 font-bold text-base">Rp 25.999.000</p>
-      <p class="text-sm text-gray-700"><span class="text-yellow-500">★★★★★</span> (98 ulasan)</p>
-      <button class="mt-3 w-full bg-red-500 text-white font-semibold py-2 rounded hover:bg-red-600">Tambah ke Keranjang</button>
-    </div>
+  @include('components.produk-card', [
+        'title' => 'Canon EOS R6',
+        'price' => 'Rp 28.500.000',
+        'rating' => '5',
+        'reviews' => '124',
+        'image' => 'images/canon r6.jpg'
+      ])
 
-    <div class="bg-white rounded-lg shadow p-4">
-      <div class="bg-gray-300 h-40 flex items-center justify-center rounded">280 × 200</div>
-      <h3 class="font-semibold text-sm mt-3">Fujifilm X-T4</h3>
-      <p class="text-red-600 font-bold text-base">Rp 23.750.000</p>
-      <p class="text-sm text-gray-700"><span class="text-yellow-500">★★★★☆</span> (76 ulasan)</p>
-      <button class="mt-3 w-full bg-red-500 text-white font-semibold py-2 rounded hover:bg-red-600">Tambah ke Keranjang</button>
-    </div>
+      @include('components.produk-card', [
+        'title' => 'Sony Alpha a7 III',
+        'price' => 'Rp 25.999.000',
+        'rating' => '4.7',
+        'reviews' => '98',
+        'image' => 'images/sony a7iii.jpg'
+      ])
 
-    <div class="bg-white rounded-lg shadow p-4">
-      <div class="bg-gray-300 h-40 flex items-center justify-center rounded">280 × 200</div>
-      <h3 class="font-semibold text-sm mt-3">Nikon Z6 II</h3>
-      <p class="text-red-600 font-bold text-base">Rp 26.200.000</p>
-      <p class="text-sm text-gray-700"><span class="text-yellow-500">★★★★☆</span> (65 ulasan)</p>
-      <button class="mt-3 w-full bg-red-500 text-white font-semibold py-2 rounded hover:bg-red-600">Tambah ke Keranjang</button>
-    </div>
+      @include('components.produk-card', [
+        'title' => 'Fujifilm X-T4',
+        'price' => 'Rp 23.750.000',
+        'rating' => '4.6',
+        'reviews' => '76',
+        'image' => 'images/fujifilm xt4.jpg'
+      ])
+
+      @include('components.produk-card', [
+        'title' => 'Nikon Z6 II',
+        'price' => 'Rp 26.200.000',
+        'rating' => '3',
+        'reviews' => '65',
+        'image' => 'images/nikon z6.jpg'
+      ])
+
   </div>
 </section>
+
 
 <!-- Special Offers & Best Selling Product -->
 <div class="max-w-7xl mx-auto px-4 py-12">
   <h2 class="text-2xl font-bold mb-6">Special Offers</h2>
   <div class="grid md:grid-cols-3 gap-6 mb-12">
-    <!-- Tempatkan kartu produk spesial di sini -->
-    <div class="bg-white p-4 rounded shadow">Produk Spesial 1</div>
-    <div class="bg-white p-4 rounded shadow">Produk Spesial 2</div>
-    <div class="bg-white p-4 rounded shadow">Produk Spesial 3</div>
-  </div>
 
+  @include('components.produk-card', [
+        'title' => 'Canon EOS R6',
+        'price' => 'Rp 28.500.000',
+        'rating' => '5',
+        'reviews' => '124',
+        'image' => 'images/canon r6.jpg'
+      ])
+
+      @include('components.produk-card', [
+        'title' => 'Sony Alpha a7 III',
+        'price' => 'Rp 25.999.000',
+        'rating' => '4.7',
+        'reviews' => '98',
+        'image' => 'images/sony a7iii.jpg'
+      ])
+
+      @include('components.produk-card', [
+        'title' => 'Fujifilm X-T4',
+        'price' => 'Rp 23.750.000',
+        'rating' => '4.6',
+        'reviews' => '76',
+        'image' => 'images/fujifilm xt4.jpg'
+      ])
+
+      </div>
+      
   <h2 class="text-2xl font-bold mb-6">Best Selling Product</h2>
   <div class="grid md:grid-cols-3 gap-6">
-    <!-- Tempatkan kartu produk best seller di sini -->
-    <div class="bg-white p-4 rounded shadow">Best Seller 1</div>
-    <div class="bg-white p-4 rounded shadow">Best Seller 2</div>
-    <div class="bg-white p-4 rounded shadow">Best Seller 3</div>
+  @include('components.produk-card', [
+        'title' => 'Canon EOS R6',
+        'price' => 'Rp 28.500.000',
+        'rating' => '5',
+        'reviews' => '124',
+        'image' => 'images/canon r6.jpg'
+      ])
+
+      @include('components.produk-card', [
+        'title' => 'Sony Alpha a7 III',
+        'price' => 'Rp 25.999.000',
+        'rating' => '4.7',
+        'reviews' => '98',
+        'image' => 'images/sony a7iii.jpg'
+      ])
+
+      @include('components.produk-card', [
+        'title' => 'Fujifilm X-T4',
+        'price' => 'Rp 23.750.000',
+        'rating' => '4.6',
+        'reviews' => '76',
+        'image' => 'images/fujifilm xt4.jpg'
+      ])
+
   </div>
 </div>
 
@@ -139,5 +181,9 @@
 
   <!-- Footer -->
   @include('components.footer')
+
+    <!-- Cart Sidebar -->
+    @include('components.cart')
+    
 </body>
 </html>

@@ -13,6 +13,8 @@ use App\Http\Controllers\CheckOutDetailsController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\DetailProdukController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CartController;
 
 Route::get('/welcome', function () {
     return view('welcome');
@@ -55,11 +57,15 @@ Route::get('/registrasi', [RegistrasiController::class, 'registrasi'])->name('re
 Route::get('/about' , [AboutController::class, 'about'])->name('about');
 Route::get('/listproduk', [ListProdukController::class, 'list'])->name('listproduk');
 Route::get('/homepage', [HomePageController::class, 'homepage'])->name('homepage');
-Route::get('/checkout', [CheckOutController::class, 'checkout'])->name('checkout');
-Route::get('/checkoutdetails', [CheckOutDetailsController::class, 'checkoutdetails'])->name('checkoutdetails');
-Route::get('/checkout', [CheckOutDetailsController::class, 'checkoutform'])->name('checkout.form');
-Route::post('/checkout-submit', [CheckOutDetailsController::class, 'checkoutsubmit'])->name('checkoutsubmit');
-Route::get('/checkout', [CheckOutDetailsController::class, 'checkoutform']);
+Route::get('/cart', [CartController::class, 'cart'])->name('cart');
+Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
+Route::get('/checkout', [CheckOutController::class, 'index'])->name('checkout');
+Route::get('/checkout', [CheckOutController::class, 'index'])->name('cart');
+Route::post('/proceed-to-checkout', [CheckOutController::class, 'proceedToCheckout'])->name('proceedToCheckout');
+Route::match(['get', 'post'], '/checkoutdetails', [CheckOutDetailsController::class, 'checkoutdetails'])->name('checkoutdetails');
+Route::get('/checkoutform', [CheckOutDetailsController::class, 'checkoutform'])->name('checkoutform');
+Route::post('/checkoutsubmit', [CheckOutDetailsController::class, 'checkoutsubmit'])->name('checkoutsubmit');
+Route::get('/checkoutsuccess', [CheckOutDetailsController::class, 'checkoutsuccess'])->name('checkoutsuccess');
 Route::get('/dslr', [PageController::class, 'dslr'])->name('dslr');
 Route::get('/mirrorless', [PageController::class, 'mirrorless'])->name('mirrorless');
 Route::get('/film', [PageController::class, 'film'])->name('film');
@@ -68,7 +74,3 @@ Route::get('/flash', [PageController::class, 'flash'])->name('flash');
 Route::get('/tripods', [PageController::class, 'tripod'])->name('tripods');
 Route::get('/produk/{slug}', [PageController::class, 'show'])->name('produk.show');
 Route::get('/order-history', [PageController::class, 'index'])->name('pages.order-history');
-
-
-
-

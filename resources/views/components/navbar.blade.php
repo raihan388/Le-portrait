@@ -16,13 +16,20 @@
 
     <!-- Kanan: Navigation -->
     <nav class="flex items-center gap-4 ml-auto">
-      <a href="#" class="hover:text-gray-600 transition-colors">Login</a>
-      <a href="#" class="hover:text-gray-600 transition-colors">Sign Up</a>
-      <a href="#" class="hover:text-gray-600 transition-colors flex items-center gap-1">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-        </svg>
-        <span>Cart (0)</span>
+      <a href="/login" class="hover:text-gray-600 transition-colors">Login</a>
+      <a href="/login" class="hover:text-gray-600 transition-colors">Sign Up</a>
+      <a href="/cart"  class="hover:text-gray-600 hover:underline transition-colors flex items-center gap-1" 
+   onclick="toggleCart(); return false;">
+  <svg xmlns="http://www.w3.org/2000/svg" 
+       class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+          d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 
+             1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 
+             014 0z" />
+  </svg>
+  <span>Cart (0)</span>
+</a>
+
       </a>
     </nav>
   </div>
@@ -32,10 +39,10 @@
     <div class="container mx-auto">
       <div class="flex flex-wrap justify-center gap-x-32 gap-y-2 p-5 text-base font-medium text-center">
         <a href="{{ route('dslr') }}" class="hover:text-blue-600 transition-colors">DSLR Cameras</a>
-        <a href="{{ route('mirrorless') }}" class="hover:text-blue-600 transition-colors">Mirrorless Camera</a>
+        <a href="{{ route('mirrorless') }}" class="hover:text-blue-600 transition-colors">Mirrorless Cameras</a>
         <a href="{{ route('film') }}" class="hover:text-blue-600 transition-colors">Film Cameras</a>
         <a href="{{ route('lenses') }}" class="hover:text-blue-600 transition-colors">Lenses</a>
-        <a href="{{ route('flash') }}" class="hover:text-blue-600 transition-colors">Flash units</a>
+        <a href="{{ route('flash') }}" class="hover:text-blue-600 transition-colors">Flash Units</a>
         <a href="{{ route('tripods') }}" class="hover:text-blue-600 transition-colors">Tripods</a>
       </div>
     </div>

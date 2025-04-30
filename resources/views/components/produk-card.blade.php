@@ -13,12 +13,37 @@
   </div>
 
   <!-- Info Produk -->
-  <h3 class="font-semibold text-lg">{{ $title }}</h3>
-  <p class="text-red-600 font-bold">{{ $price }}</p>
-  <p class="text-sm text-gray-500 mb-4">★ {{ $rating }} ({{ $reviews }} ulasan)</p>
+<!-- Info Produk -->
+<h3 class="font-semibold text-lg">{{ $title }}</h3>
+<p class="text-red-600 font-bold">{{ $price }}</p>
+
+<!-- Rating dan Ulasan -->
+<div class="flex items-center gap-1 mb-4">
+  <!-- Bintang -->
+  @php
+    $fullStars = floor($rating);
+    $halfStar = ($rating - $fullStars) >= 0.5;
+    $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0);
+  @endphp
+
+  @for ($i = 0; $i < $fullStars; $i++)
+    <span class="text-yellow-500">★</span>
+  @endfor
+
+  @if ($halfStar)
+    <span class="text-yellow-500">☆</span>
+  @endif
+
+  @for ($i = 0; $i < $emptyStars; $i++)
+    <span class="text-gray-300">★</span>
+  @endfor
+
+  <!-- Jumlah ulasan -->
+  <span class="text-gray-500 text-sm">({{ $reviews }} reviews)</span>
+</div>
 
   <!-- Tombol -->
   <button class="mt-auto bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">
-    Tambah ke Keranjang
+    Add to Cart
   </button>
 </div>

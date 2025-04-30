@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Riwayat Pesanan - Le Portrait</title>
+    <title>Order History</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col">
@@ -13,8 +13,8 @@
     <main class="container mx-auto flex-1 py-8 px-4 sm:px-6">
         <div class="max-w-4xl mx-auto">
             <div class="mb-8">
-                <h1 class="text-2xl font-bold text-gray-800">Riwayat Pesanan</h1>
-                <p class="text-gray-600">Daftar pesanan yang telah Anda lakukan</p>
+                <h1 class="text-2xl font-bold text-gray-800">Order History</h1>
+                <p class="text-gray-600">A list of the orders you have placed</p>
             </div>
 
             <div class="space-y-4">
@@ -34,7 +34,7 @@
                             
                             <!-- Product Details - Dengan fallback -->
                             <div>
-                                <h2 class="font-semibold text-lg">{{ $order['name'] ?? 'Nama Produk Tidak Tersedia' }}</h2>
+                                <h2 class="font-semibold text-lg">{{ $order['name'] ?? 'The product name is not available' }}</h2>
                                 @isset($order['order_id'])
                                     <p class="text-gray-600 text-sm">Order #{{ $order['order_id'] }}</p>
                                 @endisset
@@ -43,7 +43,7 @@
 
                         <!-- Order Summary - Dengan pengecekan -->
                         <div class="text-right">
-                            <p class="text-gray-600">Jumlah: {{ $order['quantity'] ?? 0 }} item</p>
+                            <p class="text-gray-600">Amount: {{ $order['quantity'] ?? 0 }} item</p>
                             <p class="font-semibold mt-1">
                                 Total: Rp {{ isset($order['total_price']) ? number_format($order['total_price'], 0, ',', '.') : '0' }}
                             </p>
@@ -56,6 +56,7 @@
     </main>
 
     @include('components.footer')
+    @include('components.cart')
 
 </body>
 </html>

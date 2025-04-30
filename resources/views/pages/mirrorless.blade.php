@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mirrorless Camera</title>
+  <title>Mirrorless Cameras</title>
   <script src="styles/tailwindcss3.4.1.js"></script>
 </head>
 <body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
@@ -48,6 +48,7 @@
   </main>
 
   @include('components.footer')
+  @include('components.cart')
 
 </body>
 </html>
