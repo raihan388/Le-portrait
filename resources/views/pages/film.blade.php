@@ -48,6 +48,7 @@
   </main>
 
   @include('components.footer')
+  @include('Components.cart')
 
 </body>
 </html>

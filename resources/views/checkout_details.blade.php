@@ -109,5 +109,6 @@
 
   <!-- Footer -->
  @include('components.footer')
+ @include('components.cart')
 </body>
 </html>

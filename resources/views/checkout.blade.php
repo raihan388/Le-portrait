@@ -68,6 +68,7 @@
   </main>
 
   @include('components.footer')
+  @include('components.cart')
 
   <!-- Script -->
   <script>
