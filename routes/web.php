@@ -59,9 +59,8 @@ Route::get('/listproduk', [ListProdukController::class, 'list'])->name('listprod
 Route::get('/homepage', [HomePageController::class, 'homepage'])->name('homepage');
 Route::get('/cart', [CartController::class, 'cart'])->name('cart');
 Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
-Route::get('/checkout', [CheckOutController::class, 'index'])->name('checkout');
-Route::get('/checkout', [CheckOutController::class, 'index'])->name('cart');
-Route::post('/proceed-to-checkout', [CheckOutController::class, 'proceedToCheckout'])->name('proceedToCheckout');
+Route::get('/checkout', [CheckOutController::class, 'checkout'])->name('checkout');
+Route::post('/proceed-to-checkout', [CheckOutController::class, 'proceedToCheckout'])->name('checkoutsubmit');
 Route::match(['get', 'post'], '/checkoutdetails', [CheckOutDetailsController::class, 'checkoutdetails'])->name('checkoutdetails');
 Route::get('/checkoutform', [CheckOutDetailsController::class, 'checkoutform'])->name('checkoutform');
 Route::post('/checkoutsubmit', [CheckOutDetailsController::class, 'checkoutsubmit'])->name('checkoutsubmit');

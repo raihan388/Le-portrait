@@ -15,7 +15,7 @@ class CheckOutDetailsController extends Controller
     public function checkoutdetails(Request $request)
 {
     // Update session cart
-    $cart = session('cart');
+    $cart = session('components.cart');
     if ($cart) {
         $cart['quantity'] = $request->input('quantity', 1);
         session(['cart' => $cart]);
