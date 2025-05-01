@@ -8,11 +8,6 @@
 </head>
 <body class="bg-gray-100 font-sans">
 
-<!-- Tombol buka Cart -->
-<button onclick="toggleCart()" class="m-5 px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700">
-  Buka Keranjang
-</button>
-
 <!-- Cart Sidebar -->
 <div id="cartSidebar" class="fixed top-0 right-0 w-[350px] h-full bg-white border-l border-gray-300 p-5 shadow-lg z-50 transform translate-x-full transition-transform duration-300">
   
