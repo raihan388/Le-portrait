@@ -60,11 +60,17 @@
 
         <!-- Order Summary -->
         @php
-      // Ambil data dari session cart
+  if (!is_null($cart) && isset($cart['quantity'], $cart['price'])) {
       $qty = $cart['quantity'];
       $price = $cart['price'];
       $subtotal = $qty * $price;
-    @endphp
+  } else {
+      $qty = 0;
+      $price = 0;
+      $subtotal = 0;
+  }
+@endphp
+
 
     <div class="bg-white p-6 border border-gray-300 rounded-lg">
       <div class="space-y-4">
@@ -73,14 +79,18 @@
           <span class="font-medium">Subtotal</span>
         </div>
 
-        <div class="flex items-center gap-4 mt-2">
-          <img src="{{ asset($cart['image']) }}" alt="{{ $cart['product'] }}" class="w-16 h-16 object-cover rounded">
-          <div>
-            <p>{{ $cart['product'] }}</p>
-            <p class="text-sm text-gray-500">x{{ $qty }}</p>
-          </div>
-          <div class="ml-auto font-semibold">Rp {{ number_format($subtotal, 0, ',', '.') }}</div>
-        </div>
+        @if(isset($cart) && isset($cart['image'], $cart['product'], $qty, $subtotal))
+  <div class="flex items-center gap-4 mt-2">
+    <img src="{{ asset($cart['image']) }}" alt="{{ $cart['product'] }}" class="w-16 h-16 object-cover rounded">
+    <div>
+      <p>{{ $cart['product'] }}</p>
+      <p class="text-sm text-gray-500">x{{ $qty }}</p>
+    </div>
+    <div class="ml-auto font-semibold">Rp {{ number_format($subtotal, 0, ',', '.') }}</div>
+  </div>
+@else
+  <p class="text-gray-500 italic">Keranjang kosong atau data tidak ditemukan.</p>
+@endif
 
         <div class="flex justify-between border-t pt-4 mt-4">
           <span>Subtotal</span>
