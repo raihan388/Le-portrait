@@ -14,7 +14,7 @@ use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\DetailProdukController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\CartControll;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 
 
