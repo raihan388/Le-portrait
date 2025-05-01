@@ -8,6 +8,8 @@
 </head>
 <body class="bg-gray-100 font-sans">
 
+<!-- Tombol buka Cart -->
+
 <!-- Cart Sidebar -->
 <div id="cartSidebar" class="fixed top-0 right-0 w-[350px] h-full bg-white border-l border-gray-300 p-5 shadow-lg z-50 transform translate-x-full transition-transform duration-300">
   

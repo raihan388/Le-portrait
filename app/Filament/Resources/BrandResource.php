@@ -12,6 +12,12 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Textarea;
 
 class BrandResource extends Resource
 {
@@ -23,15 +29,19 @@ class BrandResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('slug')
-                    ->maxLength(255),
-                Forms\Components\FileUpload::make('image')
-                    ->image(),
-                Forms\Components\Toggle::make('is_active')
-                    ->required(),
+                TextInput::make('name')
+                ->required()
+                ->label('Product Name'),
+
+            TextInput::make('price')
+                ->numeric()
+                ->required(),
+
+            Textarea::make('description'),
+
+            FileUpload::make('image')
+                ->image()
+                ->directory('products'), // folder penyimpanan
             ]);
     }
 
