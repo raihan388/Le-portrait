@@ -8,6 +8,7 @@
       </a>
     </div>
 
+    
     <!-- Tengah: Search Bar -->
     <div class="flex-1 flex justify-center px-4"> <!-- Ditambahkan px-4 untuk spacing -->
       <input type="text" placeholder="Search cameras, lenses, accessories..." 

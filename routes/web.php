@@ -15,6 +15,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\DetailProdukController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ProductController;
 
 Route::get('/welcome', function () {
     return view('welcome');
@@ -73,3 +74,5 @@ Route::get('/flash', [PageController::class, 'flash'])->name('flash');
 Route::get('/tripods', [PageController::class, 'tripod'])->name('tripods');
 Route::get('/produk/{slug}', [PageController::class, 'show'])->name('produk.show');
 Route::get('/order-history', [PageController::class, 'index'])->name('pages.order-history');
+Route::get('/detailproduk', [DetailProdukController::class, 'show'])->name('detailproduk');
+Route::get('/search', [ProductController::class, 'search'])->name('produk.search');
