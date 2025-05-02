@@ -16,6 +16,8 @@ use App\Http\Controllers\DetailProdukController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
+
 
 Route::get('/welcome', function () {
     return view('welcome');
@@ -76,3 +78,5 @@ Route::get('/produk/{slug}', [PageController::class, 'show'])->name('produk.show
 Route::get('/order-history', [PageController::class, 'index'])->name('pages.order-history');
 Route::get('/detailproduk', [DetailProdukController::class, 'show'])->name('detailproduk');
 Route::get('/search', [ProductController::class, 'search'])->name('produk.search');
+Route::post('/profile/update', [UserController::class, 'update'])->middleware('auth');
+
