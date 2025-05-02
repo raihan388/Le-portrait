@@ -16,7 +16,7 @@
 <section class="flex-1">
   <!-- Product Description -->
   <div class="mb-6">
-    <h1 class="text-2xl font-bold mb-2">DSLR Cameras</h1>
+    <h1 class="text-2xl font-bold mb-2">Tripods</h1>
     <p class="text-gray-600">{{ $description ?? 'Default description if none provided' }}</p>
   </div>
 

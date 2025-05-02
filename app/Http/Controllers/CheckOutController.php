@@ -16,7 +16,7 @@ class CheckOutController extends Controller
             'image' => 'images/canon r6.jpg',
         ]);
 
-        return view('checkout_details', compact('cart')); // Pastikan view-nya sesuai
+        return view('checkout', compact('cart')); // Pastikan view-nya sesuai
     }
 
     // Menerima data saat tombol "Order" diklik
