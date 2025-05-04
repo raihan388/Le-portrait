@@ -7,9 +7,43 @@ use Illuminate\Http\Request;
 class PageController extends Controller
 {
     public function dslr()
-    {
-        return view('pages.dslr');
-    }
+{
+    $description = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...';
+
+    $products = [
+        [
+            'title' => 'Canon EOS R6',
+            'price' => 'Rp 28.500.000',
+            'rating' => '4.8',
+            'reviews' => '124',
+            'image' => 'images/canon r6.jpg'
+        ],
+        [
+            'title' => 'Sony Alpha a7 III',
+            'price' => 'Rp 25.999.000',
+            'rating' => '4.7',
+            'reviews' => '98',
+            'image' => 'images/sony a7iii.jpg'
+        ],
+        [
+            'title' => 'Fujifilm X-T4',
+            'price' => 'Rp 23.750.000',
+            'rating' => '4.6',
+            'reviews' => '76',
+            'image' => 'images/fujifilm xt4.jpg'
+        ],
+        [
+            'title' => 'Nikon Z6 II',
+            'price' => 'Rp 26.200.000',
+            'rating' => '4.5',
+            'reviews' => '65',
+            'image' => 'images/nikon z6.jpg'
+        ]
+    ];
+
+    return view('pages.dslr', compact('description', 'products'));
+}
+
 
     public function mirrorless()
     {
