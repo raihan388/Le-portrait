@@ -5,20 +5,22 @@
   <!-- Gambar Produk -->
   <div class="w-full aspect-square mb-4 overflow-hidden rounded-lg bg-gray-200 flex items-center justify-center">
     @if (isset($image) && $image)
+    <a href="{{ route('detailproduk', ) }}">
       <img src="{{ asset($image) }}" alt="{{ $title }}" 
-        class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
-    @else
+        class="max-w-3/4 h-full object-cover hover:scale-105 transition-transform duration-300">
+    </a>
+        @else
       <span class="text-gray-400">{{ $imagePlaceholder ?? 'No Image' }}</span>
     @endif
   </div>
 
   <!-- Info Produk -->
 <!-- Info Produk -->
-<h3 class="font-semibold text-lg">{{ $title }}</h3>
-<p class="text-red-600 font-bold">{{ $price }}</p>
+<h3 class="text-base font-medium text-gray-800 mb-2">{{ $title }}</h3>
+<p class="text-lg font-bold text-red-600 mb-2">{{ $price }}</p>
 
 <!-- Rating dan Ulasan -->
-<div class="flex items-center gap-1 mb-4">
+<div class="flex items-center mb-3">
   <!-- Bintang -->
   @php
     $fullStars = floor($rating);
@@ -27,7 +29,7 @@
   @endphp
 
   @for ($i = 0; $i < $fullStars; $i++)
-    <span class="text-yellow-500">★</span>
+    <span class="text-yellow-500 mr-1">★</span>
   @endfor
 
   @if ($halfStar)

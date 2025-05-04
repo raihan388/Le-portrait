@@ -12,11 +12,15 @@
   @include('components.navbar')
 
   <!-- Hero Section -->
-  <section class="bg-gray-200 py-16 text-center">
-    <h1 class="text-3xl font-bold mb-2">Premium Camera Collection</h1>
-    <p class="text-gray-600 mb-4">Discover high-quality cameras at the best prices</p>
-    <button class="bg-red-500 text-white px-6 py-2 rounded">View Collection</button>
-  </section>
+   <div class="max-w-7xl mx-auto px-4 mt-5 mb-5">
+      <div class="h-96 bg-gray-800 text-white rounded-lg flex items-center justify-center bg-center bg-cover" style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/about.jpeg')">
+        <div class="text-center p-5">
+          <h1 class="text-4xl font-bold mb-4">Premium Camera Collection</h1>
+          <p class="text-lg mb-6">Discover high-quality cameras at the best prices</p>
+          <a href="#" class="py-3 px-6 bg-red-600 text-white font-bold rounded-md inline-block">View Collection</a>
+        </div>
+      </div>
+    </div>
 
   <section class="max-w-7xl mx-auto px-4 mt-8">
   <h2 class="text-2xl font-bold mb-4">Featured Product</h2>
@@ -182,8 +186,7 @@
   <!-- Footer -->
   @include('components.footer')
 
-    <!-- Cart Sidebar -->
-    @include('components.cart')
+   
     
 </body>
 </html>

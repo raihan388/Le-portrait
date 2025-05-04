@@ -16,7 +16,11 @@
 <section class="flex-1">
   <!-- Product Description -->
   <div class="mb-6">
-    <h1 class="text-2xl font-bold mb-2">DSLR Cameras</h1>
+<<<<<<< HEAD
+    <h1 class="text-2xl font-bold mb-2">Tripods</h1>
+=======
+    <h1 class="text-2xl font-bold mb-2">{{ $title }}</h1>
+>>>>>>> 11b9a63434ea003e7ff490c935b86e7ab5b511ef
     <p class="text-gray-600">{{ $description ?? 'Default description if none provided' }}</p>
   </div>
 
@@ -35,3 +39,10 @@
 
   </div>
 </section>
+
+<script>
+  document.getElementById('nav-toggle').addEventListener('click', function () {
+    const navContent = document.getElementById('nav-content');
+    navContent.classList.toggle('hidden');
+  });
+</script>
