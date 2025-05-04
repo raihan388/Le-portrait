@@ -9,7 +9,7 @@ class DetailProdukController extends Controller
     public function show($slug)
     {
         $products = [
-            'canon-eos-r6' => [
+            'detailproduk' => [
                 'title' => 'Canon EOS R6',
                 'features' => [
                     'Newest technology',
