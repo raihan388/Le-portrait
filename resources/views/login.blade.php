@@ -130,6 +130,65 @@
         document.getElementById('login-form').classList.add('hidden');
       }
     }
+     const users = [
+      {
+        name: "Pembeli Contoh",
+        email: "pembeli@example.com",
+        password: "pembeli123",
+        phone: "08123456789",
+        role: "pembeli"
+      }
+     ]; // Simpan data registrasi sementara (hanya selama halaman aktif)
+
+  // Simulasi Signup
+  document.getElementById('signup-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById('signup-name').value.trim();
+    const email = document.getElementById('signup-email').value.trim();
+    const phone = document.getElementById('signup-phone').value.trim();
+    const password = document.getElementById('signup-password').value;
+    const confirmPassword = document.getElementById('signup-confirm-password').value;
+
+    if (!name || !email || !phone || !password || !confirmPassword) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
+
+    const existingUser = users.find(user => user.email === email);
+    if (existingUser) {
+      alert("Email already registered.");
+      return;
+    }
+
+    users.push({ name, email, phone, password });
+    alert("Sign up successful! You can now log in.");
+    window.location.href = "/homepage";
+    // Optional: switch to login tab after registration
+    switchTab('login');
+  });
+
+  // Simulasi Login
+  document.getElementById('login-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+
+  const foundUser = users.find(user => user.email === email && user.password === password);
+
+  if (foundUser) {
+    alert(`Welcome back, ${foundUser.name}!`);
+    window.location.href = "/homepage"; // pindahkan redirect ke dalam blok if
+  } else {
+    alert("Invalid email or password.");
+  }
+});
   </script>
 </body>
 </html>

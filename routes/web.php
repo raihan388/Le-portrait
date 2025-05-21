@@ -17,6 +17,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\OrderController;
 
 
 Route::get('/welcome', function () {
@@ -79,4 +80,5 @@ Route::get('/order-history', [PageController::class, 'index'])->name('pages.orde
 Route::get('/detailproduk', [DetailProdukController::class, 'show'])->name('detailproduk');
 Route::get('/search', [ProductController::class, 'search'])->name('produk.search');
 Route::post('/profile/update', [UserController::class, 'update'])->middleware('auth');
-
+Route::get('/order',[OrderController::class, 'order'])->name('order');
+Route::post('/checkout', [OrderController::class, 'checkout']);

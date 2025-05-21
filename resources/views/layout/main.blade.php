@@ -13,12 +13,7 @@
 </aside>
 
 <!-- Main Content -->
-<section class="flex-1">
-  <!-- Product Description -->
-  <div class="mb-6">
-    <h1 class="text-2xl font-bold mb-2">{{ $title }}</h1>
-    <p class="text-gray-600">{{ $description ?? 'Default description if none provided' }}</p>
-  </div>
+
 
   <!-- Products Grid -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -34,8 +29,6 @@
 @endforeach
 
   </div>
-</section>
-
 <script>
   document.getElementById('nav-toggle').addEventListener('click', function () {
     const navContent = document.getElementById('nav-content');

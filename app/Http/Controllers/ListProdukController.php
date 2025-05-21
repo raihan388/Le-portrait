@@ -18,7 +18,13 @@ class ListProdukController extends Controller
     }
     public function list() {
         $data = $this->getData();
-        return view('list_product',compact('data'));
+        return view('pages.list_product',compact('data'));
+    }
+
+    public function detail($id) {
+        $data = $this->getData();
+        $product = collect($data)->firstWhere('id', $id);
+        return view('pages.detail_product', compact('product'));
     }
 
 }

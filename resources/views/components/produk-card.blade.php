@@ -45,7 +45,7 @@
 </div>
 
   <!-- Tombol -->
-  <button class="mt-auto bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">
+  <button type="submit" class="mt-auto bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">
     Add to Cart
   </button>
 </div>

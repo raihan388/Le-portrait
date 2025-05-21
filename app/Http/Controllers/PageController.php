@@ -8,7 +8,28 @@ class PageController extends Controller
 {
     public function dslr()
     {
-        return view('pages.dslr');
+        $dataproduct = [
+           [
+            'name' => 'Canon EOS 90D',
+            'image' => 'https://example.com/canon-eos-90d.jpg',
+            'price' => 15000000,
+            'description' => 'Canon EOS 90D is a versatile DSLR camera with a 32.5MP sensor and 4K video recording.',
+            
+           ],
+           [
+            'name' => 'Nikon D7500',
+            'image' => 'https://example.com/nikon-d7500.jpg',
+            'price' => 12000000,
+            'description' => 'Nikon D7500 is a powerful DSLR camera with a 20.9MP sensor and 4K UHD video recording.',
+           ],
+           [
+            'name' => 'Canon EOS Rebel T7i',
+            'image' => 'https://example.com/canon-eos-rebel-t7i.jpg',
+            'price' => 10000000,
+            'description' => 'Canon EOS Rebel T7i is an entry-level DSLR camera with a 24.2MP sensor and built-in Wi-Fi.',
+           ],
+          ];
+          return $dataproduct;
     }
 
     public function mirrorless()
