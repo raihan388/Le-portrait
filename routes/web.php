@@ -69,12 +69,6 @@ Route::match(['get', 'post'], '/checkoutdetails', [CheckOutDetailsController::cl
 Route::get('/checkoutform', [CheckOutDetailsController::class, 'checkoutform'])->name('checkoutform');
 Route::post('/checkoutsubmit', [CheckOutDetailsController::class, 'checkoutsubmit'])->name('checkoutsubmit');
 Route::get('/checkoutsuccess', [CheckOutDetailsController::class, 'checkoutsuccess'])->name('checkoutsuccess');
-Route::get('/dslr', [PageController::class, 'dslr'])->name('dslr');
-Route::get('/mirrorless', [PageController::class, 'mirrorless'])->name('mirrorless');
-Route::get('/film', [PageController::class, 'film'])->name('film');
-Route::get('/lenses', [PageController::class, 'lenses'])->name('lenses');
-Route::get('/flash', [PageController::class, 'flash'])->name('flash');
-Route::get('/tripods', [PageController::class, 'tripod'])->name('tripods');
 Route::get('/produk/{slug}', [PageController::class, 'show'])->name('produk.show');
 Route::get('/order-history', [PageController::class, 'index'])->name('pages.order-history');
 Route::get('/detailproduk', [DetailProdukController::class, 'show'])->name('detailproduk');
@@ -82,3 +76,113 @@ Route::get('/search', [ProductController::class, 'search'])->name('produk.search
 Route::post('/profile/update', [UserController::class, 'update'])->middleware('auth');
 Route::get('/order',[OrderController::class, 'order'])->name('order');
 Route::post('/checkout', [OrderController::class, 'checkout']);
+
+Route::get('/dslr', function () {
+    return view('dslr', [
+        "title" => "DSLR Cameras",
+        "description" => "Explore our range of DSLR cameras.",
+        "produk" => [ [
+            "namaproduk" => "Nikon D5600",
+            "harga" => "Rp 10.000.000",
+            "deskripsi" => "Nikon D5600 adalah kamera DSLR dengan sensor APS-C 24.2 MP, perekaman video Full HD, dan layar sentuh vari-angle.",
+            "ulasan" => "34 ulasan",
+        ],
+          [ "namaproduk" => "Canon EOS 90D",
+            "harga" => "Rp 15.000.000",
+            "deskripsi" => "Canon EOS 90D adalah kamera DSLR dengan sensor APS-C 32.5 MP, perekaman video 4K, dan sistem autofocus Dual Pixel CMOS AF.",
+            "ulasan" => "52 ulasan",
+    ],
+        ],
+    ]);
+});
+Route::get('/mirrorless', function () {
+    return view('mirrorless', [
+        "title" => "Mirrorless Cameras",
+        "description" => "Explore our range of Mirrorless cameras.",
+        "produk" => [ [
+            "namaproduk" => "Canon EOS RP Body Only",
+            "harga" => "Rp 12.499.000",
+            "deskripsi" => "Canon EOS RP Body Only sudah 4k dan full HD 1080 video.",
+            "ulasan" => "12  ulasan",
+        ],
+          [ "namaproduk" => "Canon EOS 90D",
+            "harga" => "Rp 15.000.000",
+            "deskripsi" => "Canon EOS 90D adalah kamera DSLR dengan sensor APS-C 32.5 MP, perekaman video 4K, dan sistem autofocus Dual Pixel CMOS AF.",
+            "ulasan" => "52 ulasan",
+    ],
+        ],
+    ]);
+});
+Route::get('/film', function () {
+    return view('film', [
+        "title" => "Film Cameras",
+        "description" => "Explore our range of Film cameras.",
+        "produk" => [ [
+            "namaproduk" => "Canon EOS RP Body Only",
+            "harga" => "Rp 12.499.000",
+            "deskripsi" => "Canon EOS RP Body Only sudah 4k dan full HD 1080 video.",
+            "ulasan" => "12  ulasan",
+        ],
+          [ "namaproduk" => "Canon EOS 90D",
+            "harga" => "Rp 15.000.000",
+            "deskripsi" => "Canon EOS 90D adalah kamera DSLR dengan sensor APS-C 32.5 MP, perekaman video 4K, dan sistem autofocus Dual Pixel CMOS AF.",
+            "ulasan" => "52 ulasan",
+    ],
+        ],
+    ]);
+});
+Route::get('/lenses', function () {
+    return view('lenses', [
+        "title" => "Lenses ",
+        "description" => "Explore our range of Lenses cameras.",
+        "produk" => [ [
+            "namaproduk" => "Canon EOS RP Body Only",
+            "harga" => "Rp 12.499.000",
+            "deskripsi" => "Canon EOS RP Body Only sudah 4k dan full HD 1080 video.",
+            "ulasan" => "12  ulasan",
+        ],
+          [ "namaproduk" => "Canon EOS 90D",
+            "harga" => "Rp 15.000.000",
+            "deskripsi" => "Canon EOS 90D adalah kamera DSLR dengan sensor APS-C 32.5 MP, perekaman video 4K, dan sistem autofocus Dual Pixel CMOS AF.",
+            "ulasan" => "52 ulasan",
+    ],
+        ],
+    ]);
+});
+Route::get('/flash', function () {
+    return view('flash', [
+        "title" => "Flash Units",
+        "description" => "Explore our range of Flash cameras.",
+        "produk" => [ [
+            "namaproduk" => "Canon EOS RP Body Only",
+            "harga" => "Rp 12.499.000",
+            "deskripsi" => "Canon EOS RP Body Only sudah 4k dan full HD 1080 video.",
+            "ulasan" => "12  ulasan",
+        ],
+          [ "namaproduk" => "Canon EOS 90D",
+            "harga" => "Rp 15.000.000",
+            "deskripsi" => "Canon EOS 90D adalah kamera DSLR dengan sensor APS-C 32.5 MP, perekaman video 4K, dan sistem autofocus Dual Pixel CMOS AF.",
+            "ulasan" => "52 ulasan",
+    ],
+        ],
+    ]);
+});
+Route::get('/tripods', function () {
+    return view('tripod', [
+        "title" => "Tripods Units",
+        "image" => "tripod.jpg",
+        "description" => "Explore our range of Flash cameras.",
+        "produk" => [ [
+            "namaproduk" => "Canon EOS RP Body Only",
+            "harga" => "Rp 12.499.000",
+            "deskripsi" => "Canon EOS RP Body Only sudah 4k dan full HD 1080 video.",
+            "ulasan" => "12  ulasan",
+        ],
+          [ "namaproduk" => "Canon EOS 90D",
+            "harga" => "Rp 15.000.000",
+            "deskripsi" => "Canon EOS 90D adalah kamera DSLR dengan sensor APS-C 32.5 MP, perekaman video 4K, dan sistem autofocus Dual Pixel CMOS AF.",
+            "ulasan" => "52 ulasan",
+    ],
+        ],
+    ]);
+});
