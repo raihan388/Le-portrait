@@ -10,6 +10,12 @@
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
 
+@if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
   @include('components.navbar')
 
   <main class="container mx-auto px-6 py-10">
@@ -75,10 +81,11 @@
           <button class="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 transition">+</button>
         </div>
 
-        <!-- Add to Cart Button -->
-        <button class="w-full md:w-auto px-8 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 mb-6 text-lg font-medium transition duration-200">
-          Add to Cart
-        </button>
+        <form action="{{ route('add-to-cart', $produk->id) }}" method="POST">
+    @csrf
+    <button type="submit" class="btn btn-primary">Add to Cart</button>
+</form>
+
 
         <!-- Category -->
         <p class="text-gray-700">

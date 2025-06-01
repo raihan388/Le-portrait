@@ -62,6 +62,7 @@ Route::get('/about' , [AboutController::class, 'about'])->name('about');
 Route::get('/listproduk', [ListProdukController::class, 'list'])->name('listproduk');
 Route::get('/homepage', [HomePageController::class, 'homepage'])->name('homepage');
 Route::get('/cart', [CartController::class, 'cart'])->name('cart');
+Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
 Route::get('/checkout', [CheckOutController::class, 'checkout'])->name('checkout');
 Route::post('/proceed-to-checkout', [CheckOutController::class, 'proceedToCheckout'])->name('checkoutsubmit');
@@ -186,3 +187,9 @@ Route::get('/tripods', function () {
         ],
     ]);
 });
+
+Route::post('/profile/update', [UserController::class, 'update'])->middleware('auth');
+Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add.to.cart');
+
+
+

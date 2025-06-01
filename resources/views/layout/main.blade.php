@@ -8,7 +8,7 @@
 </head>
 <body>
     @include('components.navbar')
-   
+    @include('components.cart')
      <div class="container mx-auto flex flex-col lg:flex-row gap-4 px-4 mt-8 mb-10">
     
     <!-- Sidebar -->
