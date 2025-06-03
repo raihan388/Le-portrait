@@ -11,6 +11,6 @@ class OrderController extends Controller
         return view('coba');
     }
     public function checkout(Request $request){
-        dd($request->all());
+        ($request->all());
     }
 }

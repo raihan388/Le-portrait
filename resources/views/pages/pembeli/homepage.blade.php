@@ -39,9 +39,10 @@
 <!-- About -->
 @include('components.about')
 
-
-<!-- Footer -->
-@include('components.footer')
+  <!-- Footer -->
+  @include('components.footer')
+  
+  @include('components.cart')
 
    
     
