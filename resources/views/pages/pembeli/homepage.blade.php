@@ -24,21 +24,17 @@
 
   <div class="max-w-7xl mx-auto px-4 mt-8">
   <h2 class="text-2xl font-bold mb-4">Featured Product</h2>
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
 
   @include('components.produk-card')
 
-  </div>
 </d>
 
 
 <!-- Special Offers & Best Selling Product -->
 <div class="max-w-7xl mx-auto px-4 py-12">
   <h2 class="text-2xl font-bold mb-6">Special Offers</h2>
-  <div class="grid md:grid-cols-3 gap-6 mb-12">
 
     @include('components.produk-card')
-  </div>
 </div>
 <!-- About -->
 @include('components.about')

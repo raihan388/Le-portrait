@@ -1,5 +1,16 @@
-<!-- components/produk-card.blade.php -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+@extends('layout.main')
+@section('sidebar')
+    @include('components.sidebar')
+
+@endsection
+@section('title')
+     <h1 class="text-2xl font-bold mb-4">{{ $item['title'] }}</h1>
+      <p class="text-gray-700 leading-relaxed">
+        {{$item['description']}}
+      </p>
+@endsection
+@section('produk')
+   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach ($products as $product)
             
             <!-- Product 1 -->
@@ -12,7 +23,7 @@
                       @endphp
 
                       @if (!empty($images))
-                        <img src="{{ asset('storage/' . $images[0]) }}" 
+                        <img src="{{ asset('storage/' . $images[2]) }}" 
                              alt="{{$product->name}}" 
                              class="max-w-full max-h-full object-contain drop-shadow-lg">
                              @else
@@ -49,3 +60,4 @@
             </div>
         @endforeach
 </div>
+@endsection

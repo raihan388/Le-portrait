@@ -24,13 +24,36 @@ class CategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
 
+
     public static function form(Form $form): Form
     {
+        function generateNextCategoryId()
+        {
+            $existingIds = Category::orderBy('category_id')->pluck('category_id')->toArray();
+
+            $index = 1;
+            foreach ($existingIds as $id) {
+                $expected = 'CAT-' . str_pad($index, 3, '0', STR_PAD_LEFT);
+                    if ($id !== $expected) {
+                        return $expected;
+                    }
+                    $index++;
+            }
+
+            return 'CAT-' . str_pad($index, 3, '0', STR_PAD_LEFT);
+        }   
+
         return $form
             ->schema([
                 Section::make([
                     Grid::make()
                     ->schema([
+                        TextInput::make('category_id')
+                            ->label('CategoryID')
+                            ->disabled()
+                            ->dehydrated()
+                            ->default(fn () => generateNextCategoryId())
+                            ->unique(Category::class, 'category_id', ignoreRecord: true),
                         TextInput::make('name')
                             ->required()
                             ->maxLength(255)
@@ -42,11 +65,8 @@ class CategoryResource extends Resource
                             ->maxLength(255)
                             ->dehydrated()
                             ->unique(Category::class,'slug',ignoreRecord: true),
-                    ]),
-                    FileUpload::make('image')
-                        ->image()
-                        ->directory('categories'),
-                    Toggle::make('is_active')
+                        ]),
+                        Toggle::make('is_active')
                         ->required()
                         ->default(true)
                 ])
@@ -57,10 +77,10 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('category_id')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-
-                Tables\Columns\ImageColumn::make('image'),
 
                 Tables\Columns\TextColumn::make('slug')
                     ->searchable(),

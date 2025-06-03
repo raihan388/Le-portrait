@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="styles/tailwindcss3.4.1.js"></script>
 </head>
 <body>
@@ -13,7 +14,7 @@
     
     <!-- Sidebar -->
     <aside class="w-64   bg-white p-6 pr-6 border-r  ">
-      @include('components.sidebar')
+      @yield('sidebar')
     </aside>
 
     <!-- Konten Utama -->
@@ -28,6 +29,15 @@
     </main>
 
   </div>
-    @include('components.footer')
+  <div class="max-w-7xl mx-auto p-4 lg:p-8">
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 p-6 lg:p-8">
+          @yield('content')
+        </div>
+      </div>
+  </div>
+  @include('components.footer')
+
+  @stack('scripts')
 </body>
 </html>

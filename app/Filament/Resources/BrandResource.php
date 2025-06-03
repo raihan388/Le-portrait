@@ -18,30 +18,60 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Textarea;
+use illuminate\Support\Str;
 
 class BrandResource extends Resource
 {
     protected static ?string $model = Brand::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-computer-desktop';
 
     public static function form(Form $form): Form
     {
+
+        function generateNextCategoryId()
+        {
+            $existingIds = Brand::orderBy('brand_id')->pluck('brand_id')->toArray();
+
+            $index = 1;
+            foreach ($existingIds as $id) {
+                $expected = 'BRD-' . str_pad($index, 3, '0', STR_PAD_LEFT);
+                    if ($id !== $expected) {
+                        return $expected;
+                    }
+                    $index++;
+            }
+
+            return 'BRD-' . str_pad($index, 3, '0', STR_PAD_LEFT);
+        }   
+
         return $form
             ->schema([
-                TextInput::make('name')
-                ->required()
-                ->label('Product Name'),
-
-            TextInput::make('price')
-                ->numeric()
-                ->required(),
-
-            Textarea::make('description'),
-
-            FileUpload::make('image')
-                ->image()
-                ->directory('products'), // folder penyimpanan
+               Section::make([
+                    Grid::make()
+                    ->schema([
+                        TextInput::make('brand_id')
+                            ->label('BrandID')
+                            ->disabled()
+                            ->dehydrated()
+                            ->default(fn () => generateNextCategoryId())
+                            ->unique(Brand::class, 'brand_id', ignoreRecord: true),
+                        TextInput::make('name')
+                            ->required()
+                            ->maxLength(255)
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(fn (string $operation, $state, callable $set ) => $operation === 'create' ? $set('slug', str($state)->slug()) : null),
+                        TextInput::make('slug')
+                            ->required()
+                            ->disabled()
+                            ->maxLength(255)
+                            ->dehydrated()
+                            ->unique(Brand::class,'slug',ignoreRecord: true),
+                    ]),
+                    Toggle::make('is_active')
+                        ->required()
+                        ->default(true)
+                ])
             ]);
     }
 
@@ -49,11 +79,12 @@ class BrandResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('brand_id')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('slug')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\IconColumn::make('is_active')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -69,7 +100,11 @@ class BrandResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

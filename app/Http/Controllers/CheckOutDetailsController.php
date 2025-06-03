@@ -9,7 +9,7 @@ class CheckOutDetailsController extends Controller
 {
     public function checkoutform()
     {
-        return view('checkout');
+        return view('pages.pembeli.checkout');
     }
 
     public function checkoutdetails(Request $request)
@@ -21,7 +21,7 @@ class CheckOutDetailsController extends Controller
         session(['cart' => $cart]);
     }
 
-    return view('checkout_details', compact('cart'));
+    return view('pages.pembeli.checkoutdetails', compact('cart'));
 }
 
 

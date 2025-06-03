@@ -7,34 +7,84 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function show($id) {
-        $produk = Product::findOrFail($id);
-        $rating = $produk->rating; // misalnya rating-nya 4.3
-        
-        // Hitung jumlah bintang
-        $fullStars = floor($rating);
-        $halfStar = ($rating - $fullStars) >= 0.5;
-        $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0);
-        
-        // Kirim ke view
-        return view('produk.detail', compact('produk', 'rating', 'fullStars', 'halfStar', 'emptyStars'));
-}
+    public function show()
+    {
+        // Ambil hanya produk yang aktif
+        $products = Product::with('category', 'brand')->where('is_active', true)->get();
 
-public function search(Request $request)
-{
-    $query = $request->input('q');
+        return view('pages.pembeli.homepage', compact('products'));
+    }
 
-    // Misalnya kamu pakai data statis:
-    $products = collect([
-        ['id' => 1, 'name' => 'Canon DSLR', 'price' => 100],
-        ['id' => 2, 'name' => 'Sony Mirrorless', 'price' => 200],
-        ['id' => 3, 'name' => 'Tripod Mini', 'price' => 50],
-    ]);
+    public function detail($slug) {
+        $product = Product::with('category','brand')->where('slug', $slug)->get();
+        return view('pages.pembeli.detailproduk', compact('product'));
 
-    $filtered = $products->filter(function ($item) use ($query) {
-        return stripos($item['name'], $query) !== false;
-    });
+    }
 
-    return view('produk.search', ['products' => $filtered, 'query' => $query]);
-}
+    public function dslr()
+    {
+        $products = Product::with('category')->whereHas('category',function ($query) {
+            $query->where('name', 'dslr');
+        })->where('is_active', true)->get();
+        $item = ([
+            'title' => "DSLR Camera",
+            'description' => "Explore our collection of DSLR cameras, perfect for both beginners and professionals. Capture stunning images with advanced features and high-quality lenses."
+        ]);
+        return view('pages.pembeli.dslr', compact('products','item'));
+    }
+    public function mirrorless()
+    {
+        $products = Product::with('category')->whereHas('category',function ($query) {
+            $query->where('name', 'mirrorless');
+        })->where('is_active', true)->get();
+        $item = ([
+            'title' => "Mirrorless Camera",
+            'description' => "Discover our range of mirrorless cameras, offering compact designs and exceptional image quality. Perfect for travel and everyday photography."
+        ]);
+        return view('pages.pembeli.mirrorless', compact('products','item'));
+    }
+    public function film()
+    {
+        $products = Product::with('category')->whereHas('category',function ($query) {
+            $query->where('name', 'film');
+        })->where('is_active', true)->get();
+        $item = ([
+            'title' => "Film Camera",
+            'description' => "Discover our range of mirrorless cameras, offering compact designs and exceptional image quality. Perfect for travel and everyday photography."
+        ]);
+        return view('pages.pembeli.film', compact('products','item'));
+    }
+    public function lenses()
+    {
+        $products = Product::with('category')->whereHas('category',function ($query) {
+            $query->where('name', 'lenses');
+        })->where('is_active', true)->get();
+        $item = ([
+            'title' => "Lenses Camera",
+            'description' => "Discover our range of mirrorless cameras, offering compact designs and exceptional image quality. Perfect for travel and everyday photography."
+        ]);
+        return view('pages.pembeli.lenses', compact('products','item'));
+    }
+    public function flash()
+    {
+        $products = Product::with('category')->whereHas('category',function ($query) {
+            $query->where('name', 'flash');
+        })->where('is_active', true)->get();
+        $item = ([
+            'title' => "Flash Camera",
+            'description' => "Discover our range of mirrorless cameras, offering compact designs and exceptional image quality. Perfect for travel and everyday photography."
+        ]);
+        return view('pages.pembeli.flash', compact('products','item'));
+    }
+    public function tripods()
+    {
+        $products = Product::with('category')->whereHas('category',function ($query) {
+            $query->where('name', 'tripods');
+        })->where('is_active', true)->get();
+        $item = ([
+            'title' => "Tripods Camera",
+            'description' => "Discover our range of mirrorless cameras, offering compact designs and exceptional image quality. Perfect for travel and everyday photography."
+        ]);
+        return view('pages.pembeli.tripod', compact('products','item'));
+    }
 }
