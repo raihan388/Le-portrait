@@ -69,7 +69,6 @@ Route::post('/proceed-to-checkout', [CheckOutController::class, 'proceedToChecko
 Route::match(['get', 'post'], '/checkoutdetails', [CheckOutDetailsController::class, 'checkoutdetails'])->name('checkoutdetails');
 Route::get('/checkoutform', [CheckOutDetailsController::class, 'checkoutform'])->name('checkoutform');
 Route::post('/checkoutsubmit', [CheckOutDetailsController::class, 'checkoutsubmit'])->name('checkoutsubmit');
-Route::get('/checkoutsuccess', [CheckOutDetailsController::class, 'checkoutsuccess'])->name('checkoutsuccess');
 Route::get('/produk/{slug}', [PageController::class, 'show'])->name('produk.show');
 Route::get('/order-history', [PageController::class, 'index'])->name('pages.order-history');
 Route::get('/detailproduk', [DetailProdukController::class, 'show'])->name('detailproduk');

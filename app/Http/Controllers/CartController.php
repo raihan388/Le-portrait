@@ -15,7 +15,7 @@ class CartController extends Controller
             ->where('user_id', auth()->id())
             ->get();
 
-        return view('cart.index', compact('cartItems'));
+        return view('components.cart', compact('cartItems'));
     }
 
     // Menambahkan item ke cart (harus login)
