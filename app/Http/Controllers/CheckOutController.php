@@ -26,20 +26,10 @@ class CheckOutController extends Controller
             'image' => 'required|string',
         ]);
 
-        $cart = session('cart', []);
-
-        $cart[] = [
-            'product' => $validated['product'],
-            'price' => $validated['price'],
-            'quantity' => $validated['quantity'],
-            'image' => $validated['image'],
-        ];
-
-        session(['cart' => $cart]);
-
-        return redirect()->route('checkout')->with('success', 'Produk berhasil ditambahkan ke keranjang.');
+        return view('checkout_details', compact('cart')); // Pastikan view-nya sesuai
     }
 
+    // Menerima data saat tombol "Order" diklik
     public function proceedToCheckout(Request $request)
     {
         if (!Auth::check()) {

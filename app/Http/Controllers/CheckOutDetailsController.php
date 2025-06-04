@@ -9,7 +9,7 @@ class CheckOutDetailsController extends Controller
 {
     public function checkoutform()
     {
-        return view('checkout');
+        return view('pages.pembeli.checkout');
     }
 
     public function checkoutdetails()
@@ -20,8 +20,9 @@ class CheckOutDetailsController extends Controller
             return redirect()->route('cart')->with('error', 'Cart is empty.');
         }
 
-        return view('checkout_details', compact('cart'));
-    }
+    return view('checkout_details', compact('cart'));
+}
+
 
     public function checkoutsubmit(Request $request)
     {
