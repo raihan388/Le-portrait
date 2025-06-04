@@ -65,5 +65,5 @@ Route::post('/checkout', [OrderController::class, 'checkout']);
 Route::get('/homepage', [ProductController::class, 'show'])->name('homepage.show');
 Route::post('/profile/update', [UserController::class, 'update'])->middleware('auth');
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add.to.cart');
-
+Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add.to.cart');
 
