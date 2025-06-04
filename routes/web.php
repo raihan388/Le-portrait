@@ -48,11 +48,9 @@ Route::get('/homepage', [HomePageController::class, 'homepage'])->name('homepage
 Route::get('/cart', [CartController::class, 'cart'])->name('cart');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
-Route::get('/checkout', [CheckOutController::class, 'checkout'])->name('checkout');
-Route::post('/proceed-to-checkout', [CheckOutController::class, 'proceedToCheckout'])->name('checkoutsubmit');
-Route::match(['get', 'post'], '/checkoutdetails', [CheckOutDetailsController::class, 'checkoutdetails'])->name('checkoutdetails');
-Route::get('/checkoutform', [CheckOutDetailsController::class, 'checkoutform'])->name('checkoutform');
-Route::post('/checkoutsubmit', [CheckOutDetailsController::class, 'checkoutsubmit'])->name('checkoutsubmit');
+Route::get('/checkout', [CheckOutController::class, 'checkout'])->name('pages.pembeli.checkout');
+Route::post('/proceed-to-checkout', [CheckOutController::class, 'proceedToCheckout'])->name('pages.pembeli.checkoutsubmit');
+Route::post('/checkoutsubmit', [CheckOutController::class, 'checkoutsubmit'])->name('pages.pembeli.checkoutsubmit');
 Route::get('/produk/{slug}', [PageController::class, 'show'])->name('produk.show');
 Route::get('/order-history', [PageController::class, 'index'])->name('pages.order-history');
 Route::get('/produk/{slug}', [ProductController::class, 'detail'])->name('detailproduk');
