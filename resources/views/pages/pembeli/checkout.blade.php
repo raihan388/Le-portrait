@@ -3,18 +3,55 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CheckOut Le-Portrait</title>
+  <title>Checkout</title>
   <script src="{{ asset('styles/tailwindcss3.4.1.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="font-sans bg-gray-100 text-gray-900 flex flex-col min-h-screen">
- 
+
   @include('components.navbar')
 
-  <!-- Cart Content -->
-  <main class="flex-grow max-w-7xl mx-auto px-4 py-6 w-full">
-    <h2 class="text-xl font-semibold mb-4">Cart</h2>
-    <div class="grid md:grid-cols-3 gap-6">
+  <!-- Flash Alerts -->
+  @if (session('success'))
+    <script>
+      Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: '{{ session('success') }}',
+        confirmButtonColor: '#d33'
+      }).then(() => {
+        window.location.href = "{{ url('/pembayaran') }}";
+      });
+    </script>
+  @endif
 
+  @if (session('error'))
+    <script>
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: '{{ session('error') }}',
+        confirmButtonColor: '#d33'
+      });
+    </script>
+  @endif
+
+  <!-- Validation Errors -->
+  @if ($errors->any())
+    <div class="bg-red-100 text-red-700 p-4 rounded mb-6 mx-auto max-w-4xl mt-6">
+      <ul class="list-disc list-inside">
+        @foreach ($errors->all() as $error)
+          <li>{{ $error }}</li>
+        @endforeach
+      </ul>
+    </div>
+  @endif
+
+  <!-- Main Checkout Content -->
+  <main class="flex-grow max-w-7xl mx-auto px-4 py-6 w-full">
+    <!-- Cart -->
+    <h2 class="text-xl font-semibold mb-4">Checkout</h2>
+    <div class="grid md:grid-cols-3 gap-6">
       <!-- Cart Items -->
       <div class="md:col-span-2 border border-gray-300 bg-white rounded-lg shadow-sm">
         <table class="w-full text-sm">
@@ -27,75 +64,74 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="border-t border-gray-200">
-              <td class="p-4 flex items-center">
-                <img src="{{ asset('images/canon r6.jpg') }}" alt="Canon EOS R6" class="w-16 h-16 object-cover rounded mr-4 flex-shrink-0">
-                <div class="font-medium">Canon EOS R6</div>
-              </td>
-              <td class="p-4 text-gray-600">Rp 28.500.000</td>
-              <td class="p-4 text-center">
-                <div class="inline-flex items-center border border-gray-300 rounded">
-                  <button onclick="changeQuantity(-1)" class="px-2 hover:bg-gray-100">−</button>
-                  <input id="qty" type="text" value="1" class="w-10 text-center border-x border-gray-300 outline-none" readonly />
-                  <button onclick="changeQuantity(1)" class="px-2 hover:bg-gray-100">+</button>
-                </div>
-              </td>
-              <td class="p-4 text-right font-medium" id="item-subtotal">Rp 28.500.000</td>
-            </tr>
+            @php
+              $subtotal = 0;
+            @endphp
+            @foreach ($cartItems as $item)
+  @php
+    $itemTotal = $item['price'] * $item['quantity'];
+    $subtotal += $itemTotal;
+  @endphp
+  <tr class="border-t border-gray-200">
+    <td class="p-4 flex items-center">
+      <img src="{{ asset('images/' . $item['image']) }}" alt="{{ $item['product'] }}" class="w-16 h-16 object-cover rounded mr-4 flex-shrink-0">
+      <div class="font-medium">{{ $item['product'] }}</div>
+    </td>
+    <td class="p-4 text-gray-600">Rp {{ number_format($item['price'], 0, ',', '.') }}</td>
+    <td class="p-4 text-center">{{ $item['quantity'] }}</td>
+    <td class="p-4 text-right font-medium">Rp {{ number_format($itemTotal, 0, ',', '.') }}</td>
+  </tr>
+@endforeach
+
           </tbody>
         </table>
       </div>
 
-      <!-- Cart Totals -->
+      <!-- Order Summary & Form -->
       <div class="border border-gray-300 bg-white p-4 rounded-lg shadow-sm h-fit">
-        <h3 class="font-semibold mb-4 border-b pb-2">Cart totals</h3>
-        <div class="flex justify-between mb-2">
-          <span class="text-gray-600">Subtotal</span>
-          <span id="cart-subtotal">Rp 28.500.000</span>
-        </div>
-        <div class="flex justify-between mb-4 border-b pb-2">
-          <span class="font-medium">Total</span>
-          <span id="cart-total" class="font-bold">Rp 28.500.000</span>
-        </div>
+        <form action="{{ route('pages.pembeli.checkoutsubmit') }}" method="POST" class="space-y-6">
 
-        <!-- Proceed button -->
-        <a href="{{ route('checkoutdetails') }}" class="w-full block text-center bg-gray-800 hover:bg-gray-700 text-white py-2 font-semibold rounded transition-colors">
-          Proceed to checkout
-        </a>
+          <h3 class="text-lg font-semibold mt-4">Customer Information</h3>
+          <input name="email" type="email" placeholder="Email Address" class="w-full p-3 border border-gray-300 rounded-lg" required>
+
+          <h3 class="text-lg font-semibold mt-4">Billing Details</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input name="first_name" type="text" placeholder="First Name" class="p-3 border border-gray-300 rounded-lg" required>
+            <input name="last_name" type="text" placeholder="Last Name" class="p-3 border border-gray-300 rounded-lg" required>
+          </div>
+          <textarea name="address" placeholder="Address" class="w-full p-3 border border-gray-300 rounded-lg h-24 mt-2" required></textarea>
+          <input name="phone" type="tel" pattern="[0-9]*" inputmode="numeric" placeholder="Phone" class="w-full p-3 border border-gray-300 rounded-lg" required>
+
+          <h3 class="text-lg font-semibold mt-4">Billing Notes</h3>
+          <textarea name="notes" placeholder="Notes About Your Order" class="w-full p-3 border border-gray-300 rounded-lg h-24"></textarea>
+
+          @csrf
+
+          <h3 class="font-semibold border-b pb-2 text-lg">Payment Details</h3>
+          <div class="flex justify-between">
+            <span>Subtotal</span>
+            <span class="font-medium">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+          </div>
+          <div class="flex justify-between font-bold text-lg border-t pt-2">
+            <span>Total</span>
+            <span>Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+          </div>
+
+          <button type="submit" class="w-full px-4 py-2 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+            Proceed to Payment
+          </button>
+        </form>
       </div>
-
     </div>
   </main>
-  
+
+  @include('components.cart')
   @include('components.footer')
-  
 
-  <!-- Script -->
   <script>
-    const unitPrice = 28500000;
-
-    function formatRupiah(num) {
-      return new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR'
-      }).format(num);
-    }
-
-    function changeQuantity(delta) {
-      const qtyInput = document.getElementById('qty');
-      let qty = parseInt(qtyInput.value);
-      qty += delta;
-      if (qty < 1) qty = 1;
-      qtyInput.value = qty;
-
-      const subtotal = unitPrice * qty;
-      document.getElementById('item-subtotal').innerText = formatRupiah(subtotal);
-      document.getElementById('cart-subtotal').innerText = formatRupiah(subtotal);
-      document.getElementById('cart-total').innerText = formatRupiah(subtotal);
-    }
-
-    // Inisialisasi saat pertama kali load
-    document.addEventListener('DOMContentLoaded', () => changeQuantity(0));
+    document.querySelector('input[name="phone"]').addEventListener('input', function (e) {
+      this.value = this.value.replace(/[^0-9]/g, '');
+    });
   </script>
 
 </body>
