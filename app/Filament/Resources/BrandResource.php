@@ -29,7 +29,7 @@ class BrandResource extends Resource
     public static function form(Form $form): Form
     {
 
-        function generateNextCategoryId()
+        function generateNextBrandId()
         {
             $existingIds = Brand::orderBy('brand_id')->pluck('brand_id')->toArray();
 
@@ -54,7 +54,7 @@ class BrandResource extends Resource
                             ->label('BrandID')
                             ->disabled()
                             ->dehydrated()
-                            ->default(fn () => generateNextCategoryId())
+                            ->default(fn () => generateNextBrandId())
                             ->unique(Brand::class, 'brand_id', ignoreRecord: true),
                         TextInput::make('name')
                             ->required()

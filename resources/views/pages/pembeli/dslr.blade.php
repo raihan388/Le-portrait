@@ -13,9 +13,6 @@
 @section('produk')
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach ($products as $product)
-            
-            <!-- Product 1 -->
-            <!-- Canon EOS 200D II Card -->
             <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
                 <div class="relative bg-gradient-to-br from-gray-100 to-gray-200 p-8">
                     <div class="flex justify-center items-center h-64">

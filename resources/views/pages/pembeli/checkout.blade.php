@@ -12,29 +12,29 @@
   @include('components.navbar')
 
   <!-- Flash Alerts -->
-  @if (session('success'))
-    <script>
-      Swal.fire({
-        icon: 'success',
-        title: 'Success!',
-        text: '{{ session('success') }}',
-        confirmButtonColor: '#d33'
-      }).then(() => {
-        window.location.href = "{{ url('/pembayaran') }}";
-      });
-    </script>
-  @endif
+@if (session('success'))
+  <script>
+    Swal.fire({
+      icon: 'success',
+      title: 'Success!',
+      text: @json(session('success')),
+      confirmButtonColor: '#d33'
+    }).then(() => {
+      window.location.href = "{{ url('/pembayaran') }}";
+    });
+  </script>
+@endif
 
-  @if (session('error'))
-    <script>
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: '{{ session('error') }}',
-        confirmButtonColor: '#d33'
-      });
-    </script>
-  @endif
+@if (session('error'))
+  <script>
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: @json(session('error')),
+      confirmButtonColor: '#d33'
+    });
+  </script>
+@endif
 
   <!-- Validation Errors -->
   @if ($errors->any())
@@ -125,7 +125,6 @@
     </div>
   </main>
 
-  @include('components.cart')
   @include('components.footer')
 
   <script>

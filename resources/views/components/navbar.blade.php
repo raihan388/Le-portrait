@@ -15,8 +15,8 @@
 
     <!-- Navigation kanan -->
     <nav class="flex items-center gap-4 ml-auto">
-      <a href="/login" class="hover:text-gray-600 transition-colors">Login</a>
-      <a href="/signup" class="hover:text-gray-600 transition-colors">Sign Up</a>
+      <a href="{{ route('login') }}" class="hover:text-gray-600 transition-colors">Login</a>
+      <a href="{{ route('login') }}" class="hover:text-gray-600 transition-colors">Sign Up</a>
       <button id="btnCartToggle" class="flex items-center gap-1 hover:text-gray-600 hover:underline transition-colors relative" type="button">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
@@ -45,12 +45,12 @@
   <nav class="bg-gray-100 border-t">
     <div class="container mx-auto">
       <div class="flex flex-wrap justify-center gap-x-16 gap-y-2 p-5 text-base font-medium text-center">
-        <a href="/dslr" class="hover:text-blue-600 transition-colors">DSLR Cameras</a>
-        <a href="/mirrorless" class="hover:text-blue-600 transition-colors">Mirrorless Cameras</a>
-        <a href="/film" class="hover:text-blue-600 transition-colors">Film Cameras</a>
-        <a href="/lenses" class="hover:text-blue-600 transition-colors">Lenses</a>
-        <a href="/flash" class="hover:text-blue-600 transition-colors">Flash Units</a>
-        <a href="/tripods" class="hover:text-blue-600 transition-colors">Tripods</a>
+        <a href="{{ route('produk.dslr') }}" class="hover:text-blue-600 transition-colors">DSLR Cameras</a>
+        <a href="{{ route('produk.mirrorless') }}" class="hover:text-blue-600 transition-colors">Mirrorless Cameras</a>
+        <a href="{{ route('produk.film') }}" class="hover:text-blue-600 transition-colors">Film Cameras</a>
+        <a href="{{ route('produk.lenses') }}" class="hover:text-blue-600 transition-colors">Lenses</a>
+        <a href="{{ route('produk.flash') }}" class="hover:text-blue-600 transition-colors">Flash Units</a>
+        <a href="{{ route('produk.tripods') }}" class="hover:text-blue-600 transition-colors">Tripods</a>
       </div>
     </div>
   </nav>

@@ -20,6 +20,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
+use Illuminate\Support\Facades\Storage;
 
 class ProductsResource extends Resource
 {
@@ -29,10 +30,31 @@ class ProductsResource extends Resource
 
     public static function form(Form $form): Form
     {
+        function generateNextProductId()
+        {
+            $existingIds = Product::orderBy('product_id')->pluck('product_id')->toArray();
+
+            $index = 1;
+            foreach ($existingIds as $id) {
+                $expected = 'PRD-' . str_pad($index, 3, '0', STR_PAD_LEFT);
+                    if ($id !== $expected) {
+                        return $expected;
+                    }
+                    $index++;
+            }
+
+            return 'PRD-' . str_pad($index, 3, '0', STR_PAD_LEFT);
+        }
         return $form
             ->schema([
                 Group::make()->schema ([
-                    section::make('Product Information')->schema([
+                    Section::make('Product Information')->schema([
+                        TextInput::make('product_id')
+                            ->label('ProductID')
+                            ->disabled()
+                            ->dehydrated()
+                            ->default(fn () => generateNextProductId())
+                            ->unique(Product::class, 'product_id', ignoreRecord: true),
                         TextInput::make('name')
                             ->required()
                             ->maxLength(255)
@@ -45,6 +67,19 @@ class ProductsResource extends Resource
                             ->maxLength(255)
                             ->dehydrated()
                             ->unique(Product::class,'slug',ignoreRecord: true),
+
+                        TextInput::make('stock')
+                            ->label('Stok')
+                            ->numeric()
+                            ->reactive() 
+                            ->afterStateUpdated(function ($state, callable $set) {
+                                $stock = (int) $state;
+                                if ($stock > 5) {
+                                    $set('in_stock', false);
+                                } else {
+                                    $set('in_stock', true);
+                                }
+                            }),
 
                         MarkdownEditor::make('description')
                             ->columnSpanFull()
@@ -61,6 +96,8 @@ class ProductsResource extends Resource
                                 ->maxfiles(5)
                                 ->reorderable()
                                 ->storeFileNamesIn('image')
+                                ->disk('public')
+                                ->visibility('public')
                         ])
 
                 ])->columnspan(2),
@@ -112,6 +149,10 @@ class ProductsResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('product_id')
+                    ->label('ProductID')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->sortable(),

@@ -9,7 +9,14 @@ class Checkout extends Model
     protected $table = 'checkout';
 
     protected $fillable = [
-        'items', 'email', 'first_name', 'last_name', 'address', 'phone', 'notes', 'total', 
+        'items', 
+        'email', 
+        'first_name', 
+        'last_name', 
+        'address', 
+        'phone', 
+        'notes', 
+        'total', 
     ];
 
     protected $casts = [

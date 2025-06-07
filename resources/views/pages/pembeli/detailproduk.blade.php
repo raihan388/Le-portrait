@@ -1,6 +1,12 @@
-@extends('layout.main')
-
- <style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Detail Produk</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="styles/tailwindcss3.4.1.js"></script>
+    <script src="{{ asset('styles/tailwindcss3.4.1.js') }}"></script>
+    <style>
         .zoom-container {
             position: relative;
             overflow: hidden;
@@ -12,133 +18,109 @@
         .zoom-container:hover .zoom-image {
             transform: scale(1.2);
         }
-  </style>
+    </style>
+</head>
+<body class="bg-gray-100">
+    @include('components.navbar')
+    <!-- Wrapper Layout -->
+    <div class="max-w-7xl mx-auto p-4 lg:p-8">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 p-6 lg:p-8">
+                <!-- Product Images -->
+                @foreach ($product as $item)
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    @php
+                        $images = is_array($item->images) ? $item->images : json_decode($item->images, true);
+                    @endphp
 
-  @section('content')
-  @foreach ($product as $item  )
-       <div class="space-y-4">
-                    <!-- Main Image -->
-                    <div class="relative border rounded-lg overflow-hidden zoom-container">
-                        <button class="absolute top-4 right-4 z-10 bg-white p-2 rounded-full shadow-md hover:shadow-lg transition-shadow">
-                            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
-                            </svg>
-                        </button>
-                        @php
-                          $images = is_array($item->images) ? $item->images : json_decode($item->images, true);
-                        @endphp
-                         @if (!empty($images))
-                        <img id="mainImage" 
-                             src="{{ asset('storage/' . $images[2]) }}" 
-                             alt="Nikon Z6 II Body Only" 
-                             class="w-full h-96 object-contain bg-gray-50 zoom-image">
-                    </div>
-                    
-                    <!-- Thumbnail Images -->
-                    <div class="grid grid-cols-4 gap-3">
-                        <button class="thumbnail-btn border-2 border-blue-500 rounded-lg overflow-hidden" data-image="https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?w=600&h=500&fit=crop&crop=center">
-                            <img src="{{ asset('storage/' . $images[0]) }}" 
-                                 alt="View 1" class="w-full h-20 object-contain bg-gray-50">
-                        </button>
-                        <button class="thumbnail-btn border-2 border-gray-200 hover:border-blue-500 rounded-lg overflow-hidden transition-colors" data-image="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=600&h=500&fit=crop&crop=center">
-                            <img src="{{ asset('storage/' . $images[1]) }}" 
-                                 alt="View 2" class="w-full h-20 object-contain bg-gray-50">
-                        </button>
-                        <button class="thumbnail-btn border-2 border-gray-200 hover:border-blue-500 rounded-lg overflow-hidden transition-colors" data-image="https://images.unsplash.com/photo-1617005082133-48dc4d6e05c2?w=600&h=500&fit=crop&crop=center">
-                            <img src="{{ asset('storage/' . $images[3]) }}" 
-                                 alt="View 3" class="w-full h-20 object-contain bg-gray-50">
-                        </button>
-                        <button class="thumbnail-btn border-2 border-gray-200 hover:border-blue-500 rounded-lg overflow-hidden transition-colors" data-image="https://images.unsplash.com/photo-1617005082133-48dc4d6e05c2?w=600&h=500&fit=crop&crop=center">
-                            <img src="{{ asset('storage/' . $images[4]) }}" 
-                                 alt="View 4" class="w-full h-20 object-contain bg-gray-50">
-                        </button>
-                    </div>
+                    @if (!empty($images))
+                        <div class="zoom-container border rounded-lg overflow-hidden">
+                            <img id="mainImage" src="{{ asset('storage/' . $images[2]) }}" alt="Main Image" class="w-full h-96 object-contain bg-gray-50 zoom-image">
+                        </div>
+
+                        <!-- Thumbnails -->
+                        <div class="grid grid-cols-4 gap-3 mt-4">
+                            @foreach ($images as $key => $img)
+                                <button class="thumbnail-btn border-2 {{ $key == 0 ? 'border-blue-500' : 'border-gray-200' }} rounded-lg overflow-hidden transition-colors" data-image="{{ asset('storage/' . $img) }}">
+                                    <img src="{{ asset('storage/' . $img) }}" alt="Thumb {{ $key }}" class="w-full h-20 object-contain bg-gray-50">
+                                </button>
+                            @endforeach
+                        </div>
                     @else
-                          <span class="text-sm text-gray-400">Gambar tidak tersedia</span>
-                        @endif
+                        <span class="text-sm text-gray-400">Gambar tidak tersedia</span>
+                    @endif
                 </div>
 
-                <!-- Product Details Section -->
-                <div class="space-y-6">
-                    <div>
-                        <h1 class="text-3xl font-bold text-gray-900 mb-4">{{$item->name}}</h1>
-                        
-                        <!-- Price Section -->
-                        <div class="flex items-center gap-4 mb-4">
-                            <span class="text-3xl font-bold text-red-600">Rp {{ number_format($item->price, 0, ',', '.') }}</span>
-                        </div>
-                        
-                        <!-- apakek -->
-                        <div class="inline-block bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm font-medium mb-4">
-                            {{$item->category->name}}
-                        </div>
-                        <!-- apakek -->
-                        <div class="inline-block bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm font-medium mb-4">
-                            {{$item->brand->name}}
+                <!-- Product Details -->
+                <div class="bg-white p-6 rounded-lg shadow-md space-y-6">
+                    <!-- Product Info -->
+                    <div class="space-y-4">
+                        <h1 class="text-3xl font-bold text-gray-900">{{ $item->name }}</h1>
+                        <p class="text-red-600 text-2xl font-bold">Rp {{ number_format($item->price, 0, ',', '.') }}</p>
+
+                        <div class="flex gap-2">
+                            <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm">{{ $item->category->name }}</span>
+                            <span class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm">{{ $item->brand->name }}</span>
                         </div>
                     </div>
 
                     <!-- Description -->
-                    <div class="space-y-3">
-                        <h3 class="font-semibold text-gray-700">Description</h3>
-                        <div class="space-y-2">
-                            <div class="flex items-start gap-2">
-                                <span class="text-sm text-gray-700">{{$item->description}}</span>
-                            </div>
-                        </div>
+                    <div class="space-y-2">
+                        <h2 class="font-semibold text-lg text-gray-700">Description</h2>
+                        <p class="text-gray-700">{{ $item->description }}</p>
                     </div>
 
                     <!-- Specifications -->
                     <div class="space-y-3">
-                        <h3 class="font-semibold text-gray-700">Specification</h3>
+                        <h3 class="font-semibold text-lg text-gray-700">Specification</h3>
                         <div class="space-y-2">
                             <div class="flex items-start gap-2">
                                 <svg class="w-4 h-4 text-green-500 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                                 </svg>
-                                <span class="text-sm text-gray-700">Garansi Resmi 2 Tahun</span>
+                                <span class="text-gray-700">Garansi Resmi 2 Tahun</span>
                             </div>
                             <div class="flex items-start gap-2">
                                 <svg class="w-4 h-4 text-green-500 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                                 </svg>
-                                <span class="text-sm text-gray-700">1 Tahun Full Coverage (Service & Spareparts)</span>
+                                <span class="text-gray-700">1 Tahun Full Coverage (Service & Spareparts)</span>
                             </div>
                             <div class="flex items-start gap-2">
                                 <svg class="w-4 h-4 text-green-500 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                                 </svg>
-                                <span class="text-sm text-gray-700">1 Tahun Free Service Only</span>
+                                <span class="text-gray-700">1 Tahun Free Service Only</span>
                             </div>
                             <div class="flex items-start gap-2">
                                 <svg class="w-4 h-4 text-green-500 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                                 </svg>
-                                <span class="text-sm text-gray-700 font-medium">24.5MP FX-Format BSI CMOS Sensor</span>
+                                <span class="text-gray-700 font-medium">24.5MP FX-Format BSI CMOS Sensor</span>
                             </div>
                             <div class="flex items-start gap-2">
                                 <svg class="w-4 h-4 text-green-500 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                                 </svg>
-                                <span class="text-sm text-gray-700 font-medium">Dual EXPEED 6 Image Processors</span>
+                                <span class="text-gray-700 font-medium">Dual EXPEED 6 Image Processors</span>
                             </div>
                             <div class="flex items-start gap-2">
                                 <svg class="w-4 h-4 text-green-500 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                                 </svg>
-                                <span class="text-sm text-gray-700 font-medium">UHD 4K30 Video; N-Log & 10-Bit HDMI Out</span>
+                                <span class="text-gray-700 font-medium">UHD 4K30 Video; N-Log & 10-Bit HDMI Out</span>
                             </div>
                             <div class="flex items-start gap-2">
                                 <svg class="w-4 h-4 text-green-500 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                                 </svg>
-                                <span class="text-sm text-gray-700 font-medium">14 fps Cont. Shooting; ISO 100-51200</span>
+                                <span class="text-gray-700 font-medium">14 fps Cont. Shooting; ISO 100-51200</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Quantity and Add to Cart -->
-                    <div class=" space-y-4 pt-4 border-t">
+                    <div class="space-y-4 pt-4 border-t">
                         <div class="flex items-center gap-4">
                             <label class="font-semibold text-gray-700">Jumlah:</label>
                             <div class="flex items-center border rounded-lg">
@@ -148,16 +130,21 @@
                             </div>
                         </div>
                         <div class="flex gap-4">
-                            <button id="addToCartBtn" class="w-full bg-cyan-400 hover:bg-cyan-500 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5 7m0 0h5.5m-5.5 0v2a1 1 0 001 1h5.5a1 1 0 001-1v-2"></path>
-                                </svg>
-                                ADD TO CART
-                            </button>
-                            <button id="checkoutBtn" class="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3   px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
+                            <form action="{{ route('cart.add') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $item->id }}">
+                                <button id="addToCartBtn" type="submit" class="w-full bg-cyan-400 hover:bg-cyan-500 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5 7m0 0h5.5m-5.5 0v2a1 1 0 001 1h5.5a1 1 0 001-1v-2"></path>
+                                    </svg>
+                                    ADD TO CART
+                                </button>
+                            </form>
+                        </div>
+                        <div class="flex gap-4">
+                            <button id="checkoutBtn" class="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
                                 <a href="/checkout" class="flex items-center gap-2">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5 7m0 0h5.5m-5.5 0v2a1 1 0 001 1h5.5a1 1 0 001-1v-2"></path>
                                     </svg>
                                     CHECKOUT
@@ -166,6 +153,7 @@
                         </div>
                     </div>
                 </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -184,9 +172,15 @@
                 <button id="closeModal" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors">
                     OK
                 </button>
-      @endforeach
-     @endsection 
-<script>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    @include('components.footer')
+    <!-- End Footer -->
+
+    <!-- Script -->
+    <script>
         // Image gallery functionality
         const mainImage = document.getElementById('mainImage');
         const thumbnailBtns = document.querySelectorAll('.thumbnail-btn');
@@ -285,7 +279,6 @@
             }
         });
 
-
         // Update total price based on quantity
         quantityInput.addEventListener('input', updateTotalPrice);
 
@@ -298,3 +291,5 @@
             console.log(`Total: ${formatPrice(totalPrice)} for ${quantity} item(s)`);
         }
     </script>
+</body>
+</html>
