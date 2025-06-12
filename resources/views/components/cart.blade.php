@@ -6,15 +6,15 @@
   </div>
 
    <div id="cartItems" class="flex flex-col gap-5">
-    @isset($cart)
-      @if($cart->count())
-        @foreach($cart as $item)
+    @isset($cartItems)
+      @if ($cartItems->count())
+        @foreach($cartItems as $item)
           <div class="flex justify-between items-center border-b pb-3">
             <div>
               <p class="font-semibold">{{ $item->product->name ?? 'Produk tidak ditemukan' }}</p>
               <p>{{ $item->quantity }} x Rp{{ number_format($item->price) }}</p>
             </div>
-            <form id="removeForm-{{ $item->id }}" action="{{ route('cart.remove', $item->id) }}" method="POST" class="inline">
+            <form id="removeForm-{{ $item->id }}" action="{{ route('cart.destroy', $item->id) }}" method="POST" class="inline">
               @csrf
               @method('DELETE')
               <button type="button" onclick="confirmRemove({{ $item->id }})" class="text-red-500 hover:text-red-700">
@@ -34,8 +34,8 @@
   <div class="mt-6 border-t pt-4 text-lg font-semibold flex justify-between">
     <span>Subtotal:</span>
     <span id="cartSubtotal">
-      @if($cart->count())
-        Rp{{ number_format($cart->sum(fn($item) => $item->price * $item->quantity)) }}
+      @if($cartItems->count())
+        Rp{{ number_format($cartItems->sum(fn($item) => $item->price * $item->quantity)) }}
       @else
         Rp 0
       @endif

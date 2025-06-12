@@ -34,14 +34,15 @@
         <div class="form-container">
           <!-- Login Form -->
           <form method="POST" id="login-form" action="{{ route('login') }}">
+            @csrf
             <div class="mb-5">
               <label for="login-email" class="block mb-2 font-medium text-gray-700">Email</label>
-              <input type="email" id="login-email" placeholder="Enter your email" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300">
+              <input type="email" name="email" id="login-email" placeholder="Enter your email" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300">
             </div>
             
             <div class="mb-5">
               <label for="login-password" class="block mb-2 font-medium text-gray-700">Password</label>
-              <input type="password" id="login-password" placeholder="Enter your password" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300">
+              <input type="password" name="password" id="login-password" placeholder="Enter your password" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300">
             </div>
             
             <div class="flex items-center mt-4">
@@ -63,30 +64,31 @@
           </form>
           
           <!-- Signup Form -->
-          <form id="signup-form" class="hidden">
+          <form id="signup-form" class="hidden" method="POST" action="{{ route('login') }}">
+            @csrf
             <div class="mb-5">
               <label for="signup-name" class="block mb-2 font-medium text-gray-700">Full Name</label>
-              <input type="text" id="signup-name" placeholder="Enter your full name" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300">
+              <input type="text" id="signup-name" name="name" placeholder="Enter your full name" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300" required>
             </div>
             
             <div class="mb-5">
               <label for="signup-email" class="block mb-2 font-medium text-gray-700">Email</label>
-              <input type="email" id="signup-email" placeholder="Enter your email" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300">
+              <input type="email" id="signup-email" name="email" placeholder="Enter your email" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300" required>
             </div>
             
             <div class="mb-5">
               <label for="signup-phone" class="block mb-2 font-medium text-gray-700">Phone Number</label>
-              <input type="tel" id="signup-phone" placeholder="Enter your phone number" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300">
+              <input type="tel" id="signup-phone" name="phone" placeholder="Enter your phone number" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300" required>
             </div>
             
             <div class="mb-5">
               <label for="signup-password" class="block mb-2 font-medium text-gray-700">Password</label>
-              <input type="password" id="signup-password" placeholder="Create a password (min. 8 characters)" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300">
+              <input type="password" id="signup-password" name="password" placeholder="Create a password (min. 8 characters)" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300" required>
             </div>
             
             <div class="mb-5">
               <label for="signup-confirm-password" class="block mb-2 font-medium text-gray-700">Confirm Password</label>
-              <input type="password" id="signup-confirm-password" placeholder="Confirm your password" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300">
+              <input type="password" id="signup-confirm-password" name="password_confirmation" placeholder="Confirm your password" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300" required>
             </div>
             
             <div class="mt-8">
@@ -130,65 +132,6 @@
         document.getElementById('login-form').classList.add('hidden');
       }
     }
-     const users = [
-      {
-        name: "Pembeli Contoh",
-        email: "pembeli@example.com",
-        password: "pembeli123",
-        phone: "08123456789",
-        role: "pembeli"
-      }
-     ]; // Simpan data registrasi sementara (hanya selama halaman aktif)
-
-  // Simulasi Signup
-  document.getElementById('signup-form').addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const name = document.getElementById('signup-name').value.trim();
-    const email = document.getElementById('signup-email').value.trim();
-    const phone = document.getElementById('signup-phone').value.trim();
-    const password = document.getElementById('signup-password').value;
-    const confirmPassword = document.getElementById('signup-confirm-password').value;
-
-    if (!name || !email || !phone || !password || !confirmPassword) {
-      alert("Please fill in all fields.");
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      alert("Passwords do not match.");
-      return;
-    }
-
-    const existingUser = users.find(user => user.email === email);
-    if (existingUser) {
-      alert("Email already registered.");
-      return;
-    }
-
-    users.push({ name, email, phone, password });
-    alert("Sign up successful! You can now log in.");
-    window.location.href = "/homepage";
-    // Optional: switch to login tab after registration
-    switchTab('login');
-  });
-
-  // Simulasi Login
-  document.getElementById('login-form').addEventListener('submit', function (e) {
-  e.preventDefault();
-
-  const email = document.getElementById('login-email').value.trim();
-  const password = document.getElementById('login-password').value;
-
-  const foundUser = users.find(user => user.email === email && user.password === password);
-
-  if (foundUser) {
-    alert(`Welcome back, ${foundUser.name}!`);
-    window.location.href = "/homepage"; // pindahkan redirect ke dalam blok if
-  } else {
-    alert("Invalid email or password.");
-  }
-});
   </script>
 </body>
 </html>

@@ -44,4 +44,9 @@ class Product extends Model
     {
     return $this->hasMany(Cart::class);
     }
+    public function scopeSearch($query, $term)
+    {
+        return $query->where('name', 'LIKE', "%{$term}%")
+                    ->orWhere('description', 'LIKE', "%{$term}%");
+    }
 }
