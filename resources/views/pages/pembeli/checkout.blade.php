@@ -20,7 +20,7 @@
       text: @json(session('success')),
       confirmButtonColor: '#d33'
     }).then(() => {
-      window.location.href = "{{ url('/pembayaran') }}";
+      window.location.href = "{{ url('/checkoutdetail') }}";
     });
   </script>
 @endif
@@ -118,7 +118,7 @@
           </div>
 
           <button type="submit" class="w-full px-4 py-2 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
-            Proceed to Payment
+            Chekout
           </button>
         </form>
       </div>

@@ -58,5 +58,5 @@ Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add')
 Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
 Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
 Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
-
+Route::post('/checkoutdetail', [CheckoutController::class, 'checkoutdetail'])->name('checkoutdetail');
 
