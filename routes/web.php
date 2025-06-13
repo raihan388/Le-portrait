@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ListProdukController;
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\CheckOutController;
@@ -19,6 +20,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 
+
+
 Route::prefix('produk')->group(function () {
     Route::get('/dslr', [productController::class, 'dslr'])->name('produk.dslr');
     Route::get('/mirrorless', [productController::class, 'mirrorless'])->name('produk.mirrorless');
@@ -30,21 +33,26 @@ Route::prefix('produk')->group(function () {
     
 });
   
-route::prefix('checkout')->group(function () {
+Route::prefix('checkout')->group(function () {
     Route::get('/', [CheckOutController::class, 'checkout'])->name('pages.pembeli.checkout');
     Route::post('/proceed-to-checkout', [CheckOutController::class, 'proceedToCheckout'])->name('pages.pembeli.checkoutsubmit');
     Route::post('/checkoutsubmit', [CheckOutController::class, 'checkoutsubmit'])->name('pages.pembeli.checkoutsubmit');;
 });
 
-route::prefix('auth')->group(function () {
-    Route::get('/login', [LoginController::class, 'login'])->name('login');
+Route::middleware('auth')->group(function(){
+    Route::get('/', [ProductController::class, 'show'])->name('homepage.show');
+});
+Route::middleware('guest')->group(function() {
+    Route::get('/login', [AuthController::class, 'auth'])->name('login');
+    Route::post('/login', [AuthController::class, 'submitLogin'])->name('login.submit');
     Route::get('/registrasi', [RegistrasiController::class, 'registrasi'])->name('registrasi');
 });
+
+Route::post('/logout',[AuthController::class,'logout'])->name('logout');
+
 Route::get('/checkoutdetail', [CheckOutController::class, 'checkoutdetail'])->name('checkoutdetail');
 
-
-Route::get('/cart', [CartController::class, 'cart'])->name('cart');
-Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+Route::get('/search', [ProductController::class, 'search'])->name('search');
 Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
 
 Route::get('/order-history', [PageController::class, 'index'])->name('pages.order-history');
@@ -52,10 +60,10 @@ Route::get('/search', [ProductController::class, 'search'])->name('produk.search
 Route::post('/profile/update', [UserController::class, 'update'])->middleware('auth');
 Route::get('/order',[OrderController::class, 'order'])->name('order');
 
-Route::get('/homepage', [ProductController::class, 'show'])->name('homepage.show');
 Route::post('/profile/update', [UserController::class, 'update'])->middleware('auth');
+
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
-Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
 Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
 Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
 Route::post('/checkoutdetail', [CheckoutController::class, 'checkoutdetail'])->name('checkoutdetail');

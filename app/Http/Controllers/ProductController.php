@@ -12,7 +12,21 @@ class ProductController extends Controller
         // Ambil hanya produk yang aktif
         $products = Product::with('category', 'brand')->where('is_active', true)->get();
 
-        return view('pages.pembeli.homepage', compact('products'));
+        return view('pages.homepage', compact('products'));
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $products = Product::with('category', 'brand')
+        ->where(function ($query) use ($search) {
+        $query->where('name', 'LIKE', '%' . $search . '%')
+              ->orWhere('description', 'LIKE', '%' . $search . '%');
+        })
+        ->where('is_active', true)
+        ->get();
+
+        return view('pages.homepage', compact('products', 'search'));
     }
 
     public function detail($slug) {
@@ -43,6 +57,7 @@ class ProductController extends Controller
         ]);
         return view('pages.pembeli.mirrorless', compact('products','item'));
     }
+
     public function film()
     {
         $products = Product::with('category')->whereHas('category',function ($query) {
@@ -65,6 +80,7 @@ class ProductController extends Controller
         ]);
         return view('pages.pembeli.lenses', compact('products','item'));
     }
+
     public function flash()
     {
         $products = Product::with('category')->whereHas('category',function ($query) {
@@ -87,4 +103,5 @@ class ProductController extends Controller
         ]);
         return view('pages.pembeli.tripod', compact('products','item'));
     }
+    
 }

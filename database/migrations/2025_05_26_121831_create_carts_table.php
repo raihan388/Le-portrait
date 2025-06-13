@@ -16,6 +16,7 @@ return new class extends Migration
         $table->foreignId('user_id')->constrained()->onDelete('cascade'); // siapa pemilik cart
         $table->foreignId('product_id')->constrained()->onDelete('cascade'); // produk yang dimasukkan
         $table->integer('quantity')->default(1); // jumlah
+        $table->decimal('price', 10, 2);
         $table->timestamps();
     });
 }
