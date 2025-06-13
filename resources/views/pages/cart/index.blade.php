@@ -10,7 +10,7 @@
 @include('components.navbar')
     <div class="max-w-6xl mx-auto py-10 px-4">
         <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
-            🛒 Keranjang Belanja
+            🛒 Shopping Cart
         </h2>
 
         @if ($cartItems->count())
@@ -19,12 +19,12 @@
                     <thead class="bg-gray-100">
                         <tr>
                             <th class="px-4 py-3 text-center">No</th>
-                            <th class="px-4 py-3 text-left">Gambar</th>
-                            <th class="px-4 py-3 text-left">Nama Produk</th>
-                            <th class="px-4 py-3 text-left">Harga</th>
-                            <th class="px-4 py-3 text-left">Jumlah</th>
+                            <th class="px-4 py-3 text-left">Image</th>
+                            <th class="px-4 py-3 text-left">Product Name</th>
+                            <th class="px-4 py-3 text-left">Price</th>
+                            <th class="px-4 py-3 text-left">Qty</th>
                             <th class="px-4 py-3 text-left">Subtotal</th>
-                            <th class="px-4 py-3 text-left">Aksi</th>
+                            <th class="px-4 py-3 text-left">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -52,7 +52,7 @@
                                         @csrf
                                         @method('DELETE')
                                         <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md">
-                                            Hapus
+                                            Delete
                                         </button>
                                     </form>
                                 </td>
@@ -72,9 +72,9 @@
         @else
             {{-- Jika keranjang kosong --}}
             <div class="text-center py-10">
-                <h3 class="text-xl font-semibold text-gray-700">Keranjang masih kosong.</h3>
+                <h3 class="text-xl font-semibold text-gray-700">Your cart is still empty.</h3>
                 <a href="/products" class="mt-4 inline-block bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-md">
-                    Belanja Sekarang
+                    Shop Now
                 </a>
             </div>
         @endif

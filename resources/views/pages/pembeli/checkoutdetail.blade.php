@@ -11,11 +11,11 @@
 
 @section('content')
 <div class="container mx-auto px-4 py-6 max-w-4xl">
-    <h2 class="text-3xl font-bold text-gray-800 mb-6 border-b pb-2">Checkout Detail</h2>
+    <h2 class="text-3xl font-bold text-gray-800 mb-6 border-b pb-2">Checkout Details</h2>
 
     {{-- Informasi Pembeli --}}
     <div class="bg-white shadow-md rounded-lg p-6 mb-8 border border-gray-200">
-        <h3 class="text-xl font-semibold text-gray-700 mb-4">Informasi Pembeli</h3>
+        <h3 class="text-xl font-semibold text-gray-700 mb-4">Customer Information</h3>
         <div class="space-y-2 text-gray-600">
             <p><span class="font-medium">Nama:</span> {{ $checkoutData['first_name'] }} {{ $checkoutData['last_name'] }}</p>
             <p><span class="font-medium">Email:</span> {{ $checkoutData['email'] }}</p>
@@ -31,8 +31,8 @@
             <table class="table-auto w-full text-sm text-left text-gray-700">
                 <thead class="bg-gray-100 text-gray-800 uppercase">
                     <tr>
-                        <th class="px-4 py-3 border">Produk</th>
-                        <th class="px-4 py-3 border text-right">Harga</th>
+                        <th class="px-4 py-3 border">Product</th>
+                        <th class="px-4 py-3 border text-right">Price</th>
                         <th class="px-4 py-3 border text-center">Qty</th>
                         <th class="px-4 py-3 border text-right">Subtotal</th>
                     </tr>
@@ -62,7 +62,7 @@
         </div>
     @else
         <div class="text-center text-red-600 font-semibold mt-4">
-            Tidak ada item di keranjang.
+            There are no items in your cart.
         </div>
     @endif
 </div>

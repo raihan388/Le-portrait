@@ -118,7 +118,7 @@
           </div>
 
           <button type="submit" class="w-full px-4 py-2 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
-            Chekout
+            Checkout
           </button>
         </form>
       </div>
