@@ -9,10 +9,11 @@ class ProfileController extends Controller
 {
     public function profile()
     {
-        // Ambil data user yang sedang login
         $user = Auth::user();
         
-        // Return view sesuai dengan nama file yang Anda miliki
-        return view('profile', compact('user'));
+        // Ambil cart dari session dan ubah ke Collection
+        $cartItems = collect(session('cart', []));
+
+        return view('profile', compact('user', 'cartItems'));
     }
 }

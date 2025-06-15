@@ -26,6 +26,7 @@ class CheckOutController extends Controller
         return view('pages.pembeli.checkout', compact('cartItems'));
     }
 
+<<<<<<< Updated upstream
     // Tampilkan halaman detail setelah checkout
     public function checkoutdetail()
     {
@@ -45,6 +46,22 @@ class CheckOutController extends Controller
     }
 
     // Tambah item ke keranjang
+=======
+    public function checkoutdetail()
+    {
+    // ambil data dari session jika perlu
+    $cart = session('components.cart', []);
+    // sementara, hanya untuk testing tampilan halaman
+    session(['components.cart' => [
+    ['product' => 'Kamera Canon', 'price' => 1500000, 'quantity' => 1, 'image' => 'canon.jpg'],
+    ['product' => 'Lensa Nikon', 'price' => 900000, 'quantity' => 2, 'image'=> 'nikon.jpg']
+    ]]);
+
+    return view('pages.pembeli.checkoutdetail', compact('cart'));
+    }
+
+    // Tambah item ke cart
+>>>>>>> Stashed changes
     public function addToCart(Request $request)
     {
         $validated = $request->validate([
