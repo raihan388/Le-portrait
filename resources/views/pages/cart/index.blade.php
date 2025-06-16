@@ -34,29 +34,42 @@
                                 $subtotal = $item->quantity * $item->price;
                                 $total += $subtotal;
                             @endphp
+
+                        <form action="{{ route('cart.update', $item->id) }}" method="POST" class="flex items-center gap-2">
+                            @csrf
+                            @method('PUT')
+
                             <tr class="border-t">
-                                <td class="px-4 py-3 text-center">{{ $loop->iteration }}</td>
-                                <td class="px-4 py-3">
-                                    <img 
-                                        src="{{ asset('storage/' . ($item->product->images[0] ?? 'images/no-image.png')) }}" 
-                                        alt="{{ $item->product->name }}" 
-                                        class="w-16 h-16 object-cover rounded border"
-                                    >
+                                <td class="px-4 py-3 text-center">PRD-0{{ $loop->iteration }}</td>
+                                <td class="px-4 py-3 text-center">
+                                    <img src="{{ asset('storage/' . ($item->product->images[0] ?? 'images/no-image.png')) }}"
+                                         alt="{{ $item->product->name }}"
+                                         class="w-16 h-16 object-cover rounded border">
                                 </td>
                                 <td class="px-4 py-3 font-medium">{{ $item->product->name }}</td>
                                 <td class="px-4 py-3">Rp{{ number_format($item->price, 0, ',', '.') }}</td>
-                                <td class="px-4 py-3">{{ $item->quantity }}</td>
+                                <td class="px-4 py-3">
+                                     <input type="number" name="quantity" min="1" value="{{ $item->quantity }}" class="w-16 border px-2 py-1 rounded text-center">
+                                </td>
                                 <td class="px-4 py-3 font-semibold">Rp{{ number_format($subtotal, 0, ',', '.') }}</td>
                                 <td class="px-4 py-3">
-                                    <form action="{{ route('cart.destroy', $item->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md">
-                                            Delete
-                                        </button>
-                                    </form>
+                                {{-- BUTTON AKSI --}}
+                                    <button type="submit"
+                                        class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded-md w-full">
+                                        Update
+                                    </button>
+                                 </form>
+                                {{-- Form delete tetap di luar form update --}}
+                                <form action="{{ route('cart.destroy', $item->id) }}" method="POST" class="w-full">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md w-full">
+                                        Delete
+                                    </button>
+                                </form>
                                 </td>
                             </tr>
+
                         @endforeach
                     </tbody>
                 </table>

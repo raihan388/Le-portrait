@@ -13,7 +13,7 @@ class CartController extends Controller
     {
         $request->validate([
             'product_id' => 'required|exists:products,id',
-            'quantity'   => 'required|integer|min:1',
+            'quantity'   => 'numeric|min:1',
             
         ]);
 
@@ -46,14 +46,26 @@ class CartController extends Controller
         $cartItems = Cart::with('product')->where('user_id', Auth::id())->get();
         return view('pages.cart.index', compact('cartItems'));
     }
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'quantity' => 'required|numeric|min:1',
+        ]);
+    
+        $cartItem = Cart::findOrFail($id);
+        $cartItem->quantity = $request->quantity;
+        $cartItem->save();
+    
+        return redirect()->route('cart.show')->with('success', 'Jumlah berhasil diperbarui.');
+    }
     public function destroy($id)
-{
-    $cartItem = Cart::where('id', $id)
-                    ->where('user_id', Auth::id()) // untuk keamanan, hanya hapus item milik user login
-                    ->firstOrFail();
+    {
+        $cartItem = Cart::where('id', $id)
+                        ->where('user_id', Auth::id()) // untuk keamanan, hanya hapus item milik user login
+                        ->firstOrFail();
 
-    $cartItem->delete();
+        $cartItem->delete();
 
-    return redirect()->back()->with('success', 'Item berhasil dihapus dari keranjang.');
-}
+        return redirect()->back()->with('success', 'Item berhasil dihapus dari keranjang.');
+    }
 }
