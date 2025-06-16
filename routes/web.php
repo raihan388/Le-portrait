@@ -62,9 +62,21 @@ Route::get('/order',[OrderController::class, 'order'])->name('order');
 
 Route::post('/profile/update', [UserController::class, 'update'])->middleware('auth');
 
+<<<<<<< HEAD
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
 Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
 Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
 Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
 Route::post('/checkoutdetail', [CheckoutController::class, 'checkoutdetail'])->name('checkoutdetail');
+=======
+Route::prefix('cart')->group(function() {
+    Route::post('/add', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::delete('/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
+    Route::get('/', [CartController::class, 'showCart'])->name('cart.show');
+    Route::get('/count', [CartController::class, 'getCartCount'])->name('cart.count');
+    Route::put('/{id}', [CartController::class, 'update'])->name('cart.update');
+});
+
+
+>>>>>>> 1b2ce4c (memperbaiki bagian login dan registrasi)
 
