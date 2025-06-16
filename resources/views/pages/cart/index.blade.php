@@ -19,21 +19,12 @@
                     <thead class="bg-gray-100">
                         <tr>
                             <th class="px-4 py-3 text-center">No</th>
-<<<<<<< HEAD
                             <th class="px-4 py-3 text-left">Image</th>
                             <th class="px-4 py-3 text-left">Product Name</th>
                             <th class="px-4 py-3 text-left">Price</th>
                             <th class="px-4 py-3 text-left">Qty</th>
                             <th class="px-4 py-3 text-left">Subtotal</th>
                             <th class="px-4 py-3 text-left">Action</th>
-=======
-                            <th class="px-4 py-3 text-center">Gambar</th>
-                            <th class="px-4 py-3 text-center">Nama Produk</th>
-                            <th class="px-4 py-3 text-center">Harga</th>
-                            <th class="px-4 py-3 text-center">Jumlah</th>
-                            <th class="px-4 py-3 text-center">Subtotal</th>
-                            <th class="px-4 py-3 text-center">Aksi</th>
->>>>>>> 1b2ce4c (memperbaiki bagian login dan registrasi)
                         </tr>
                     </thead>
                     <tbody>
@@ -55,42 +46,19 @@
                                          alt="{{ $item->product->name }}"
                                          class="w-16 h-16 object-cover rounded border">
                                 </td>
-<<<<<<< HEAD
                                 <td class="px-4 py-3 font-medium">{{ $item->product->name }}</td>
                                 <td class="px-4 py-3">Rp{{ number_format($item->price, 0, ',', '.') }}</td>
-                                <td class="px-4 py-3">{{ $item->quantity }}</td>
+                                <td class="px-4 py-3">
+                                     <input type="number" name="quantity" min="1" value="{{ $item->quantity }}" class="w-16 border px-2 py-1 rounded text-center">
+                                </td>
                                 <td class="px-4 py-3 font-semibold">Rp{{ number_format($subtotal, 0, ',', '.') }}</td>
                                 <td class="px-4 py-3">
-                                    <form action="{{ route('cart.destroy', $item->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md">
-                                            Delete
-                                        </button>
-                                    </form>
-=======
-                                <td class="px-4 py-3 font-medium text-center">{{ $item->product->name }}</td>
-                                <td class="px-4 py-3 text-center">Rp{{ number_format($item->price, 0, ',', '.') }}</td>
-
-                                {{-- INPUT QUANTITY YANG BISA DIUBAH --}}
-                                <td class="px-4 py-3 text-center">
-                                    <input type="number" name="quantity" value="{{ $item->quantity }}" min="1"
-                                           class="w-16 text-center border rounded px-1 py-1">
->>>>>>> 1b2ce4c (memperbaiki bagian login dan registrasi)
-                                </td>
-
-                                <td class="px-4 py-3 font-semibold text-center">
-                                    Rp{{ number_format($subtotal, 0, ',', '.') }}
-                                </td>
-
                                 {{-- BUTTON AKSI --}}
-                                <td class="px-4 py-3 text-center flex flex-col items-center gap-1">
                                     <button type="submit"
                                         class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded-md w-full">
                                         Update
                                     </button>
-                        </form>
-
+                                 </form>
                                 {{-- Form delete tetap di luar form update --}}
                                 <form action="{{ route('cart.destroy', $item->id) }}" method="POST" class="w-full">
                                     @csrf
@@ -99,7 +67,7 @@
                                         Delete
                                     </button>
                                 </form>
-                                        </td>
+                                </td>
                             </tr>
 
                         @endforeach
