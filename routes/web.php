@@ -45,7 +45,7 @@ Route::middleware('auth')->group(function(){
 Route::middleware('guest')->group(function() {
     Route::get('/login', [AuthController::class, 'auth'])->name('login');
     Route::post('/login', [AuthController::class, 'submitLogin'])->name('login.submit');
-    Route::get('/registrasi', [RegistrasiController::class, 'registrasi'])->name('registrasi');
+    Route::post('/registrasi', [AuthController::class, 'submitRegistrasi'])->name('registrasi');
 });
 
 Route::post('/logout',[AuthController::class,'logout'])->name('logout');

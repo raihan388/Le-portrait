@@ -64,7 +64,7 @@
           </form>
           
           <!-- Signup Form -->
-          <form id="signup-form" class="hidden" method="POST" action="{{ route('login') }}">
+          <form id="signup-form" class="hidden" method="POST" action="{{ route('registrasi') }}">
             @csrf
             <div class="mb-5">
               <label for="signup-name" class="block mb-2 font-medium text-gray-700">Full Name</label>
