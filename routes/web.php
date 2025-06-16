@@ -44,8 +44,12 @@ Route::middleware('auth')->group(function(){
 Route::middleware('guest')->group(function() {
     Route::get('/login', [AuthController::class, 'auth'])->name('login');
     Route::post('/login', [AuthController::class, 'submitLogin'])->name('login.submit');
+Route::post('/registrasi', [AuthController::class, 'submitRegistrasi'])->name('registrasi');
+});
 
-Route::get('/registrasi', [RegistrasiController::class, 'registrasi'])->name('registrasi');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+    Route::post('/profile/update', [UserController::class, 'update'])->name('profile.update');
 });
 
 Route::post('/logout',[AuthController::class,'logout'])->name('logout');
@@ -53,14 +57,9 @@ Route::post('/logout',[AuthController::class,'logout'])->name('logout');
 Route::get('/checkoutdetail', [CheckOutController::class, 'checkoutdetail'])->name('checkoutdetail');
 
 Route::get('/search', [ProductController::class, 'search'])->name('search');
-Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
-
 Route::get('/order-history', [PageController::class, 'index'])->name('pages.order-history');
 Route::get('/search', [ProductController::class, 'search'])->name('produk.search');
-Route::post('/profile/update', [UserController::class, 'update'])->middleware('auth');
 Route::get('/order',[OrderController::class, 'order'])->name('order');
-
-Route::post('/profile/update', [UserController::class, 'update'])->middleware('auth');
 
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
 Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
@@ -74,15 +73,13 @@ Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.c
 
 Route::get('/cart', [CartController::class, 'cart'])->name('cart');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
-Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
+Route::get('/profile', [UserController::class, 'profile'])->name('profile');
 
 Route::get('/order-history', [PageController::class, 'index'])->name('pages.order-history');
 Route::get('/search', [ProductController::class, 'search'])->name('produk.search');
-Route::post('/profile/update', [UserController::class, 'update'])->middleware('auth');
-Route::get('/order',[OrderController::class, 'order'])->name('order');
+Route::post('/profile/update', [UserController::class, 'update'])->middleware('auth')->name('profile.update');
 
-Route::get('/homepage', [ProductController::class, 'show'])->name('homepage.show');
-Route::post('/profile/update', [UserController::class, 'update'])->middleware('auth');
+Route::get('/order',[OrderController::class, 'order'])->name('order');
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
 Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
 Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');

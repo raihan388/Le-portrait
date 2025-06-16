@@ -18,15 +18,18 @@
       <!-- Left Side - Profile Image and Buttons -->
       <div class="flex flex-col items-center">
         <div class="w-44 h-44 bg-gray-300 rounded-full mb-4 overflow-hidden">
-          <img src="{{ asset($user->profile_image ?? 'images/default-avatar.jpg') }}" id="sidebarProfileImage" class="w-full h-full object-cover">
+          <img
+            id="sidebarProfileImage"
+            src="{{ $user->profile_image && file_exists(public_path('storage/' . $user->profile_image)) ? asset('storage/' . $user->profile_image) : asset('images/default-avatar.jpg') }}"
+            class="w-full h-full object-cover"
+            alt="Foto Profil"
+          >
         </div>
-        <h2 class="text-base font-medium mb-8">{{ $user->name ?? 'Nama Username' }}</h2>
+        <h2 class="text-base font-medium mb-8">{{ $user->username ?? 'username' }}</h2>
 
         <div class="flex flex-col space-y-4 w-44">
           <button type="submit" form="profileForm" class="w-full py-2 bg-gray-800 text-white text-sm rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">Edit profil</button>
-          <a href="/orders/history" class="w-full py-2 bg-gray-800 text-white text-sm rounded hover:bg-gray-700 text-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
-            Riwayat Pesanan
-          </a>
+          <a href="/orders/history" class="w-full py-2 bg-gray-800 text-white text-sm rounded hover:bg-gray-700 text-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">Riwayat Pesanan</a>
         </div>
       </div>
 
@@ -37,7 +40,13 @@
 
         <hr class="mb-8">
 
-        <form id="profileForm" action="/profile/update" method="POST" enctype="multipart/form-data" class="flex">
+       @if (session('success'))
+    <div class="mb-4 text-green-600 font-medium">
+        {{ session('success') }}
+    </div>
+@endif
+ 
+        <form id="profileForm" action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="flex">
           @csrf
 
           <!-- Form Input -->
@@ -62,7 +71,12 @@
           <!-- Gambar Profil -->
           <div class="border-l border-gray-200 pl-10 flex flex-col items-center">
             <div class="w-24 h-24 bg-gray-300 rounded-full mb-4 overflow-hidden">
-              <img src="{{ asset($user->profile_image ?? 'images/default-avatar.jpg') }}" id="formProfileImage" class="w-full h-full object-cover">
+              <img
+                id="formProfileImage"
+                src="{{ $user->profile_image && file_exists(public_path('storage/' . $user->profile_image)) ? asset('storage/' . $user->profile_image) : asset('images/default-avatar.jpg') }}"
+                class="w-full h-full object-cover"
+                alt="Foto Profil"
+              >
             </div>
 
             <label for="profile_image" class="text-sm border border-gray-300 px-4 py-1 cursor-pointer hover:bg-gray-50">
@@ -79,16 +93,19 @@
   <!-- Footer -->
   @include('components.footer')
 
-
   <!-- Preview Gambar Script -->
   <script>
     function previewImages(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
       const reader = new FileReader();
-      reader.onload = function() {
-        document.getElementById('formProfileImage').src = reader.result;
-        document.getElementById('sidebarProfileImage').src = reader.result;
+      reader.onload = function(e) {
+        const src = e.target.result;
+        document.getElementById('formProfileImage').src = src;
+        document.getElementById('sidebarProfileImage').src = src;
       }
-      reader.readAsDataURL(event.target.files[0]);
+      reader.readAsDataURL(file);
     }
   </script>
 </body>

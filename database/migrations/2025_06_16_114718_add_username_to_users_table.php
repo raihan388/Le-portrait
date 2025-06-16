@@ -9,19 +9,18 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+   public function up()
 {
     Schema::table('users', function (Blueprint $table) {
-        $table->string('phone')->nullable();
-        $table->string('address')->nullable();
-        $table->string('profile_image')->nullable();
+        $table->string('username')->unique()->nullable();
     });
 }
 
 public function down()
 {
     Schema::table('users', function (Blueprint $table) {
-        $table->dropColumn(['phone', 'address', 'profile_image']);
+        $table->dropColumn('username');
     });
 }
+
 };

@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+
   <title>Login</title>
   <script src="{{ asset('styles/tailwindcss3.4.1.js') }}"></script>
 </head>
@@ -64,7 +66,7 @@
           </form>
           
           <!-- Signup Form -->
-          <form id="signup-form" class="hidden" method="POST" action="{{ route('login') }}">
+          <form id="signup-form" class="hidden" method="POST" action="{{ route('registrasi') }}">
             @csrf
             <div class="mb-5">
               <label for="signup-name" class="block mb-2 font-medium text-gray-700">Full Name</label>
