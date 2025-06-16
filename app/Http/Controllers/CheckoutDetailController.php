@@ -6,46 +6,31 @@ use App\Models\CheckoutDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CheckOutController extends Controller
+class CheckoutDetailController extends Controller
 {
-    // Method lain...
+    // Method lainnya...
 
     public function checkoutdetail()
     {
-        // Ambil data keranjang dari session
-        $cart = session('components.cart', []);
-
         // Ambil data pembeli dari session
         $checkoutData = [
-            'email' => session('checkout.email', 'dummy@example.com'),
-            'first_name' => session('checkout.first_name', 'John'),
-            'last_name' => session('checkout.last_name', 'Doe'),
-            'address' => session('checkout.address', 'Jl. Contoh No. 123'),
-            'phone' => session('checkout.phone', '081234567890'),
-            'notes' => session('checkout.notes', 'Catatan pembeli contoh.'),
+            'email' => session('checkout.email'),
+            'first_name' => session('checkout.first_name'),
+            'last_name' => session('checkout.last_name'),
+            'address' => session('checkout.address'),
+            'phone' => session('checkout.phone'),
+            'notes' => session('checkout.notes'),
         ];
 
-        // Untuk keperluan testing, jika cart kosong isi dummy product
-        if (empty($cart)) {
-            $cart = [
-                [
-                    'product' => 'Kamera Canon',
-                    'price' => 1500000,
-                    'quantity' => 1,
-                    'image' => 'canon.jpg'
-                ],
-                [
-                    'product' => 'Lensa Nikon',
-                    'price' => 900000,
-                    'quantity' => 2,
-                    'image' => 'nikon.jpg'
-                ]
-            ];
+        // Ambil produk yang di-checkout dari session (bukan dari 'components.cart')
+        $cart = session('checkout.items', []);
+
+        // Jika data session kosong, redirect ke halaman checkout
+        if (empty($cart) || empty($checkoutData['email'])) {
+            return redirect()->route('pages.pembeli.checkout')->with('error', 'Data checkout tidak tersedia.');
         }
 
-        // Tampilkan halaman checkout detail
+        // Tampilkan view dengan data pembeli dan produk yang dibeli
         return view('pages.pembeli.checkoutdetail', compact('cart', 'checkoutData'));
     }
-
-    // Method lain...
 }

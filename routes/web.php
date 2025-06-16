@@ -34,7 +34,7 @@ Route::prefix('produk')->group(function () {
 });
   
 Route::prefix('checkout')->group(function () {
-    Route::get('/', [CheckOutController::class, 'checkout'])->name('pages.pembeli.checkout');
+    Route::get('/', [CheckOutController::class, 'checkout'])->name('checkout');
     Route::post('/proceed-to-checkout', [CheckOutController::class, 'proceedToCheckout'])->name('pages.pembeli.checkoutsubmit');
     Route::post('/checkoutsubmit', [CheckOutController::class, 'checkoutsubmit'])->name('pages.pembeli.checkoutsubmit');;
 });
@@ -45,7 +45,7 @@ Route::middleware('auth')->group(function(){
 Route::middleware('guest')->group(function() {
     Route::get('/login', [AuthController::class, 'auth'])->name('login');
     Route::post('/login', [AuthController::class, 'submitLogin'])->name('login.submit');
-    Route::post('/registrasi', [AuthController::class, 'submitRegistrasi'])->name('registrasi');
+    Route::post('/registrasi', [Auth::class, 'submitRegistrasi'])->name('registrasi');
 });
 
 Route::post('/logout',[AuthController::class,'logout'])->name('logout');
