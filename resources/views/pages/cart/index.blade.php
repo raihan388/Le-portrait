@@ -77,7 +77,7 @@
                 {{-- Total & Checkout --}}
                 <div class="flex justify-between items-center px-6 py-4 bg-gray-50 border-t">
                     <p class="text-lg font-semibold">Total: Rp{{ number_format($total, 0, ',', '.') }}</p>
-                    <a href="#" class="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded-md">
+                    <a href="{{ route('checkout') }}" class="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded-md">
                         Checkout
                     </a>
                 </div>

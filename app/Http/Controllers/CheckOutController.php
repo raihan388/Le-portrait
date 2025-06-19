@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Checkout;
+use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,16 +12,13 @@ class CheckOutController extends Controller
     // Tampilkan halaman checkout
     public function checkout()
     {
-        $cart = session('components.cart', []);
-        $cartItems = collect($cart);
+        // Ambil data keranjang dari session
+        $cartItems = Cart::with('product')
+        ->where('user_id', Auth::id())
+        ->get();
 
         if ($cartItems->isEmpty()) {
-            // Untuk testing, isi data dummy agar tidak kosong
-            $cartItems = collect([
-                ['product' => 'Kamera Canon', 'price' => 1500000, 'quantity' => 1, 'image' => 'canon.jpg'],
-                ['product' => 'Lensa Nikon', 'price' => 900000, 'quantity' => 2, 'image' => 'nikon.jpg']
-            ]);
-            session(['components.cart' => $cartItems->toArray()]);
+        return redirect()->route('cart.index')->with('error', 'Keranjang kamu kosong!');
         }
 
         return view('pages.pembeli.checkout', compact('cartItems'));

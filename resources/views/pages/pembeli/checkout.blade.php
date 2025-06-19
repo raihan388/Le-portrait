@@ -57,10 +57,12 @@
         <table class="w-full text-sm">
           <thead class="bg-gray-100">
             <tr>
-              <th class="p-3 text-left">Product</th>
-              <th class="p-3 text-left">Price</th>
+              <th class="p-3 text-center">No</th>
+              <th class="p-3 text-center">Images</th>
+              <th class="p-3 text-center">name </th>
+              <th class="p-3 text-center">Price</th>
               <th class="p-3 text-center">Quantity</th>
-              <th class="p-3 text-right">Subtotal</th>
+              <th class="p-3 text-center">Subtotal</th>
             </tr>
           </thead>
           <tbody>
@@ -68,20 +70,22 @@
               $subtotal = 0;
             @endphp
             @foreach ($cartItems as $item)
-  @php
-    $itemTotal = $item['price'] * $item['quantity'];
-    $subtotal += $itemTotal;
-  @endphp
-  <tr class="border-t border-gray-200">
-    <td class="p-4 flex items-center">
-      <img src="{{ asset('images/' . $item['image']) }}" alt="{{ $item['product'] }}" class="w-16 h-16 object-cover rounded mr-4 flex-shrink-0">
-      <div class="font-medium">{{ $item['product'] }}</div>
-    </td>
-    <td class="p-4 text-gray-600">Rp {{ number_format($item['price'], 0, ',', '.') }}</td>
-    <td class="p-4 text-center">{{ $item['quantity'] }}</td>
-    <td class="p-4 text-right font-medium">Rp {{ number_format($itemTotal, 0, ',', '.') }}</td>
-  </tr>
-@endforeach
+              @php
+                $itemTotal = $item->product->price * $item->quantity;
+                $images = is_array($item->product->images) ? $item->product->images : json_decode($product->images, true);
+                $subtotal += $itemTotal;
+              @endphp
+              <tr class="border-t border-gray-200">
+                <td class="p-4 text-center font-medium">PRD-00{{ $loop->iteration }}</td>
+                <td class="p-4 flex item-center">
+                  <img src="{{ asset('storage/' . $images[2]) }}" alt="{{ $item->product->id }}" class="w-16 h-16 object-cover rounded mr-4 flex-shrink-0">
+                </td>
+                <td class="p-4 text-center font-medium">{{ $item->product->name }}</td>
+                <td class="p-4 text-center text-gray-600">Rp {{ number_format($item->product->price, 0, ',', '.') }}</td>
+                <td class="p-4 text-center">{{ $item->quantity }}</td>
+                <td class="p-4 text-center font-medium">Rp {{ number_format($itemTotal, 0, ',', '.') }}</td>
+              </tr>
+            @endforeach
 
           </tbody>
         </table>
@@ -92,7 +96,6 @@
         <form action="{{ route('pages.pembeli.checkoutsubmit') }}" method="POST" class="space-y-6">
 
           <h3 class="text-lg font-semibold mt-4">Customer Information</h3>
-          <input name="email" type="email" placeholder="Email Address" class="w-full p-3 border border-gray-300 rounded-lg" required>
 
           <h3 class="text-lg font-semibold mt-4">Billing Details</h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -100,7 +103,6 @@
             <input name="last_name" type="text" placeholder="Last Name" class="p-3 border border-gray-300 rounded-lg" required>
           </div>
           <textarea name="address" placeholder="Address" class="w-full p-3 border border-gray-300 rounded-lg h-24 mt-2" required></textarea>
-          <input name="phone" type="tel" pattern="[0-9]*" inputmode="numeric" placeholder="Phone" class="w-full p-3 border border-gray-300 rounded-lg" required>
 
           <h3 class="text-lg font-semibold mt-4">Billing Notes</h3>
           <textarea name="notes" placeholder="Notes About Your Order" class="w-full p-3 border border-gray-300 rounded-lg h-24"></textarea>

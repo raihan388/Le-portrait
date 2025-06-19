@@ -34,7 +34,7 @@ Route::prefix('produk')->group(function () {
 });
   
 Route::prefix('checkout')->group(function () {
-    Route::get('/', [CheckOutController::class, 'checkout'])->name('pages.pembeli.checkout');
+    Route::get('/', [CheckOutController::class, 'checkout'])->name('checkout');
     Route::post('/proceed-to-checkout', [CheckOutController::class, 'proceedToCheckout'])->name('pages.pembeli.checkoutsubmit');
     Route::post('/checkoutsubmit', [CheckOutController::class, 'checkoutsubmit'])->name('pages.pembeli.checkoutsubmit');;
 });
