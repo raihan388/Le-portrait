@@ -57,10 +57,10 @@
         <table class="w-full text-sm">
           <thead class="bg-gray-100">
             <tr>
-              <th class="p-3 text-center">No</th>
-              <th class="p-3 text-center">Images</th>
-              <th class="p-3 text-center">name </th>
-              <th class="p-3 text-center">Price</th>
+              <th class="p-3 text-left">No</th>
+              <th class="p-3 text-left">Image</th>
+              <th class="p-3 text-left">Name Product</th>
+              <th class="p-3 text-left">Price</th>
               <th class="p-3 text-center">Quantity</th>
               <th class="p-3 text-center">Subtotal</th>
             </tr>
@@ -88,6 +88,25 @@
             @endforeach
 
           </tbody>
+  @php $subtotal = 0; @endphp
+  @foreach ($cartItems as $item)
+    @php
+      $itemTotal = $item->product->price * $item->quantity;
+      $images = is_array($item->product->images) ? $item->product->images : json_decode($item->product->images, true);
+      $subtotal += $itemTotal;
+    @endphp
+    <tr class="border-t border-gray-200">
+      <td class="p-4 text-center">PRD-00{{ $loop->iteration }}</td>
+      <td class="p-4">
+        <img src="{{ asset('products/' . $images[0]) }}" alt="{{ $item->product->id }}" class="w-16 h-16 object-cover rounded">
+      </td>
+      <td class="p-4 text-gray-900">{{ $item->product->name }}</td>
+      <td class="p-4 text-left">Rp {{ number_format($item->product->price, 0, ',', '.') }}</td>
+      <td class="p-4 text-center">{{ $item->quantity }}</td>
+      <td class="p-4 text-right font-medium">Rp {{ number_format($itemTotal, 0, ',', '.') }}</td>
+    </tr>
+  @endforeach
+</tbody>
         </table>
       </div>
 

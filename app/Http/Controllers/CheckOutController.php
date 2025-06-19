@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Checkout;
+use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +20,12 @@ class CheckOutController extends Controller
 
         if ($cartItems->isEmpty()) {
         return redirect()->route('cart.index')->with('error', 'Keranjang kamu kosong!');
+        $cartItems = Cart::with('product')
+            ->where('user_id', Auth::id())
+            ->get();
+
+        if ($cartItems->isEmpty()) {
+            return redirect()->route('cart.index')->with('error', 'Keranjang kamu kosong!');
         }
 
         return view('pages.pembeli.checkout', compact('cartItems'));
@@ -27,9 +34,9 @@ class CheckOutController extends Controller
     // Tampilkan halaman detail setelah checkout
     public function checkoutdetail()
     {
-        $cart = session('components.cart', []);
+        
+         $cart = session('checkout.items', []); 
 
-        // Ambil data pembeli dari session
         $checkoutData = [
             'email' => session('checkout.email'),
             'first_name' => session('checkout.first_name'),
@@ -42,10 +49,11 @@ class CheckOutController extends Controller
         return view('pages.pembeli.checkoutdetail', compact('cart', 'checkoutData'));
     }
 
-    // Tambah item ke keranjang
+    // Tambah item ke keranjang (session)
     public function addToCart(Request $request)
     {
         $validated = $request->validate([
+            'product_id' => 'required|integer',
             'product' => 'required|string',
             'price' => 'required|numeric',
             'quantity' => 'required|integer|min:1',
@@ -55,6 +63,7 @@ class CheckOutController extends Controller
         $cart = session()->get('components.cart', []);
 
         $cart[] = [
+            'product_id' => $validated['product_id'],
             'product' => $validated['product'],
             'price' => $validated['price'],
             'quantity' => $validated['quantity'],
@@ -66,7 +75,7 @@ class CheckOutController extends Controller
         return redirect()->route('pages.pembeli.checkout')->with('success', 'Produk berhasil ditambahkan ke keranjang.');
     }
 
-    // Submit checkout
+    // Proses submit checkout
     public function checkoutSubmit(Request $request)
     {
         $validated = $request->validate([
@@ -81,10 +90,9 @@ class CheckOutController extends Controller
         $cart = session('components.cart', []);
 
         if (empty($cart)) {
-            return redirect()->route('pages.pembeli.checkout')->with('error', 'Keranjang kosong, tidak bisa checkout.');
+            return redirect()->route('checkoutdetail')->with('error', 'Keranjang kosong, tidak bisa checkout.');
         }
 
-        // Simpan data input ke session
         session([
             'checkout.email' => $validated['email'],
             'checkout.first_name' => $validated['first_name'],
@@ -95,23 +103,46 @@ class CheckOutController extends Controller
         ]);
 
         try {
-            $total = 0;
-            foreach ($cart as $item) {
-                $total += $item['price'] * $item['quantity'];
-            }
+            // Hitung total
+            $total = collect($cart)->sum(function ($item) {
+                return $item['price'] * $item['quantity'];
+            });
 
-            // Simpan ke database
-            Checkout::create([
-                'items' => json_encode($cart),
-                'email' => $validated['email'],
-                'first_name' => $validated['first_name'],
-                'last_name' => $validated['last_name'],
-                'address' => $validated['address'],
-                'phone' => $validated['phone'],
+            // Buat order
+            $order = Order::create([
+                'user_id' => Auth::id(),
+                'grand_total' => $total,
+                'payment_method' => 'COD',
+                'payment_status' => 'pending',
+                'status' => 'new',
+                'currency' => 'IDR',
+                'shipping_amount' => 0,
+                'shipping_method' => 'standard',
                 'notes' => $validated['notes'] ?? '',
-                'total' => $total,
             ]);
 
+            // Simpan semua item
+            foreach ($cart as $item) {
+                $order->items()->create([
+                    'product_name' => $item['product'],
+                    'price' => $item['price'],
+                    'quantity' => $item['quantity'],
+                    'total' => $item['price'] * $item['quantity'],
+                ]);
+            }
+
+            
+            session([
+            'checkout.email' => $validated['email'],
+            'checkout.first_name' => $validated['first_name'],
+            'checkout.last_name' => $validated['last_name'],
+            'checkout.address' => $validated['address'],
+            'checkout.phone' => $validated['phone'],
+            'checkout.notes' => $validated['notes'] ?? '',
+            'checkout.items' => $cart, // SIMPAN DI SINI
+            ]);
+            
+            // Bersihkan keranjang session
             session()->forget('components.cart');
 
             return redirect()->route('checkoutdetail')->with('success', 'Checkout berhasil!');
@@ -120,7 +151,6 @@ class CheckOutController extends Controller
         }
     }
 
-    // Arahkan user ke halaman checkout jika sudah login
     public function proceedToCheckout(Request $request)
     {
         if (!Auth::check()) {
