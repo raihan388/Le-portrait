@@ -22,9 +22,13 @@ class ListProdukController extends Controller
     }
 
     public function detail($id) {
-        $data = $this->getData();
-        $product = collect($data)->firstWhere('id', $id);
-        return view('pages.detail_product', compact('product'));
+    $data = $this->getData();
+    $product = collect($data)->firstWhere('id', (int) $id);
+
+    if (!$product) {
+        abort(404, 'Produk tidak ditemukan');
     }
 
+    return view('pages.detail_product', compact('product'));
+}
 }

@@ -8,6 +8,42 @@
 </head>
 <body class="bg-gray-50 text-gray-900">
 @include('components.navbar')
+
+<!-- Progress Steps - Halaman Cart -->
+<div class="py-10 bg-white border-b">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="flex items-center justify-center">
+      <!-- Step 1: Cart (current) -->
+      <div class="flex items-center text-red-500">
+        <div class="flex items-center justify-center w-10 h-10 rounded-full bg-red-100 border-2 border-red-500">
+          <span class="text-red-500 font-medium">1</span>
+        </div>
+        <div class="ml-2 text-sm font-medium">Cart</div>
+      </div>
+
+      <div class="flex-auto border-t-2 border-red-500 mx-2"></div>
+
+      <!-- Step 2: Checkout -->
+      <div class="flex items-center text-gray-400">
+        <div class="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 border-2 border-gray-300">
+          <span class="text-gray-400 font-medium">2</span>
+        </div>
+        <div class="ml-2 text-sm font-medium">Checkout</div>
+      </div>
+
+      <div class="flex-auto border-t-2 border-gray-300 mx-2"></div>
+
+      <!-- Step 3: Details -->
+      <div class="flex items-center text-gray-400">
+        <div class="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 border-2 border-gray-300">
+          <span class="text-gray-400 font-medium">3</span>
+        </div>
+        <div class="ml-2 text-sm font-medium">Details</div>
+      </div>
+    </div>
+  </div>
+</div>
+
     <div class="max-w-6xl mx-auto py-10 px-4">
         <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
             🛒 Shopping Cart

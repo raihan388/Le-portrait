@@ -35,7 +35,8 @@ use App\Http\Controllers\OrderController;
 Route::prefix('checkout')->group(function () {
     Route::get('/', [CheckOutController::class, 'checkout'])->name('checkout');
     Route::post('/proceed-to-checkout', [CheckOutController::class, 'proceedToCheckout'])->name('pages.pembeli.checkoutsubmit');
-    Route::post('/checkoutsubmit', [CheckOutController::class, 'checkoutsubmit'])->name('pages.pembeli.checkoutsubmit');;
+    Route::post('/checkoutsubmit', [CheckOutController::class, 'checkoutsubmit'])->name('checkoutsubmit');;
+    Route::post('/checkout/direct', [CheckOutController::class, 'checkoutDirect'])->name('checkout.direct');
 });
 
 Route::middleware('auth')->group(function(){
@@ -54,25 +55,20 @@ Route::middleware('auth')->group(function () {
 
 Route::post('/logout',[AuthController::class,'logout'])->name('logout');
 
-Route::get('/checkoutdetail', [CheckOutController::class, 'checkoutdetail'])->name('checkoutdetail');
+
 
 Route::get('/search', [ProductController::class, 'search'])->name('search');
 Route::get('/order-history', [PageController::class, 'index'])->name('pages.order-history');
 Route::get('/search', [ProductController::class, 'search'])->name('produk.search');
 Route::get('/order',[OrderController::class, 'order'])->name('order');
+Route::prefix('cart')->group(function() {
+    Route::post('/add', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::delete('/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
+    Route::get('/', [CartController::class, 'showCart'])->name('cart.show');
+    Route::get('/count', [CartController::class, 'getCartCount'])->name('cart.count');
+    Route::put('/{id}', [CartController::class, 'update'])->name('cart.update');
+});
 
-Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
-Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
-Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
-Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
-
-
-
-
-
-
-Route::get('/cart', [CartController::class, 'cart'])->name('cart');
-Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::get('/profile', [UserController::class, 'profile'])->name('profile');
 
 Route::get('/order-history', [PageController::class, 'index'])->name('pages.order-history');
@@ -80,9 +76,5 @@ Route::get('/search', [ProductController::class, 'search'])->name('produk.search
 Route::post('/profile/update', [UserController::class, 'update'])->middleware('auth')->name('profile.update');
 
 Route::get('/order',[OrderController::class, 'order'])->name('order');
-Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
-Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
-Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
-Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
-Route::post('/checkoutdetail', [CheckoutController::class, 'checkoutdetail'])->name('checkoutdetail');
-
+Route::get('/checkoutdetail', [CheckoutController::class, 'checkoutdetail'])->name('checkoutdetail');
+Route::post('/checkout/confirm', [CheckOutController::class, 'checkoutConfirm'])->name('checkout.confirm');

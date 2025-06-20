@@ -8,16 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
+    protected $table = 'order';
     protected $fillable = [
-        'user_id',
-        'grand_total',
-        'payment_method',
-        'payment_status',
-        'status',
-        'currency',
-        'shipping_amount',
-        'shipping_method',
-        'notes',
+        'items', 
+        'email', 
+        'first_name', 
+        'last_name', 
+        'address', 
+        'phone', 
+        'notes', 
+        'total', 
     ];
 
     public function user()
@@ -30,4 +30,7 @@ class Order extends Model
     public function adresses() {
         return $this->hasMany(addres::class);
     }
+    protected $casts = [
+    'items' => 'array',
+    ];
 }

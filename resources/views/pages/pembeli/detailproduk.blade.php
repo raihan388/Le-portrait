@@ -121,36 +121,45 @@
 
                     <!-- Quantity and Add to Cart -->
                     <form action="{{ route('cart.add') }}" method="POST">
-                            @csrf
-                    <input type="hidden" name="product_id" value="{{ $item->id }}">
-                    <div class="space-y-4 pt-4 border-t">
-                        <div class="flex items-center gap-4">
-                            <label class="font-semibold text-gray-700">Jumlah:</label>
-                            <div class="flex items-center border rounded-lg">
-                                <button id="decreaseBtn" class="px-3 py-2 hover:bg-gray-100 transition-colors">-</button>
-                                <input id="quantityInput" name="quantity" type="number" value="1" min="1" max="10" class="w-16 text-center py-2 border-x">
-                                <button id="increaseBtn" class="px-3 py-2 hover:bg-gray-100 transition-colors">+</button>
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $item->id }}">
+                        <div class="space-y-4 pt-4 border-t">
+                            <div class="flex items-center gap-4">
+                                <label class="font-semibold text-gray-700">Jumlah:</label>
+                                <div class="flex items-center border rounded-lg">
+                                    <button id="decreaseBtn" type="button" class="px-3 py-2 hover:bg-gray-100 transition-colors">-</button>
+                                    <input id="quantityInput" name="quantity" type="number" value="1" min="1" max="10" class="w-16 text-center py-2 border-x">
+                                    <button id="increaseBtn" type="button" class="px-3 py-2 hover:bg-gray-100 transition-colors">+</button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="flex gap-4">    
-                                <button  type="submit" class="w-full  bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
+                            <div class="flex gap-4">    
+                                <button type="submit" class="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5 7m0 0h5.5m-5.5 0v2a1 1 0 001 1h5.5a1 1 0 001-1v-2"></path>
                                     </svg>
                                     ADD TO CART
                                 </button>
-                            </form>
+                            </div>
                         </div>
-                        <div class="flex gap-4">
-                            <button id="checkoutBtn" class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
-                                <a href="/checkout" class="flex items-center gap-2">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5 7m0 0h5.5m-5.5 0v2a1 1 0 001 1h5.5a1 1 0 001-1v-2"></path>
-                                    </svg>
-                                    CHECKOUT
-                                </a>
+                    </form>
+                    
+                    <div class="flex gap-4">
+                        <form action="{{ route('checkout.direct') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <div class="flex items-center mb-4">
+                        <label for="quantity" class="mr-2">Quantity:</label>
+                        <input type="number" id="quantity" name="quantity" value="1" min="1" 
+                        class="w-20 px-3 py-2 border rounded">
+                         </div>
+
+                            <button type="submit" class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5 7m0 0h5.5m-5.5 0v2a1 1 0 001 1h5.5a1 1 0 001-1v-2"></path>
+                                </svg>
+                                CHECKOUT
                             </button>
-                        </div>
+                        </form>
                     </div>
                 </div>
                 @endforeach
@@ -207,12 +216,14 @@
         const quantityInput = document.getElementById('quantityInput');
         const decreaseBtn = document.getElementById('decreaseBtn');
         const increaseBtn = document.getElementById('increaseBtn');
+        const checkoutQuantity = document.getElementById('checkoutQuantity');
 
         decreaseBtn.addEventListener('click', function(e) {
             e.preventDefault();
             const currentValue = parseInt(quantityInput.value);
             if (currentValue > 1) {
                 quantityInput.value = currentValue - 1;
+                checkoutQuantity.value = currentValue - 1;
             }
         });
 
@@ -221,57 +232,34 @@
             const currentValue = parseInt(quantityInput.value);
             if (currentValue < 10) {
                 quantityInput.value = currentValue + 1;
+                checkoutQuantity.value = currentValue + 1;
             }
         });
 
-        // Validate quantity input
+        // Sync quantity between forms
         quantityInput.addEventListener('input', function() {
             let value = parseInt(quantityInput.value);
             if (isNaN(value) || value < 1) {
                 quantityInput.value = 1;
+                value = 1;
             } else if (value > 10) {
                 quantityInput.value = 10;
+                value = 10;
             }
+            checkoutQuantity.value = value;
         });
 
-        // Add to cart functionality
-        const addToCartBtn = document.getElementById('addToCartBtn');
+        // Success Modal functionality
         const successModal = document.getElementById('successModal');
         const closeModal = document.getElementById('closeModal');
 
-        addToCartBtn.addEventListener('click', () => {
-            // Add loading state
-            addToCartBtn.disabled = true;
-            addToCartBtn.innerHTML = `
-                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Adding...
-            `;
-
-            // Simulate API call
-            setTimeout(() => {
-                // Reset button
-                addToCartBtn.disabled = false;
-                addToCartBtn.innerHTML = `
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5 7m0 0h5.5m-5.5 0v2a1 1 0 001 1h5.5a1 1 0 001-1v-2"></path>
-                    </svg>
-                    ADD TO CART
-                `;
-                
-                // Show success modal
-                successModal.classList.remove('hidden');
-                successModal.classList.add('flex');
-            }, 1000);
-        });
-
         // Close modal functionality
-        closeModal.addEventListener('click', () => {
-            successModal.classList.add('hidden');
-            successModal.classList.remove('flex');
-        });
+        if (closeModal) {
+            closeModal.addEventListener('click', () => {
+                successModal.classList.add('hidden');
+                successModal.classList.remove('flex');
+            });
+        }
 
         // Close modal when clicking outside
         successModal.addEventListener('click', (e) => {
@@ -291,6 +279,10 @@
             
             // You can update a total price display here if needed
             console.log(`Total: ${formatPrice(totalPrice)} for ${quantity} item(s)`);
+        }
+
+        function formatPrice(price) {
+            return 'Rp ' + price.toLocaleString('id-ID');
         }
     </script>
 </body>

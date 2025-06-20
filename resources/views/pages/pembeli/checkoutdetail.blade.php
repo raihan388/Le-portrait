@@ -1,71 +1,170 @@
-<!DOCTYPE html>
-<html lang="en" class="h-full">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Checkout Detail</title>
-    <script src="{{ asset('styles/tailwindcss3.4.1.js') }}"></script>
-</head>
-
 @extends('layout.main')
 
 @section('content')
-<div class="container mx-auto px-4 py-6 max-w-4xl">
-    <h2 class="text-3xl font-bold text-gray-800 mb-6 border-b pb-2">Checkout Details</h2>
 
-    {{-- Informasi Pembeli --}}
-    @if(!empty($checkoutData))
-    <div class="bg-white shadow-md rounded-lg p-6 mb-8 border border-gray-200">
-        <h3 class="text-xl font-semibold text-gray-700 mb-4">Customer Information</h3>
-        <div class="space-y-2 text-gray-600">
-            <p><span class="font-medium">Nama:</span> {{ $checkoutData['first_name'] ?? '-' }} {{ $checkoutData['last_name'] ?? '' }}</p>
-            <p><span class="font-medium">Email:</span> {{ $checkoutData['email'] ?? '-' }}</p>
-            <p><span class="font-medium">Alamat:</span> {{ $checkoutData['address'] ?? '-' }}</p>
-            <p><span class="font-medium">Telepon:</span> {{ $checkoutData['phone'] ?? '-' }}</p>
-            <p><span class="font-medium">Catatan:</span> {{ $checkoutData['notes'] ?? '-' }}</p>
-        </div>
+<!-- Progress Steps -->
+<div class="mb-8">
+  <div class="flex items-center justify-center">
+    <!-- Step 1: Cart (done) -->
+    <div class="flex items-center text-red-500">
+      <div class="flex items-center justify-center w-10 h-10 rounded-full bg-red-500 border-2 border-red-500">
+        <i class="fa-solid fa-check text-white text-sm"></i>
+      </div>
+      <div class="ml-2 text-sm font-medium">Cart</div>
     </div>
-    @endif
 
-    {{-- Tabel Produk --}}
-    @if(count($cart) > 0)
-    <div class="bg-white shadow-md rounded-lg overflow-x-auto border border-gray-200">
-        <table class="table-auto w-full text-sm text-left text-gray-700">
-            <thead class="bg-gray-100 text-gray-800 uppercase">
-                <tr>
-                    <th class="px-4 py-3 border">Product</th>
-                    <th class="px-4 py-3 border text-right">Price</th>
-                    <th class="px-4 py-3 border text-center">Qty</th>
-                    <th class="px-4 py-3 border text-right">Subtotal</th>
-                </tr>
-            </thead>
-            <tbody class="bg-white">
-                @php $total = 0; @endphp
-                @foreach($cart as $item)
-                    @php 
-                        $subtotal = $item['price'] * $item['quantity']; 
-                        $total += $subtotal; 
-                    @endphp
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-4 py-2 border">{{ $item['product'] }}</td>
-                        <td class="px-4 py-2 border text-right">Rp{{ number_format($item['price'], 0, ',', '.') }}</td>
-                        <td class="px-4 py-2 border text-center">{{ $item['quantity'] }}</td>
-                        <td class="px-4 py-2 border text-right">Rp{{ number_format($subtotal, 0, ',', '.') }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-            <tfoot class="bg-gray-100 text-gray-800 font-semibold">
-                <tr>
-                    <td colspan="3" class="px-4 py-3 border text-right">Total</td>
-                    <td class="px-4 py-3 border text-right">Rp{{ number_format($total, 0, ',', '.') }}</td>
-                </tr>
-            </tfoot>
-        </table>
+    <div class="flex-auto border-t-2 border-red-500 mx-2"></div>
+
+    <!-- Step 2: Checkout (done) -->
+    <div class="flex items-center text-red-500">
+      <div class="flex items-center justify-center w-10 h-10 rounded-full bg-red-500 border-2 border-red-500">
+        <i class="fa-solid fa-check text-white text-sm"></i>
+      </div>
+      <div class="ml-2 text-sm font-medium">Checkout</div>
     </div>
-    @else
-        <div class="text-center text-red-600 font-semibold mt-4">
-            There are no items in your cart.
+
+    <div class="flex-auto border-t-2 border-red-500 mx-2"></div>
+
+    <!-- Step 3: Details (current) -->
+    <div class="flex items-center text-red-500">
+      <div class="flex items-center justify-center w-10 h-10 rounded-full bg-red-100 border-2 border-red-500">
+        <span class="text-red-500 font-medium">3</span>
+      </div>
+      <div class="ml-2 text-sm font-medium">Details</div>
+    </div>
+  </div>
+</div>
+
+<!-- Page Title -->
+<h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">Complete Your Order</h1>
+
+<div class="grid lg:grid-cols-3 gap-8">
+  <!-- LEFT COLUMN (ORDER ITEMS) -->
+  <div class="lg:col-span-2">
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-900">
+          <i class="fas fa-shopping-cart mr-2 text-red-600"></i>
+          Your Order ({{ count($cart) }} items)
+        </h2>
+      </div>
+
+      <div class="p-6">
+        @php $total = 0; @endphp
+        @foreach($cart as $index => $item)
+          @php 
+            $subtotal = $item['price'] * $item['quantity']; 
+            $total += $subtotal; 
+          @endphp
+          <div class="flex items-start mb-6 pb-6 border-b border-gray-100 last:border-0 last:mb-0 last:pb-0">
+            <div class="flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden bg-gray-100 mr-4">
+              @if($item['image'])
+                <img src="{{ asset('storage/' . $item['image']) }}" alt="{{ $item['product'] }}" class="w-full h-full object-cover">
+              @else
+                <div class="w-full h-full flex items-center justify-center text-gray-400">
+                  <i class="fas fa-camera text-xl"></i>
+                </div>
+              @endif
+            </div>
+            <div class="flex-1">
+              <h3 class="text-lg font-medium text-gray-900">{{ $item['product'] }}</h3>
+              <p class="text-sm text-gray-500 mt-1">SKU: {{ 'PRD-' . str_pad($index + 1, 3, '0', STR_PAD_LEFT) }}</p>
+
+              <div class="mt-4 flex justify-between items-center">
+                <div class="flex items-center">
+                  <span class="text-sm text-gray-500 mr-2">Qty:</span>
+                  <span class="px-3 py-1 bg-gray-100 rounded-md text-sm font-medium">
+                    {{ $item['quantity'] }}
+                  </span>
+                </div>
+                <div class="text-right">
+                  <p class="text-base text-gray-500">Rp{{ number_format($item['price'], 0, ',', '.') }} each</p>
+                  <p class="text-lg font-semibold text-red-500">
+                    Rp{{ number_format($subtotal, 0, ',', '.') }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        @endforeach
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT COLUMN (CUSTOMER INFO + PAYMENT) -->
+  <div class="space-y-6">
+    <!-- Customer Information -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-900">
+          <i class="fas fa-user-circle mr-2 text-red-600"></i>
+          Customer Information
+        </h2>
+      </div>
+      <div class="p-6 space-y-4">
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Email</p>
+          <p class="text-gray-900 font-medium">{{ $checkoutData['email'] }}</p>
         </div>
-    @endif
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Full Name</p>
+          <p class="text-gray-900 font-medium">
+            {{ $checkoutData['first_name'] }} {{ $checkoutData['last_name'] }}
+          </p>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Address</p>
+          <p class="text-gray-900 font-medium">{{ $checkoutData['address'] }}</p>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Phone</p>
+          <p class="text-gray-900 font-medium">{{ $checkoutData['phone'] }}</p>
+        </div>
+        @if($checkoutData['notes'])
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Notes</p>
+          <p class="text-gray-900 italic">{{ $checkoutData['notes'] }}</p>
+        </div>
+        @endif
+      </div>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-900">
+          <i class="fas fa-receipt mr-2 text-red-600"></i>
+          Order Summary
+        </h2>
+      </div>
+      <div class="p-6 space-y-3">
+        <div class="flex justify-between">
+          <span class="text-gray-600">Subtotal</span>
+          <span class="font-medium">Rp{{ number_format($total, 0, ',', '.') }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-600">Shipping</span>
+          <span class="font-medium">Free</span>
+        </div>
+        <div class="border-t border-gray-200 pt-3 flex justify-between">
+          <span class="text-lg font-semibold">Total</span>
+          <span class="text-lg font-bold text-red-500">
+            Rp{{ number_format($total, 0, ',', '.') }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Confirm Button -->
+    <form action="{{ route('checkout.confirm') }}" method="POST">
+      @csrf
+      <button type="submit" class="w-full mt-6 px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white font-medium rounded-lg shadow-md hover:from-red-600 hover:to-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 transition-all flex items-center justify-center">
+        Confirm & Pay Now
+      </button>
+      <div class="text-center text-xs text-gray-500 mt-4">
+        <p>By completing your purchase, you agree to our <a href="#" class="text-red-500 hover:underline">Terms of Service</a></p>
+      </div>
+    </form>
+  </div>
 </div>
 @endsection

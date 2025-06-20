@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('checkout', function (Blueprint $table) {
+        Schema::create('order', function (Blueprint $table) {
             $table->id();
             
             // Data keranjang sebagai JSON
@@ -29,6 +29,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('checkout');
+        Schema::dropIfExists('order');
     }
 };

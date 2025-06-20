@@ -27,7 +27,7 @@ class CheckoutDetailController extends Controller
 
         // Jika data session kosong, redirect ke halaman checkout
         if (empty($cart) || empty($checkoutData['email'])) {
-            return redirect()->route('pages.pembeli.checkout')->with('error', 'Data checkout tidak tersedia.');
+            return redirect()->route('checkout')->with('error', 'Data checkout tidak tersedia.');
         }
 
         // Tampilkan view dengan data pembeli dan produk yang dibeli
