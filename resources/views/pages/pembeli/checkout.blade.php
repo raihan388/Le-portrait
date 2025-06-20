@@ -46,6 +46,7 @@
 
 <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
 
+<<<<<<< HEAD
   <!-- Progress Steps -->
   <div class="mb-8">
     <div class="flex items-center justify-center">
@@ -54,6 +55,69 @@
           <span class="text-red-500 font-medium">1</span>
         </div>
         <div class="ml-2 text-sm font-medium">Cart</div>
+=======
+  <!-- Main Checkout Content -->
+  <main class="flex-grow max-w-7xl mx-auto px-4 py-6 w-full">
+    <!-- Cart -->
+    <h2 class="text-xl font-semibold mb-4">Checkout</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      <!-- Cart Items -->
+      <div class="md:col-span-2 border border-gray-300 bg-white rounded-lg shadow-sm">
+        <table class="w-full text-sm">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="p-3 text-left">No</th>
+              <th class="p-3 text-left">Image</th>
+              <th class="p-3 text-left">Name Product</th>
+              <th class="p-3 text-left">Price</th>
+              <th class="p-3 text-center">Quantity</th>
+              <th class="p-3 text-center">Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            @php
+              $subtotal = 0;
+            @endphp
+            @foreach ($cartItems as $item)
+              @php
+                $itemTotal = $item->product->price * $item->quantity;
+                $images = is_array($item->product->images) ? $item->product->images : json_decode($product->images, true);
+                $subtotal += $itemTotal;
+              @endphp
+              <tr class="border-t border-gray-200">
+                <td class="p-4 text-center font-medium">PRD-00{{ $loop->iteration }}</td>
+                <td class="p-4 flex item-center">
+                  <img src="{{ asset('storage/' . $images[2]) }}" alt="{{ $item->product->id }}" class="w-16 h-16 object-cover rounded mr-4 flex-shrink-0">
+                </td>
+                <td class="p-4 text-center font-medium">{{ $item->product->name }}</td>
+                <td class="p-4 text-center text-gray-600">Rp {{ number_format($item->product->price, 0, ',', '.') }}</td>
+                <td class="p-4 text-center">{{ $item->quantity }}</td>
+                <td class="p-4 text-center font-medium">Rp {{ number_format($itemTotal, 0, ',', '.') }}</td>
+              </tr>
+            @endforeach
+
+          </tbody>
+  @php $subtotal = 0; @endphp
+  @foreach ($cartItems as $item)
+    @php
+      $itemTotal = $item->product->price * $item->quantity;
+      $images = is_array($item->product->images) ? $item->product->images : json_decode($item->product->images, true);
+      $subtotal += $itemTotal;
+    @endphp
+    <tr class="border-t border-gray-200">
+      <td class="p-4 text-center">PRD-00{{ $loop->iteration }}</td>
+      <td class="p-4">
+        <img src="{{ asset('products/' . $images[0]) }}" alt="{{ $item->product->id }}" class="w-16 h-16 object-cover rounded">
+      </td>
+      <td class="p-4 text-gray-900">{{ $item->product->name }}</td>
+      <td class="p-4 text-left">Rp {{ number_format($item->product->price, 0, ',', '.') }}</td>
+      <td class="p-4 text-center">{{ $item->quantity }}</td>
+      <td class="p-4 text-right font-medium">Rp {{ number_format($itemTotal, 0, ',', '.') }}</td>
+    </tr>
+  @endforeach
+</tbody>
+        </table>
+>>>>>>> a0582a418fb1998f3e1e477a9773efcc1efa6fcd
       </div>
       <div class="flex-auto border-t-2 border-red-500 mx-2"></div>
       <div class="flex items-center text-red-500">
@@ -124,6 +188,7 @@
       </div>
     </div>
 
+<<<<<<< HEAD
     <!-- Checkout Form -->
     <div class="space-y-6">
       <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden sticky top-6">
@@ -203,6 +268,30 @@
               <i class="fas fa-receipt mr-2 text-red-600"></i>
               Order Summary
             </h2>
+=======
+          <h3 class="text-lg font-semibold mt-4">Customer Information</h3>
+
+          <h3 class="text-lg font-semibold mt-4">Billing Details</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input name="first_name" type="text" placeholder="First Name" class="p-3 border border-gray-300 rounded-lg" required>
+            <input name="last_name" type="text" placeholder="Last Name" class="p-3 border border-gray-300 rounded-lg" required>
+          </div>
+          <textarea name="address" placeholder="Address" class="w-full p-3 border border-gray-300 rounded-lg h-24 mt-2" required></textarea>
+
+          <h3 class="text-lg font-semibold mt-4">Billing Notes</h3>
+          <textarea name="notes" placeholder="Notes About Your Order" class="w-full p-3 border border-gray-300 rounded-lg h-24"></textarea>
+
+          @csrf
+
+          <h3 class="font-semibold border-b pb-2 text-lg">Payment Details</h3>
+          <div class="flex justify-between">
+            <span>Subtotal</span>
+            <span class="font-medium">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+          </div>
+          <div class="flex justify-between font-bold text-lg border-t pt-2">
+            <span>Total</span>
+            <span>Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+>>>>>>> a0582a418fb1998f3e1e477a9773efcc1efa6fcd
           </div>
 
           <div class="p-6 space-y-4">
