@@ -25,18 +25,6 @@ class CheckOutController extends Controller
         return redirect()->route('cart.show')->with('error', 'Keranjang kamu kosong!');
     }
 
-    // Pastikan quantity di cart sesuai dengan yang diinput
-    if ($request->has('product_id') && $request->has('quantity')) {
-        $productId = $request->product_id;
-        $quantity = $request->quantity;
-        
-        $cartItem = $cartItems->where('product_id', $productId)->first();
-        if ($cartItem) {
-            $cartItem->update(['quantity' => $quantity]);
-            $cartItem->refresh(); // Refresh data dari database
-        }
-    }
-
     // Prepare checkout items untuk session
     $checkoutItems = $cartItems->map(function($item) {
         $images = is_array($item->product->images) ? $item->product->images : json_decode($item->product->images, true);
@@ -51,47 +39,29 @@ class CheckOutController extends Controller
         ];
     })->toArray();
 
-        $user = Auth::user();
+    $user = Auth::user();
 
-        // Simpan data ke session
-        session()->put([
-            'checkout.items' => $checkoutItems,
-            'checkout.email' => $user->email ?? '',
-            'checkout.first_name' => $user->first_name ?? $user->name ?? '',
-            'checkout.last_name' => $user->last_name ?? '',
-            'checkout.address' => $user->address ?? '',
-            'checkout.phone' => $user->phone ?? '',
-            'checkout.notes' => '',
-            'checkout_from_cart' => true,
-        ]);
+    // Simpan data ke session TANPA first_name dan last_name
+    session()->put([
+        'checkout.items' => $checkoutItems,
+        'checkout.email' => $user->email ?? '',
+        'checkout.address' => $user->address ?? '',
+        'checkout.phone' => $user->phone ?? '',
+        'checkout.notes' => '',
+        'checkout_from_cart' => true,
+    ]);
 
-        \Log::info('Checkout Form - Session saved:', [
-            'items_count' => count($checkoutItems),
-            'from_cart' => true,
-            'session_id' => session()->getId()
-        ]);
-
-        // Return view checkout form (bukan redirect)
-        return view('pages.pembeli.checkout', [
-            'cart' => $checkoutItems,
-            'checkoutData' => [
-                'email' => session('checkout.email', ''),
-                'first_name' => session('checkout.first_name', ''),
-                'last_name' => session('checkout.last_name', ''),
-                'address' => session('checkout.address', ''),
-                'phone' => session('checkout.phone', ''),
-                'notes' => session('checkout.notes', ''),
-            ]
+    return view('pages.pembeli.checkout', [
+        'cart' => $checkoutItems,
+        'checkoutData' => [
+            'email' => session('checkout.email', ''),
+            'address' => session('checkout.address', ''),
+            'phone' => session('checkout.phone', ''),
+            'notes' => session('checkout.notes', ''),
         ]
-        ,compact('cartItems'));
-    }
+    ], compact('cartItems'));
+}
 
-    /**
-     * Direct checkout dari detail produk
-     */
-    /**
- * Direct checkout dari detail produk
- */
 public function checkoutDirect(Request $request)
 {
     $request->validate([
@@ -126,10 +96,6 @@ public function checkoutDirect(Request $request)
     return redirect()->route('checkout');
 }
 
-    /**
-     * Step 2: Submit Form Checkout → Update Session → Redirect ke Detail
-     * Route: POST /checkout/submit
-     */
     public function checkoutSubmit(Request $request)
     {
         \Log::info('Checkout Submit - Request Data:', $request->all());
@@ -202,10 +168,6 @@ public function checkoutDirect(Request $request)
         return view('pages.pembeli.checkoutdetail', compact('cart', 'checkoutData'));
     }
 
-    /**
-     * Step 4: Konfirmasi Pesanan - Proses Final Order
-     * Route: POST /checkout/confirm
-     */
     public function checkoutConfirm(Request $request)
     {
         \Log::info('Checkout Confirm - Processing final order');
@@ -289,7 +251,7 @@ public function checkoutDirect(Request $request)
 
             \Log::info('Checkout successful for order: ' . $order->id);
 
-            return redirect()->route('cart.show')
+            return redirect()->route('checkout')
                 ->with('success', 'Pesanan berhasil dikonfirmasi! Order ID: ' . $order->id);
 
         } catch (\Exception $e) {
