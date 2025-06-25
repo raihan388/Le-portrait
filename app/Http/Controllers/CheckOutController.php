@@ -25,8 +25,6 @@ class CheckOutController extends Controller
 
         return view('pages.pembeli.checkout', compact('cartItems'));
     }
-
-<<<<<<< Updated upstream
     // Tampilkan halaman detail setelah checkout
     public function checkoutdetail()
     {
@@ -46,7 +44,6 @@ class CheckOutController extends Controller
     }
 
     // Tambah item ke keranjang
-=======
     public function checkoutdetail()
     {
     // ambil data dari session jika perlu
@@ -61,7 +58,6 @@ class CheckOutController extends Controller
     }
 
     // Tambah item ke cart
->>>>>>> Stashed changes
     public function addToCart(Request $request)
     {
         $validated = $request->validate([

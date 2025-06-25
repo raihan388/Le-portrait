@@ -86,3 +86,4 @@ Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
 Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
 Route::post('/checkoutdetail', [CheckoutController::class, 'checkoutdetail'])->name('checkoutdetail');
 
+Route::get('/products/{category}/{brand}', [ProductController::class, 'filterByCategoryAndBrand'])->name('category.brand');
