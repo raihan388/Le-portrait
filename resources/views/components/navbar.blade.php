@@ -26,20 +26,35 @@
     @auth
     <div class="relative">
         <button id="userMenuToggle" class="flex items-center gap-2 hover:text-gray-600 transition-colors">
-            {{ Auth::user()->username }}
+            {{ Auth::user()->name }}
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
         </button>
 
         <div id="userMenuDropdown" class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg hidden z-50">
-            <a href="{{ route('profile') }}" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
-            <a href="{{ route('cart.show') }}" class="block px-4 py-2 hover:bg-gray-100">
-                Cart ({{ \App\Models\Cart::where('user_id', auth()->id())->count() }})
+            <a href="{{ route('profile') }}" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A9 9 0 1119.121 3.804 9 9 0 015.121 17.804z" />
+              </svg>
+              Profile
             </a>
+
+            <a href="{{ route('cart.show') }}" class="flex items-center gap-2 px-4 py-2 hover:bg-gray-100">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-2.5 7M7 13l2.5 7h5.5l2.5-7" />
+              </svg>
+              Cart ({{ \App\Models\Cart::where('user_id', auth()->id())->count() }})
+            </a>
+
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100">Logout</button>
+                <button type="submit" class="flex items-center gap-2 w-full text-left px-4 py-2 hover:bg-gray-100">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7" />
+                  </svg>
+                  Logout
+                </button>
             </form>
         </div>
     </div>

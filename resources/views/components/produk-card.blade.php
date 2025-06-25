@@ -52,10 +52,12 @@
                         <span class="text-3xl font-bold text-red-600">Rp {{ number_format($product->price, 0, ',', '.') }}</span>
                     </div>
 
-                    <form action="">
+                    <form action="{{ route('cart.add') }}" method="POST">
+                        @csrf
+                        <input  type="hidden" name="quantity" value="1">
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
                         <button 
-                        onclick="addToCart({{ $product->id }})"
+                        type="submit"
                         class="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5 7m0 0h5.5m-5.5 0v2a1 1 0 001 1h5.5a1 1 0 001-1v-2"></path>
