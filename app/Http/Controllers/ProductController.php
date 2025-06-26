@@ -44,7 +44,9 @@ class ProductController extends Controller
             'title' => "DSLR Camera",
             'description' => "Explore our collection of DSLR cameras, perfect for both beginners and professionals. Capture stunning images with advanced features and high-quality lenses."
         ]);
-        return view('pages.pembeli.dslr', compact('products','item'));
+        return view('pages.pembeli.dslr', compact('products','item'))
+    ->with('currentCategory', 'dslr');
+
     }
     public function mirrorless()
     {
@@ -55,7 +57,9 @@ class ProductController extends Controller
             'title' => "Mirrorless Camera",
             'description' => "Discover our range of mirrorless cameras, offering compact designs and exceptional image quality. Perfect for travel and everyday photography."
         ]);
-        return view('pages.pembeli.mirrorless', compact('products','item'));
+        return view('pages.pembeli.mirrorless', compact('products','item'))
+    ->with('currentCategory', 'mirrorless');
+
     }
 
     public function film()
@@ -67,7 +71,9 @@ class ProductController extends Controller
             'title' => "Film Camera",
             'description' => "Discover our range of mirrorless cameras, offering compact designs and exceptional image quality. Perfect for travel and everyday photography."
         ]);
-        return view('pages.pembeli.film', compact('products','item'));
+       return view('pages.pembeli.film', compact('products','item'))
+    ->with('currentCategory', 'film');
+
     }
     public function lenses()
     {
@@ -78,7 +84,9 @@ class ProductController extends Controller
             'title' => "Lenses Camera",
             'description' => "Discover our range of mirrorless cameras, offering compact designs and exceptional image quality. Perfect for travel and everyday photography."
         ]);
-        return view('pages.pembeli.lenses', compact('products','item'));
+        return view('pages.pembeli.lenses', compact('products','item'))
+    ->with('currentCategory', 'lenses');
+
     }
 
     public function flash()
@@ -90,7 +98,9 @@ class ProductController extends Controller
             'title' => "Flash Camera",
             'description' => "Discover our range of mirrorless cameras, offering compact designs and exceptional image quality. Perfect for travel and everyday photography."
         ]);
-        return view('pages.pembeli.flash', compact('products','item'));
+        return view('pages.pembeli.flash', compact('products','item'))
+    ->with('currentCategory', 'flash');
+
     }
     public function tripods()
     {
@@ -101,7 +111,29 @@ class ProductController extends Controller
             'title' => "Tripods Camera",
             'description' => "Discover our range of mirrorless cameras, offering compact designs and exceptional image quality. Perfect for travel and everyday photography."
         ]);
-        return view('pages.pembeli.tripod', compact('products','item'));
+       return view('pages.pembeli.tripods', compact('products','item'))
+    ->with('currentCategory', 'tripods');
+
     }
     
+    public function filterByCategoryAndBrand($category, $brand)
+{
+    $categoryFormatted = ucwords(str_replace('-', ' ', $category));
+
+    $products = Product::whereHas('category', function ($query) use ($categoryFormatted) {
+        $query->where('name', 'LIKE', '%' . $categoryFormatted . '%');
+    })
+    ->whereHas('brand', function ($query) use ($brand) {
+        $query->where('name', $brand);
+    })
+    ->where('is_active', true)
+    ->get();
+
+    return view('pages.pembeli.filtered', [
+        'products' => $products,
+        'brand' => $brand,
+        'categoryFormatted' => $categoryFormatted,
+    ]);
+}
+
 }

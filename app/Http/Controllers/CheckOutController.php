@@ -24,80 +24,68 @@ class CheckOutController extends Controller
             ->where('user_id', Auth::id())
             ->get();
 
-        if ($cartItems->isEmpty()) {
-            return redirect()->route('cart.show')->with('error', 'Keranjang kamu kosong!');
-        }
-
-        // Prepare checkout items untuk session
-        $checkoutItems = $cartItems->map(function ($item) {
-            $images = is_array($item->product->images) ? $item->product->images : json_decode($item->product->images, true);
-            $firstImage = !empty($images) ? $images[0] : null;
-
-            return [
-                'product_id' => $item->product->id,
-                'product' => $item->product->name,
-                'price' => $item->product->price,
-                'quantity' => $item->quantity,
-                'image' => $firstImage,
-            ];
-        })->toArray();
-
-        $user = Auth::user();
-
-        // Simpan data ke session TANPA first_name dan last_name
-        session()->put([
-            'checkout.items' => $checkoutItems,
-            'checkout.email' => $user->email ?? '',
-            'checkout.address' => $user->address ?? '',
-            'checkout.phone' => $user->phone ?? '',
-            'checkout.notes' => '',
-            'checkout_from_cart' => true,
-        ]);
-
-        return view('pages.pembeli.checkout', [
-            'cart' => $checkoutItems,
-            'checkoutData' => [
-                'email' => session('checkout.email', ''),
-                'address' => session('checkout.address', ''),
-                'phone' => session('checkout.phone', ''),
-                'notes' => session('checkout.notes', ''),
-            ],
-            'cartItems' => $cartItems
-        ]);
+    if ($cartItems->isEmpty()) {
+        return redirect()->route('cart.show')->with('error', 'Keranjang kamu kosong!');
     }
 
-    public function checkoutDirect(Request $request)
+    // Prepare checkout items untuk session
+    $checkoutItems = $cartItems->map(function($item) {
+        $images = is_array($item->product->images) ? $item->product->images : json_decode($item->product->images, true);
+        $firstImage = !empty($images) ? $images[0] : null;
+
+        return [
+            'product_id' => $item->product->id,
+            'product' => $item->product->name,
+            'price' => $item->product->price,
+            'quantity' => $item->quantity,
+            'image' => $firstImage,
+        ];
+    })->toArray();
+
+    $user = Auth::user();
+
+    // Simpan data ke session TANPA first_name dan last_name
+    session()->put([
+        'checkout.items' => $checkoutItems,
+        'checkout.email' => $user->email ?? '',
+        'checkout.address' => $user->address ?? '',
+        'checkout.phone' => $user->phone ?? '',
+        'checkout.notes' => '',
+        'checkout_from_cart' => true,
+    ]);
+
+    return view('pages.pembeli.checkout', [
+        'cart' => $checkoutItems,
+        'checkoutData' => [
+            'email' => session('checkout.email', ''),
+            'address' => session('checkout.address', ''),
+            'phone' => session('checkout.phone', ''),
+            'notes' => session('checkout.notes', ''),
+        ]
+    ], compact('cartItems'));
+}
+
+    public function addToCart(Request $request)
     {
-        $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'quantity' => 'required|integer|min:1'
+        $validated = $request->validate([
+            'product' => 'required|string',
+            'price' => 'required|numeric',
+            'quantity' => 'required|integer|min:1',
+            'image' => 'required|string',
         ]);
 
-        $product = Product::findOrFail($request->product_id);
-        $quantity = max(1, (int) $request->quantity);
+        $cart = session()->get('components.cart', []);
 
-        // Periksa apakah produk sudah ada di cart
-        $existingCartItem = Cart::where('user_id', Auth::id())
-            ->where('product_id', $product->id)
-            ->first();
+        $cart[] = [
+            'product' => $validated['product'],
+            'price' => $validated['price'],
+            'quantity' => $validated['quantity'],
+            'image' => $validated['image'],
+        ];
 
-        // Jika produk sudah ada di cart, update quantity
-        if ($existingCartItem) {
-            $existingCartItem->update([
-                'quantity' => $quantity
-            ]);
-        }
-        // Jika belum ada, tambahkan ke cart
-        else {
-            Cart::create([
-                'user_id' => Auth::id(),
-                'product_id' => $product->id,
-                'quantity' => $quantity
-            ]);
-        }
+        session(['components.cart' => $cart]);
 
-        // Redirect ke checkout biasa (bukan langsung ke session)
-        return redirect()->route('checkout');
+        return redirect()->route('pages.pembeli.checkout')->with('success', 'Produk berhasil ditambahkan ke keranjang.');
     }
 
     public function checkoutSubmit(Request $request)

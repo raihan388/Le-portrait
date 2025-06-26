@@ -9,18 +9,17 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-   public function up(): void
+   public function up()
 {
     Schema::table('users', function (Blueprint $table) {
-        $table->string('username')->after('id')->nullable(); // atau ->unique() kalau perlu
+        $table->string('profile_image')->nullable();
     });
 }
 
-public function down(): void
+public function down()
 {
     Schema::table('users', function (Blueprint $table) {
-        $table->dropColumn('username');
+        $table->dropColumn('profile_image');
     });
 }
-
 };
