@@ -10,6 +10,7 @@ class UserController extends Controller
 {
 
     public function profile()
+
     {
         $user = Auth::user();
         $cartItems = collect(session('cart', []));
