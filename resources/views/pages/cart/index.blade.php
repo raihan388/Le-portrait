@@ -122,7 +122,7 @@
             {{-- Jika keranjang kosong --}}
             <div class="text-center py-10">
                 <h3 class="text-xl font-semibold text-gray-700">Your cart is still empty.</h3>
-                <a href="/products" class="mt-4 inline-block bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-md">
+                <a href="{{ route('homepage.show') }}" class="mt-4 inline-block bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-md">
                     Shop Now
                 </a>
             </div>

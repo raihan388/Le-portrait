@@ -20,12 +20,12 @@
         <div class="w-44 h-44 bg-gray-300 rounded-full mb-4 overflow-hidden">
           <img
             id="sidebarProfileImage"
-            src="{{ $user->profile_image && file_exists(public_path('storage/' . $user->profile_image)) ? asset('storage/' . $user->profile_image) : asset('images/default-avatar.jpg') }}"
+            src="{{ $user->profile_image_url }}"
             class="w-full h-full object-cover"
             alt="Foto Profil"
           >
         </div>
-        <h2 class="text-base font-medium mb-8">{{ $user->username ?? 'username' }}</h2>
+        <h2 class="text-base font-medium mb-8">{{ $user->name ?? 'name' }}</h2>
 
         <div class="flex flex-col space-y-4 w-44">
           <button type="submit" form="profileForm" class="w-full py-2 bg-gray-800 text-white text-sm rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">Edit profil</button>
@@ -40,11 +40,11 @@
 
         <hr class="mb-8">
 
-       @if (session('success'))
-    <div class="mb-4 text-green-600 font-medium">
-        {{ session('success') }}
-    </div>
-@endif
+      @if (session('success'))
+        <div class="mb-4 text-green-600 font-medium">
+            {{ session('success') }}
+        </div>
+      @endif
  
         <form id="profileForm" action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="flex">
           @csrf
@@ -52,7 +52,7 @@
           <!-- Form Input -->
           <div class="flex-1 pr-10">
             <div class="mb-6">
-              <input type="text" name="username" placeholder="Username *" value="{{ $user->username ?? '' }}" required class="w-full py-2 px-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+              <input type="text" name="name" placeholder="name *" value="{{ $user->name ?? '' }}" required class="w-full py-2 px-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
             </div>
 
             <div class="mb-6">

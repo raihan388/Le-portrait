@@ -39,13 +39,14 @@ Route::prefix('checkout')->group(function () {
     Route::post('/checkout/direct', [CheckOutController::class, 'checkoutDirect'])->name('checkout.direct');
 });
 
-Route::middleware('auth')->group(function(){
+Route::middleware(['auth','role:pembeli'])->group(function(){
     Route::get('/', [ProductController::class, 'show'])->name('homepage.show');
 });
 Route::middleware('guest')->group(function() {
     Route::get('/login', [AuthController::class, 'auth'])->name('login');
     Route::post('/login', [AuthController::class, 'submitLogin'])->name('login.submit');
     Route::post('/registrasi', [AuthController::class, 'submitRegistrasi'])->name('registrasi');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 Route::middleware('auth')->group(function () {
@@ -61,6 +62,7 @@ Route::get('/search', [ProductController::class, 'search'])->name('search');
 Route::get('/order-history', [PageController::class, 'index'])->name('pages.order-history');
 Route::get('/search', [ProductController::class, 'search'])->name('produk.search');
 Route::get('/order',[OrderController::class, 'order'])->name('order');
+
 Route::prefix('cart')->group(function() {
     Route::post('/add', [CartController::class, 'addToCart'])->name('cart.add');
     Route::delete('/{id}', [CartController::class, 'destroy'])->name('cart.destroy');

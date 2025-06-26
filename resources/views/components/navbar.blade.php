@@ -11,6 +11,7 @@
     
     <div class="flex-1 flex justify-center px-4">
       <form action="{{ route('produk.search') }}" method="GET" class="flex items-center">
+        @csrf
         <input type="text" 
         name="search" 
         placeholder="Search cameras, lenses, accessories..." 
@@ -22,12 +23,17 @@
     </form>
   </div>
     <!-- Navigation kanan -->
+    @php
+        $image = Auth::user()->profile_image 
+        ? asset('storage/' . Auth::user()->profile_image)
+        : asset('images/default.png');
+    @endphp
     <nav class="flex items-center gap-4 ml-auto">
     @auth
     <div class="relative">
         <button id="userMenuToggle" class="flex items-center gap-2 hover:text-gray-600 transition-colors">
-          <img src="{{ asset('storage/profile/' . Auth::user()->photo ?? 'default.png') }}"
-             alt="Avatar"
+          <img src="{{ $image }}"
+             alt="Avatar" 
              class="w-6 h-6 rounded-full object-cover border">
             {{ Auth::user()->name }}
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">

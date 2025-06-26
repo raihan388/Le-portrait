@@ -8,6 +8,7 @@ use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class CheckOutController extends Controller
 {
@@ -98,7 +99,7 @@ public function checkoutDirect(Request $request)
 
     public function checkoutSubmit(Request $request)
     {
-        \Log::info('Checkout Submit - Request Data:', $request->all());
+        Log::info('Checkout Submit - Request Data:', $request->all());
 
         $validated = $request->validate([
             'email' => 'required|email',
@@ -125,7 +126,7 @@ public function checkoutDirect(Request $request)
             'checkout.notes' => $validated['notes'] ?? '',
         ]);
 
-        \Log::info('Checkout Submit - Data updated in session, redirecting to detail');
+        Log::info('Checkout Submit - Data updated in session, redirecting to detail');
 
         // Redirect ke checkout detail (view)
         return redirect()->route('checkoutdetail');
@@ -137,7 +138,7 @@ public function checkoutDirect(Request $request)
      */
     public function checkoutdetail()
     {
-        \Log::info('Checkout Detail - Session check:', [
+        Log::info('Checkout Detail - Session check:', [
             'session_id' => session()->getId(),
             'has_items' => session()->has('checkout.items'),
             'items' => session('checkout.items', [])
@@ -146,7 +147,7 @@ public function checkoutDirect(Request $request)
         $cart = session('checkout.items', []);
         
         if (empty($cart)) {
-            \Log::warning('Checkout detail: No items in session');
+            Log::warning('Checkout detail: No items in session');
             return redirect()->route('cart.show')->with('error', 'Tidak ada item untuk checkout. Silakan tambahkan produk ke keranjang.');
         }
 
@@ -159,7 +160,7 @@ public function checkoutDirect(Request $request)
             'notes' => session('checkout.notes', ''),
         ];
 
-        \Log::info('Checkout Detail - Data prepared:', [
+        Log::info('Checkout Detail - Data prepared:', [
             'cart_items_count' => count($cart),
             'checkout_data' => $checkoutData
         ]);
@@ -170,7 +171,7 @@ public function checkoutDirect(Request $request)
 
     public function checkoutConfirm(Request $request)
     {
-        \Log::info('Checkout Confirm - Processing final order');
+        Log::info('Checkout Confirm - Processing final order');
 
         // Ambil data dari session
         $cartItems = collect(session('checkout.items', []));
@@ -201,7 +202,7 @@ public function checkoutDirect(Request $request)
                 return $item['price'] * $item['quantity'];
             });
 
-            \Log::info('Creating order with total: ' . $total);
+            Log::info('Creating order with total: ' . $total);
 
             // Buat order
             $order = Order::create([
@@ -217,7 +218,7 @@ public function checkoutDirect(Request $request)
                 'items' => json_encode($cartItems->toArray())
             ]);
 
-            \Log::info('Order created with ID: ' . $order->id);
+            Log::info('Order created with ID: ' . $order->id);
 
             // Simpan order items
             foreach ($cartItems as $item) {
@@ -234,7 +235,7 @@ public function checkoutDirect(Request $request)
             // Hapus cart items jika checkout dari cart
             if (session('checkout_from_cart', false)) {
                 $deletedCount = Cart::where('user_id', Auth::id())->delete();
-                \Log::info('Deleted cart items: ' . $deletedCount);
+                Log::info('Deleted cart items: ' . $deletedCount);
             }
 
             // Hapus session checkout
@@ -249,13 +250,13 @@ public function checkoutDirect(Request $request)
                 'checkout_from_cart'
             ]);
 
-            \Log::info('Checkout successful for order: ' . $order->id);
+            Log::info('Checkout successful for order: ' . $order->id);
 
             return redirect()->route('checkout')
                 ->with('success', 'Pesanan berhasil dikonfirmasi! Order ID: ' . $order->id);
 
         } catch (\Exception $e) {
-            \Log::error('Checkout Confirm Error: ' . $e->getMessage());
+            Log::error('Checkout Confirm Error: ' . $e->getMessage());
             return back()->with('error', 'Terjadi kesalahan saat memproses pesanan: ' . $e->getMessage());
         }
     }

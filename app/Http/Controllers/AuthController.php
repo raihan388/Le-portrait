@@ -18,7 +18,7 @@ class AuthController extends Controller
         'password_confirmation' => 'required|string|min:8',
         'phone' => 'nullable|string|max:15',
         ]);
-        
+
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;

@@ -142,25 +142,17 @@
                             </div>
                         </div>
                     </form>
-                    
-                    <div class="flex gap-4">
-                        <form action="{{ route('checkout.direct') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="product_id" value="{{ $product->id }}">
-                        <div class="flex items-center mb-4">
-                        <label for="quantity" class="mr-2">Quantity:</label>
-                        <input type="number" id="quantity" name="quantity" value="1" min="1" 
-                        class="w-20 px-3 py-2 border rounded">
-                         </div>
+                            <div class="flex gap-4">
+                                <a href="{{ route('checkout') }}">
 
-                            <button type="submit" class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5 7m0 0h5.5m-5.5 0v2a1 1 0 001 1h5.5a1 1 0 001-1v-2"></path>
-                                </svg>
-                                CHECKOUT
-                            </button>
-                        </form>
-                    </div>
+                                    <button  class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"> 
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5 7m0 0h5.5m-5.5 0v2a1 1 0 001 1h5.5a1 1 0 001-1v-2"></path>
+                                        </svg>
+                                        CHECKOUT
+                                    </button>
+                                </a>
+                            </div>
                 </div>
                 @endforeach
             </div>

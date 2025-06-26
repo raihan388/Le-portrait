@@ -90,7 +90,7 @@
               <label for="signup-confirm-password" class="block mb-2 font-medium text-gray-700">Confirm Password</label>
               <input type="password" id="signup-confirm-password" name="password_confirmation" placeholder="Confirm your password" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300" required>
             </div>
-            
+            <input type="hidden" name="role" value="pembeli">
             <div class="mt-8">
               <button type="submit" class="w-full py-3 px-6 bg-red-500 text-white font-bold rounded-md hover:bg-red-600 transition duration-300">Sign Up</button>
             </div>
