@@ -26,7 +26,7 @@
     @auth
     <div class="relative">
         <button id="userMenuToggle" class="flex items-center gap-2 hover:text-gray-600 transition-colors">
-          <img src="{{ asset('storage/profile/' . Auth::user()->photo ?? 'default.png') }}"
+          <img src="{{ asset('storage/' . Auth::user()->photo ?? 'default.png') }}"
              alt="Avatar"
              class="w-6 h-6 rounded-full object-cover border">
             {{ Auth::user()->name }}

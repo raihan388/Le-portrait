@@ -8,6 +8,14 @@ use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
+
+    public function profile()
+{
+    $user = Auth::user();
+    $cartItems = collect(session('cart', []));
+    return view('profile', compact('user', 'cartItems'));
+}
+
     public function update(Request $request)
     {
         $user = Auth::user();
@@ -39,7 +47,7 @@ class UserController extends Controller
         $user->phone    = $validated['phone'];
         $user->address  = $validated['address'];
         $user->save();
-
+          
         return redirect()->back()->with('success', 'Profil berhasil diperbarui.');
     }
 }

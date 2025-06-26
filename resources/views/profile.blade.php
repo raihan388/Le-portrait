@@ -46,7 +46,7 @@
     </div>
 @endif
  
-        <form id="profileForm" action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="flex">
+        <form id="profileForm" action="/profile/update" method="POST" enctype="multipart/form-data" class="flex">
           @csrf
 
           <!-- Form Input -->
