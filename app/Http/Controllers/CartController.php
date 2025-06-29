@@ -68,5 +68,29 @@ class CartController extends Controller
 
         return redirect()->back()->with('success', 'Item berhasil dihapus dari keranjang.');
     }
+
+    public function checkoutStep1(Request $request)
+{
+    $selectedIds = explode(',', $request->input('selected_items'));
+
+    if (empty($selectedIds)) {
+        return redirect()->route('cart.show')->with('error', 'Tidak ada item yang dipilih.');
+    }
+
+    $cartItems = Cart::with('product')
+        ->where('user_id', Auth::id())
+        ->whereIn('id', $selectedIds)
+        ->get();
+
+    if ($cartItems->isEmpty()) {
+        return redirect()->route('cart.show')->with('error', 'Item tidak ditemukan di cart.');
+    }
+
+    // Simpan ke session untuk halaman berikutnya (data form customer)
+    session(['checkout.items' => $cartItems->pluck('id')->toArray()]);
+
+    return view('pages.pembeli.checkout', compact('cartItems'));
+}
+
 }
 

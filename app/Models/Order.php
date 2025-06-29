@@ -10,9 +10,8 @@ class Order extends Model
     use HasFactory;
     protected $table = 'order';
     protected $fillable = [
-        'user_id',
-        'order_id',
-        'items',
+        'code_order',
+        //'items',
         'email',
         'first_name',
         'last_name',
@@ -20,7 +19,9 @@ class Order extends Model
         'phone',
         'notes',
         'total',
-        'midtrans_order_id', // ✅ Tambahkan ini!
+        'order_status', 
+        'payment_method',
+        'midtrans_order_id',
     ];
 
     public function user()
@@ -29,7 +30,7 @@ class Order extends Model
     }
     public function items()
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->hasMany(OrderItem::class)->with('product');
     }
     public function adresses()
     {
@@ -37,6 +38,6 @@ class Order extends Model
     }
     protected $casts = [
         'paid_at' => 'datetime',
-        'items' => 'array',
+        //'items' => 'array',
     ];
 }

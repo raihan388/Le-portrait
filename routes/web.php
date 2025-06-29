@@ -20,25 +20,25 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
-
+use Filament\Notifications\Notification;
+use App\Models\User;
 
 
 Route::prefix('produk')->group(function () {
-    Route::get('/dslr', [productController::class, 'dslr'])->name('produk.dslr');
-    Route::get('/mirrorless', [productController::class, 'mirrorless'])->name('produk.mirrorless');
-    Route::get('/film', [productController::class, 'film'])->name('produk.film');
-    Route::get('/lenses', [productController::class, 'lenses'])->name('produk.lenses');
-    Route::get('/flash', [productController::class, 'flash'])->name('produk.flash');
-    Route::get('/tripods', [productController::class, 'tripods'])->name('produk.tripods');
+    Route::get('/category/{categoryName}', [ProductController::class, 'showCategory'])->name('kategori.show');
+    Route::get('/brand/{brandName}', [ProductController::class, 'showBrand'])->name('brand.show');
+
     Route::get('/{slug}', [ProductController::class, 'detail'])->name('detailproduk');
 });
 
 Route::prefix('checkout')->group(function () {
-    Route::get('/', [CheckOutController::class, 'checkout'])->name('checkout');
+    Route::post('/', [CheckOutController::class, 'checkout'])->name('checkout');
     Route::post('/proceed-to-checkout', [CheckOutController::class, 'proceedToCheckout'])->name('pages.pembeli.checkoutsubmit');
     Route::post('/checkoutsubmit', [CheckOutController::class, 'checkoutsubmit'])->name('checkoutsubmit');;
     Route::post('/checkout/direct', [CheckOutController::class, 'checkoutDirect'])->name('checkout.direct');
 });
+
+Route::post('/checkout1', [CartController::class, 'checkoutStep1'])->name('checkout1');
 
 
 Route::middleware('auth')->group(function () {
@@ -61,7 +61,9 @@ Route::post('/logout',[AuthController::class,'logout'])->name('logout');
 
 
 Route::get('/search', [ProductController::class, 'search'])->name('search');
-Route::get('/order-history', [PageController::class, 'index'])->name('pages.order-history');
+
+Route::get('/order-history', [OrderController::class, 'history'])->name('pages.order-history');
+
 Route::get('/search', [ProductController::class, 'search'])->name('produk.search');
 Route::get('/order',[OrderController::class, 'order'])->name('order');
 
@@ -76,9 +78,15 @@ Route::prefix('cart')->group(function() {
 Route::get('/profile', [UserController::class, 'profile'])->name('profile');
 
 Route::get('/order-history', [PageController::class, 'index'])->name('pages.order-history');
+Route::get('/orders/{order}/receipt', [OrderController::class, 'receipt'])
+         ->name('orders.receipt');
+
 Route::get('/search', [ProductController::class, 'search'])->name('produk.search');
 Route::post('/profile/update', [UserController::class, 'update'])->middleware('auth')->name('profile.update');
 
 Route::get('/order',[OrderController::class, 'order'])->name('order');
 Route::get('/checkoutdetail', [CheckoutController::class, 'checkoutdetail'])->name('checkoutdetail');
 Route::post('/checkout/confirm', [CheckOutController::class, 'checkoutConfirm'])->name('checkout.confirm');
+
+Route::post('/get-snap-token', [PaymentController::class, 'getSnapToken'])->name('midtrans.token');
+Route::post('/midtrans/update-payment-status', [CheckOutController::class, 'updatePaymentStatus']);

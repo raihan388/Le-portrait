@@ -11,7 +11,7 @@
   @include('components.navbar')
 
   <!-- Hero Section -->
-  <div class="max-w-7xl mx-auto px-4 mt-5 mb-5">
+  <div class="max-w-7xl mx-auto px-4  mb-5">
     <div class="h-96 bg-gray-800 text-white rounded-lg flex items-center justify-center bg-center bg-cover" 
          style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/about.jpeg')">
       <div class="text-center p-5">

@@ -1,34 +1,115 @@
-@extends('layout.main')
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Receipt #{{ $order->code_order }}</title>
+    <style>
+        body {
+            background: #f4f4f4;
+            font-family: monospace, Courier, sans-serif;
+            font-size: 13px;
+            padding: 20px;
+        }
 
-@section('content')
-    <div class="modal show d-block" tabindex="-1">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content border-success">
-                <div class="modal-header bg-success text-white">
-                    <h5 class="modal-title">Struk Pembayaran</h5>
-                </div>
-                <div class="modal-body">
-                    <p><strong>Tanggal Transaksi:</strong> {{ $order->created_at->format('d M Y H:i') }}</p>
-                    <p><strong>Metode Pembayaran:</strong> Midtrans (Snap)</p>
-                    <p><strong>Alamat Pengiriman:</strong> {{ $order->address }}</p>
+        .receipt {
+            max-width: 360px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 15px 20px;
+            border: 1px solid #ccc;
+        }
 
-                    <hr>
-                    <h6>Rincian Pesanan:</h6>
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            {{ $item->product_name }} x{{ $item->quantity }}
-                            <span>Rp {{ number_format($item->unit_amount * $item->quantity, 0, ',', '.') }}</span>
-                        </li>
-                    </ul>
+        .text-center {
+            text-align: center;
+        }
 
-                    <div class="text-end">
-                        <strong>Total Transaksi: Rp {{ number_format($order->total, 0, ',', '.') }}</strong>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <a href="{{ route('home') }}" class="btn btn-primary">Kembali ke Beranda</a>
-                </div>
-            </div>
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .subtitle {
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .info, .summary, .items {
+            margin: 10px 0;
+        }
+
+        .info div, .summary div, .items div {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .dashed {
+            border-top: 1px dashed #ccc;
+            margin: 10px 0;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .red {
+            color: red;
+        }
+
+        .footer {
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="receipt">
+        <!-- Header -->
+        <div class="text-center">
+            <img src="public/images/logo.png" alt="" class="title">
+            <div class="subtitle">Le-Portrait</div>
+            <div>Politeknik Negeri Batam</div>
+        </div>
+
+        <!-- Order Info -->
+        <div class="info dashed">
+            <div><span>Date:</span> <span>{{ $order->created_at->format('d-m-Y H:i') }}</span></div>
+            <div><span>Time In:</span> <span>{{ $order->created_at->subMinutes(33)->format('d-m-Y H:i') }}</span></div>
+            <div><span>Code Order:</span> <span>{{ $order->code_order ?? '-' }}</span></div>
+            <div><span>Customer:</span> <span>{{ $order->first_name }} {{ $order->last_name }}</span></div>
+            <div><span>Transfer:</span> <span>{{ $order->payment_method }}</span></div>
+        </div>
+
+        <!-- Items -->
+        <div class="items">
+            
+        </div>
+
+        <div class="dashed"></div>
+
+        <!-- Summary -->
+        <div class="summary">
+            @foreach($order->items as $item)
+                <div><span>{{ $item->quantity >= 1 ? $item->quantity . 'x ' : '' }}{{ $item->product->name }}</span>
+                     <span>{{ number_format($item->product->price   , 0, ',', '.') }}</span></div>
+            @endforeach
+        </div>
+
+        <div class="dashed"></div>
+
+        <!-- Total -->
+        <div class="summary bold">
+            <div><span>Total : </span><span>{{ number_format($order->total, 0, ',', '.') }}</span></div>
+        </div>
+
+        <!-- Payment Status -->
+        <div class="footer">
+            -- {{ strtoupper($order->status == 'paid' ? 'PAID' : 'NOT PAID') }} --
         </div>
     </div>
-@endsection
+
+</body>
+</html>

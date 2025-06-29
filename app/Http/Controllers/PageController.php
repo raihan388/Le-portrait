@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\OrderItem;
 
 class PageController extends Controller
 {
@@ -84,22 +86,10 @@ class PageController extends Controller
 
     public function index()
     {
-        // Contoh data dummy (biasanya ini diambil dari database)
-        $orders = [
-                    [
-                        'name' => 'Canon EOS R6',
-                        'image' => 'path/to/canon.jpg',
-                        'quantity' => 1,
-                        'price' => 28500000
-                    ],
-                    [
-                        'name' => 'Lensa Canon 50mm',
-                        'image' => 'path/to/lensa.jpg',
-                        'quantity' => 1,
-                        'price' => 22750000
-                ]
-        ];
+       $orders = Order::where('email', Auth::user()->email)
+            ->latest()
+            ->paginate(10);
 
-        return view('pages.order-history', compact('orders'));
+        return view('pages.history', compact('orders'));
     }
 }

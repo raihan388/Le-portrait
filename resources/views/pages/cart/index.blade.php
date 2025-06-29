@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Keranjang Belanja</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Le-Portrait | Cart</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 text-gray-900">
@@ -54,6 +55,7 @@
                 <table class="min-w-full table-auto border-collapse">
                     <thead class="bg-gray-100">
                         <tr>
+                            <th class="px-4 py-3 text-center">Pilih</th>
                             <th class="px-4 py-3 text-center">No</th>
                             <th class="px-4 py-3 text-left">Image</th>
                             <th class="px-4 py-3 text-left">Product Name</th>
@@ -71,12 +73,11 @@
                                 $total += $subtotal;
                             @endphp
 
-                        <form action="{{ route('cart.update', $item->id) }}" method="POST" class="flex items-center gap-2">
-                            @csrf
-                            @method('PUT')
-
-                            <tr class="border-t">
-                                <td class="px-4 py-3 text-center">PRD-0{{ $loop->iteration }}</td>
+                            <tr class="border-t" data-id="{{ $item->id }}" data-price="{{ $item->price }}">
+                                <td class="px-4 py-3 text-center">
+                                    <input type="checkbox" class="select-item" value="{{ $item->id }}">
+                                </td>
+                                <td class="px-4 py-3 text-center">PRD-00{{ $loop->iteration }}</td>
                                 <td class="px-4 py-3 text-center">
                                     <img src="{{ asset('storage/' . ($item->product->images[0] ?? 'images/no-image.png')) }}"
                                          alt="{{ $item->product->name }}"
@@ -85,15 +86,18 @@
                                 <td class="px-4 py-3 font-medium">{{ $item->product->name }}</td>
                                 <td class="px-4 py-3">Rp{{ number_format($item->price, 0, ',', '.') }}</td>
                                 <td class="px-4 py-3">
-                                     <input type="number" name="quantity" min="1" value="{{ $item->quantity }}" class="w-16 border px-2 py-1 rounded text-center">
+                                     <input 
+                                        type="number" 
+                                        min="1"
+                                        value="{{ $item->quantity }}"
+                                        class="quantity-input w-16 border px-2 py-1 rounded text-center"
+                                        data-id="{{ $item->id }}"
+                                        name="quantity"
+                                    >
                                 </td>
-                                <td class="px-4 py-3 font-semibold">Rp{{ number_format($subtotal, 0, ',', '.') }}</td>
+                                <td class="px-4 py-3 font-semibold subtotal">Rp{{ number_format($subtotal, 0, ',', '.') }}</td>
                                 <td class="px-4 py-3">
-                                {{-- BUTTON AKSI --}}
-                                    <button type="submit"
-                                        class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded-md w-full">
-                                        Update
-                                    </button>
+                                {{-- BUTTON AKSI --}}   
                                  </form>
                                 {{-- Form delete tetap di luar form update --}}
                                 <form action="{{ route('cart.destroy', $item->id) }}" method="POST" class="w-full">
@@ -112,10 +116,14 @@
 
                 {{-- Total & Checkout --}}
                 <div class="flex justify-between items-center px-6 py-4 bg-gray-50 border-t">
-                    <p class="text-lg font-semibold">Total: Rp{{ number_format($total, 0, ',', '.') }}</p>
-                    <a href="{{ route('checkout') }}" class="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded-md">
+                    <p class="text-lg font-semibold">Total:<span id="total-amount">Rp{{ number_format($total, 0, ',', '.') }}</span></p>
+                    <form action="{{ route('checkout') }}" method="POST" id="checkout-form">
+                    @csrf
+                    <input type="hidden" name="selected_items" id="selected-items-input">
+                    <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded-md">
                         Checkout
-                    </a>
+                    </button>
+                </form>
                 </div>
             </div>
         @else
@@ -129,5 +137,86 @@
         @endif
     </div>
 @include('components.footer')
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const formatter = new Intl.NumberFormat("id-ID");
+
+    function updateTotal() {
+        let total = 0;
+        document.querySelectorAll('.select-item:checked').forEach(checkbox => {
+            const row = checkbox.closest('tr');
+            const q = parseInt(row.querySelector('.quantity-input').value) || 1;
+            const p = parseInt(row.dataset.price);
+            if (!isNaN(p)) total += q * p;
+        });
+        document.querySelector('#total-amount').textContent = 'Rp' + formatter.format(total);
+    }
+
+    // Ketika quantity berubah
+    document.querySelectorAll('.quantity-input').forEach(input => {
+        input.addEventListener('input', async (e) => {
+            const quantity = parseInt(e.target.value) || 1;
+            const row = e.target.closest('tr');
+            const price = parseInt(row.dataset.price);
+
+            if (isNaN(price)) {
+                console.error("Harga tidak ditemukan di row:", row);
+                return;
+            }
+
+            const subtotal = quantity * price;
+
+            // Update subtotal display
+            const subtotalCell = row.querySelector('.subtotal');
+            if (subtotalCell) {
+                subtotalCell.textContent = 'Rp' + formatter.format(subtotal);
+            }
+
+            const cartId = e.target.dataset.id;
+            if (!cartId) {
+                console.error("Cart ID tidak ditemukan!");
+                return;
+            }
+
+            try {
+                await fetch(`/cart/${cartId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    },
+                    body: JSON.stringify({ quantity })
+                });
+            } catch (err) {
+                console.error("Gagal mengirim update ke server:", err);
+            }
+
+            // Update total hanya berdasarkan item yang dicentang
+            updateTotal();
+        });
+    });
+
+    // Ketika checkbox dicentang/dilepas
+    document.querySelectorAll('.select-item').forEach(box => {
+        box.addEventListener('change', updateTotal);
+    });
+
+    // Handle form checkout
+    const checkoutForm = document.getElementById('checkout-form');
+    if (checkoutForm) {
+        checkoutForm.addEventListener('submit', function (e) {
+            const selectedIds = [...document.querySelectorAll('.select-item:checked')].map(cb => cb.value);
+            if (selectedIds.length === 0) {
+                e.preventDefault();
+                alert("Pilih setidaknya 1 produk untuk checkout.");
+                return;
+            }
+            document.getElementById('selected-items-input').value = selectedIds.join(',');
+        });
+    }
+});
+</script>
+
+
 </body>
 </html>

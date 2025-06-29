@@ -32,7 +32,65 @@ class SalesRecapResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('code_order')
+                    ->label('Code_Order')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('first_name')
+                    ->label('Customer')
+                    ->formatStateUsing(fn ($record) => $record->first_name . ' ' . $record->last_name)
+                    ->sortable(['first_name', 'last_name'])
+                    ->searchable(['first_name', 'last_name']),
+                Tables\Columns\TextColumn::make('address')
+                    ->label('Address')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('product')
+                    ->label('Product')
+                    ->getStateUsing(function ($record) {
+                        return $record->items->map(function ($item) {
+                            return $item->product->name ;
+                        })->implode(', ');
+                    })
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('category')
+                    ->label('Category')
+                    ->getStateUsing(function ($record) {
+                        return $record->items->map(function ($item) {
+                            return $item->product->category->name ;
+                        })->implode(', ');
+                    })
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('brand')
+                    ->label('Brand')
+                    ->getStateUsing(function ($record) {
+                        return $record->items->map(function ($item) {
+                            return $item->product->brand->name ;
+                        })->implode(', ');
+                    })
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('product')
+                    ->label('Quantity')
+                    ->getStateUsing(function ($record) {
+                        return $record->items->map(function ($item) {
+                            return  $item->quantity ;
+                        })->implode(', ');
+                    })
+                    ->sortable()
+                    ->alignCenter()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('total')
+                    ->label('Total')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Date')
+                    ->dateTime()
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 //

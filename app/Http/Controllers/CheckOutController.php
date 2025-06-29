@@ -11,6 +11,8 @@ use Midtrans\Snap;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\Models\User;
+use Filament\Notifications\Notification;
 
 class CheckOutController extends Controller
 {
@@ -18,11 +20,20 @@ class CheckOutController extends Controller
      * Step 1: Dari Cart ke Checkout Form
      * Route: /checkout - Menampilkan form checkout
      */
-    public function checkout(Request $request)
-    {
-        $cartItems = Cart::with('product')
-            ->where('user_id', Auth::id())
-            ->get();
+     public function checkout(Request $request)
+{
+
+     $selectedIds = explode(',', $request->input('selected_items'));
+
+    // Cek kalau tidak ada yang dipilih
+    if (empty($selectedIds)) {
+        return redirect()->route('cart.show')->with('error', 'Pilih item terlebih dahulu untuk checkout.');
+    }
+
+    $cartItems = Cart::with('product')
+        ->where('user_id', Auth::id())
+        ->whereIn('id', $selectedIds)
+        ->get();
 
     if ($cartItems->isEmpty()) {
         return redirect()->route('cart.show')->with('error', 'Keranjang kamu kosong!');
@@ -44,49 +55,33 @@ class CheckOutController extends Controller
 
     $user = Auth::user();
 
-    // Simpan data ke session TANPA first_name dan last_name
     session()->put([
-        'checkout.items' => $checkoutItems,
-        'checkout.email' => $user->email ?? '',
-        'checkout.address' => $user->address ?? '',
-        'checkout.phone' => $user->phone ?? '',
-        'checkout.notes' => '',
-        'checkout_from_cart' => true,
-    ]);
+    'checkout.email' => $user->email ?? '',
+    'checkout.first_name' => $user->first_name ?? '',
+    'checkout.last_name' => $user->last_name ?? '',
+    'checkout.address' => $user->address ?? '',
+    'checkout.phone' => $user->phone ?? '',
+    'checkout.notes' => '',
+]);
+
+    // Simpan data ke session TANPA first_name dan last_name
+    session()->put('checkout.items', $checkoutItems);
+    session()->put('checkout_from_cart', true);
 
     return view('pages.pembeli.checkout', [
         'cart' => $checkoutItems,
         'checkoutData' => [
-            'email' => session('checkout.email', ''),
-            'address' => session('checkout.address', ''),
-            'phone' => session('checkout.phone', ''),
-            'notes' => session('checkout.notes', ''),
-        ]
+            'email' => $user->email ?? '',
+            'first_name' => $user->first_name ?? '',
+            'last_name' => $user->last_name ?? '',
+            'address' => $user->address ?? '',
+            'phone' => $user->phone ?? '',
+            'notes' => '',
+        ],
+        'cartItems' => $cartItems,
     ], compact('cartItems'));
 }
 
-    public function addToCart(Request $request)
-    {
-        $validated = $request->validate([
-            'product' => 'required|string',
-            'price' => 'required|numeric',
-            'quantity' => 'required|integer|min:1',
-            'image' => 'required|string',
-        ]);
-
-        $cart = session()->get('components.cart', []);
-
-        $cart[] = [
-            'product' => $validated['product'],
-            'price' => $validated['price'],
-            'quantity' => $validated['quantity'],
-            'image' => $validated['image'],
-        ];
-
-        session(['components.cart' => $cart]);
-
-        return redirect()->route('pages.pembeli.checkout')->with('success', 'Produk berhasil ditambahkan ke keranjang.');
-    }
 
     public function checkoutSubmit(Request $request)
     {
@@ -136,7 +131,7 @@ class CheckOutController extends Controller
         ]);
 
         $cart = session('checkout.items', []);
-
+        
         if (empty($cart)) {
             Log::warning('Checkout detail: No items in session');
             return redirect()->route('cart.show')->with('error', 'Tidak ada item untuk checkout. Silakan tambahkan produk ke keranjang.');
@@ -155,6 +150,7 @@ class CheckOutController extends Controller
             'cart_items_count' => count($cart),
             'checkout_data' => $checkoutData
         ]);
+        
 
         // Return view detail checkout (review page)
         return view('pages.pembeli.checkoutdetail', compact('cart', 'checkoutData'));
@@ -165,6 +161,7 @@ class CheckOutController extends Controller
     {
         Log::info('Checkout Confirm - Processing final order');
 
+        // Ambil data dari session
         $cartItems = collect(session('checkout.items', []));
         $checkoutData = [
             'email' => session('checkout.email'),
@@ -174,23 +171,28 @@ class CheckOutController extends Controller
             'phone' => session('checkout.phone'),
             'notes' => session('checkout.notes', ''),
         ];
-
+        
         if ($cartItems->isEmpty() || empty($checkoutData['email'])) {
             return redirect()->route('cart.show')->with('error', 'Data checkout tidak lengkap.');
         }
 
         try {
+            // Validasi products masih exist
             foreach ($cartItems as $item) {
-                if (!Product::find($item['product_id'])) {
+                $product = Product::find($item['product_id']);
+                if (!$product) {
                     throw new \Exception("Produk dengan ID {$item['product_id']} tidak ditemukan");
                 }
             }
 
-            $total = $cartItems->sum(fn($item) => $item['price'] * $item['quantity']);
+            // Hitung total
+            $total = $cartItems->sum(function($item) {
+                return $item['price'] * $item['quantity'];
+            });
 
             Log::info('Creating order with total: ' . $total);
 
-            // Simpan order ke database
+            // Buat order
             $order = Order::create([
                 'user_id' => Auth::id(),
                 'email' => $checkoutData['email'],
@@ -200,28 +202,72 @@ class CheckOutController extends Controller
                 'phone' => $checkoutData['phone'],
                 'notes' => $checkoutData['notes'],
                 'total' => $total,
-                'status' => 'pending',
-                'items' => json_encode($cartItems->toArray())
+                'order_status' => 'pending',
+                // 'items' => json_encode($cartItems->toArray())
             ]);
 
-            Log::info('Order created with ID: ' . $order->id);
+            $order->code_order = 'ORD-' . now()->format('Ymd') . '-' . str_pad($order->id, 4, '0', STR_PAD_LEFT);
+            $order->save();
 
+            \Midtrans\Config::$serverKey = config('midtrans.serverKey');
+            // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+            \Midtrans\Config::$isProduction = false;
+            // Set sanitization on (default)
+            \Midtrans\Config::$isSanitized = true;
+            // Set 3DS transaction for credit card to true
+            \Midtrans\Config::$is3ds = true;
+
+            $params = array(
+                'transaction_details' => array(
+                    'order_id' => $order->code_order ?: 'ORD-' . now()->format('Ymd') . '-' . str_pad($order->id, 4, '0', STR_PAD_LEFT),
+                    'gross_amount' => $order->total,
+                ),
+                'customer_details' => array(
+                    'first_name' => $order->first_name,
+                    'last_name' => $order->last_name,
+                    'email' => $order->email,
+                    'phone' => $order->phone,
+                ),
+            );
+
+            $snapToken = \Midtrans\Snap::getSnapToken($params);
             // Simpan order items
+            Log::info('Cart Items:', $cartItems->toArray());
             foreach ($cartItems as $item) {
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $item['product_id'],
+                    'product_name' => $item['product'],
+                    'price' => $item['price'],
                     'quantity' => $item['quantity'],
-                    'unit_amount' => $item['price'],
-                    'total_amount' => $item['price'] * $item['quantity'],
+                    'total' => $item['price'] * $item['quantity'],
                 ]);
             }
 
+            try {
+                $user = User::where('role', 'penjual')->get();
+                if ($user) {
+                    Notification::make()
+                        ->title('Pesanan Baru')
+                        ->body('Order #' . $order->code_order . ' telah dibuat.')
+                        ->success()
+                        ->sendToDatabase($user);
+
+                    Log::info('✅ Notifikasi berhasil dikirim ke user ID ' . $user->id, ['user_id' => $user->id]);
+                } else {
+                    Log::warning('⚠️ User ID ' . $user->id . ' tidak ditemukan');
+                }
+            } catch (\Throwable $e) {
+                Log::error('❌ Gagal kirim notifikasi: ' . $e->getMessage());
+            }
+
+            // Hapus cart items jika checkout dari cart
             if (session('checkout_from_cart', false)) {
                 $deletedCount = Cart::where('user_id', Auth::id())->delete();
                 Log::info('Deleted cart items: ' . $deletedCount);
             }
 
+            // Hapus session checkout
             session()->forget([
                 'checkout.items',
                 'checkout.email',
@@ -235,8 +281,7 @@ class CheckOutController extends Controller
 
             Log::info('Checkout successful for order: ' . $order->id);
 
-            return redirect()->route('checkout')
-                ->with('success', 'Pesanan berhasil dikonfirmasi! Order ID: ' . $order->id);
+          return response()->json(['snapToken' => $snapToken, 'order_id' => $order->id]);
 
         } catch (\Exception $e) {
             Log::error('Checkout Confirm Error: ' . $e->getMessage());
@@ -268,7 +313,7 @@ class CheckOutController extends Controller
         if (!$order->snap_token) {
             $params = [
                 'transaction_details' => [
-                    'order_id' => $order->id,
+                    'order_id' => $order->code_order ?: 'ORD-' . now()->format('Ymd') . '-' . str_pad($order->id, 4, '0', STR_PAD_LEFT),
                     'gross_amount' => $order->total,
                 ],
                 'customer_details' => [
@@ -282,16 +327,14 @@ class CheckOutController extends Controller
             // Ambil Snap Token
             $snapToken = \Midtrans\Snap::getSnapToken($params);
 
+
             // Simpan Snap Token ke order (opsional)
             $order->update(['snap_token' => $snapToken]);
         } else {
             $snapToken = $order->snap_token;
         }
 
-        return view('pages.pembeli.payment', [
-            'order' => $order,
-            'snapToken' => $snapToken
-        ]);
+        return view('pages.pembeli.checkoutdetail', ['order' => $order,'snapToken' => $snapToken]);
     }
 
 
@@ -300,4 +343,24 @@ class CheckOutController extends Controller
     {
         return view('pages.pembeli.success');
     }
+
+
+    public function updatePaymentStatus(Request $request)
+    {
+        $order = Order::find($request->order_id);
+
+        if ($order) {
+            if ($request->has('payment_type')) {
+            $order->payment_method = $request->payment_type;
+        }
+            if ($request->transaction_status === 'settlement' || $request->transaction_status === 'capture') {
+                $order->status = 'paid';
+            }
+            $order->save();
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false], 404);
+    }
+
 }

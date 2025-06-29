@@ -17,6 +17,16 @@ class AuthController extends Controller
         'password' => 'required|string|min:8|confirmed',
         'password_confirmation' => 'required|string|min:8',
         'phone' => 'nullable|string|max:15',
+        ], [
+            'name.required' => 'Nama wajib diisi.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'password.required' => 'Kata sandi wajib diisi.',
+            'password.min' => 'Kata sandi minimal 8 karakter.',
+            'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
+            'password_confirmation.required' => 'Konfirmasi kata sandi wajib diisi.',
+            'phone.max' => 'Nomor telepon maksimal 15 karakter.',
         ]);
 
         $user = new User();
@@ -29,18 +39,36 @@ class AuthController extends Controller
     }
 
     public function submitLogin(Request $request) {
-        $data = $request->only('email', 'password');
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string|min:8',
+        ],
+        [
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'password.required' => 'Kata sandi wajib diisi.',
+            'password.min' => 'Kata sandi minimal 8 karakter.',
+        ]);
 
-        if (Auth::attempt($data)) {
-            $request->session()->regenerate();
-            return redirect()->route('homepage.show')->with('success', 'Anda telah masuk.');
+        $infologin = [
+            'email' => $request->email,
+            'password' => $request->password,
+        ];
+
+        if(Auth::guard('web')->attempt($infologin)) {
+           $request->session()->regenerate();
+            if (Auth::guard('web')->user()->role == 'pembeli') {
+                return redirect()->route('homepage.show');
+            }
         } else {
-            return redirect()->back()->withErrors(['email' => 'Email atau password salah.']);
+            return redirect()->back()->withErrors(['email' => 'Email atau kata sandi salah.']);
         }
+        
+
     }
 
     public function logout(Request $request) {
-        Auth::logout();
+        Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('login')->with('success', 'Anda telah keluar.');

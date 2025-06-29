@@ -158,54 +158,78 @@
             </div>
 
             <!-- Confirm Button -->
-            <form action="{{ route('checkout.confirm') }}" method="POST">
+            <!-- <form action="{{ route('checkout.confirm') }}" method="POST">
                 @csrf
                 <button type="submit"
                     class="w-full mt-6 px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white font-medium rounded-lg shadow-md hover:from-red-600 hover:to-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 transition-all flex items-center justify-center">
                     Confirm
                 </button>
-            </form>
-            <form action="{{route('payment.receipt')}}">
-
-                <button type="button" id="pay-button"
+            </form> -->
+            <button type="button" id="pay-button"
                 class="w-full mt-6 px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white font-medium rounded-lg shadow-md hover:from-red-600 hover:to-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 transition-all flex items-center justify-center">
                 Pay Now
-            </form>
             </button>
-            <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}">
-            </script>
-
-            <script>
-                document.getElementById('pay-button').addEventListener('click', function(e) {
-                    e.preventDefault();
-                    window.snap.pay("{{ $snapToken }}", {
-                        onSuccess: function(result) {
-                            console.log("Success:", result);
-
-                            // Ambil angka order ID-nya dari "ORDER-xxxx"
-                        
-
-                            // Arahkan ke halaman struk
-                            window.location.href = "/receipt/" 
-                        },
-                        onPending: function(result) {
-                            console.log("Pending:", result);
-                            window.location.href = "/payment/pending"; // Optional
-                        },
-                        onError: function(result) {
-                            console.log("Error:", result);
-                            alert("Pembayaran gagal, silakan coba lagi.");
-                        },
-                        onClose: function() {
-                            alert("Kamu menutup pop-up tanpa menyelesaikan pembayaran.");
-                        }
-                    });
-                });
-            </script>
+         
             <div class="text-center text-xs text-gray-500 mt-4">
                 <p>By completing your purchase, you agree to our <a href="#"
                         class="text-red-500 hover:underline">Terms of Service</a></p>
             </div>
         </div>
     </div>
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.clientKey') }}"></script>
+
+    <script>
+document.getElementById('pay-button').addEventListener('click', function () {
+    fetch('/checkout/confirm', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+        },
+        body: JSON.stringify({})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (!data.snapToken) {
+            alert("Token tidak ditemukan");
+            return;
+        }
+
+        // Jalankan Midtrans Snap
+        snap.pay(data.snapToken, {
+            onSuccess: function(result) {
+                console.log("Sukses:", result);
+
+                // Kirim request ke server untuk ubah status jadi 'paid'
+                fetch('/midtrans/update-payment-status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    },
+                    body: JSON.stringify({
+                        order_id: data.order_id,
+                        transaction_status: result.transaction_status,
+                        payment_type: result.payment_type
+                    })
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.success) {
+                        alert("Pembayaran berhasil, status diubah!");
+                        window.location.href = "/order-history";
+                    } else {
+                        alert("Pembayaran berhasil, tapi gagal mengubah status.");
+                    }
+                });
+            },
+            onError: function(error) {
+                console.log("Gagal:", error);
+                alert("Terjadi kesalahan saat pembayaran.");
+            }
+        });
+    });
+});
+</script>
+
 @endsection

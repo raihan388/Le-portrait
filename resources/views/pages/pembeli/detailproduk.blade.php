@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Detail Produk</title>
+    <title>Le-potrait | Detail Produk</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="styles/tailwindcss3.4.1.js"></script>
     <script src="{{ asset('styles/tailwindcss3.4.1.js') }}"></script>
@@ -142,10 +142,9 @@
                             </div>
                         </div>
                     </form>
-<<<<<<< HEAD
-                            <div class="flex gap-4">
-                                <a href="{{ route('checkout') }}">
 
+                            <div class="flex gap-4">
+                                <a href="{{ route('checkout') }}" class="w-full">
                                     <button  class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"> 
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5 7m0 0h5.5m-5.5 0v2a1 1 0 001 1h5.5a1 1 0 001-1v-2"></path>
@@ -154,20 +153,8 @@
                                     </button>
                                 </a>
                             </div>
-=======
-                    
-                    <div class="flex gap-4">
-                        <button type="submit" class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5 7m0 0h5.5m-5.5 0v2a1 1 0 001 1h5.5a1 1 0 001-1v-2"></path>
-                                </svg>
-                                CHECKOUT
-                            </button>
-                         </div>
-
-                            
+   
                     </div>
->>>>>>> fea65b14c3a3e7a1eb290a248ebdaa2deefdfde3
                 </div>
                 @endforeach
             </div>

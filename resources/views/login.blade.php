@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-
-  <title>Login</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <title>Le-Portrait</title>
   <script src="{{ asset('styles/tailwindcss3.4.1.js') }}"></script>
 </head>
 <body class="flex flex-col min-h-screen bg-gray-100 font-sans">
@@ -135,5 +135,31 @@
       }
     }
   </script>
+  @if ($errors->any())
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      let errorMessages = @json($errors->all());
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        html: errorMessages.join('<br>')
+      });
+    });
+  </script>
+@endif
+
+@if (session('success'))
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: @json(session('success'))
+      });
+    });
+  </script>
+@endif
+
+
 </body>
 </html>

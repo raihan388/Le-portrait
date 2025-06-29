@@ -39,6 +39,7 @@ class PaymentController extends Controller
         ];
 
         $snapToken = Snap::getSnapToken($params);
+        dd($snapToken);
         return view('pages.pembeli.payment', compact('order', 'snapToken'));
     }
 
@@ -95,4 +96,41 @@ class PaymentController extends Controller
         dd(Order::where('id', $id)->get());
         return view('pages.payment.receipt', compact('order'));
     }
+
+    public function getSnapToken(Request $request)
+{
+    $cartItems = session('checkout.items', []);
+
+    $total = collect($cartItems)->sum(function($item) {
+        return $item['price'] * $item['quantity'];
+    });
+
+    $params = [
+        'transaction_details' => [
+            'order_id' => uniqid(), // atau pakai $order->id kalau sudah ada
+            'gross_amount' => $total,
+        ],
+        'customer_details' => [
+            'first_name' => 'Contoh',
+            'last_name' => 'User',
+            'email' => 'contoh@mail.com',
+            'phone' => '081234567890',
+        ]
+    ];
+
+    \Midtrans\Config::$serverKey = config('midtrans.serverKey');
+    \Midtrans\Config::$isProduction = false;
+    \Midtrans\Config::$isSanitized = true;
+    \Midtrans\Config::$is3ds = true;
+
+    try {
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
+        return response()->json(['snapToken' => $snapToken]);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+}
+
+
+
 }

@@ -19,21 +19,10 @@
                       <span class="text-sm text-gray-400">Gambar tidak tersedia</span>
                     @endif
 
-                    @if (!empty($images) && isset($images[2]))
-  <img src="{{ asset('storage/' . $images[2]) }}"
-       alt="{{$product->name}}"
-       class="max-w-full max-h-full object-contain drop-shadow-lg">
-@elseif (!empty($images) && isset($images[0]))
-  <img src="{{ asset('storage/' . $images[0]) }}"
-       alt="{{$product->name}}"
-       class="max-w-full max-h-full object-contain drop-shadow-lg">
-@else
-  <span class="text-sm text-gray-400">Gambar tidak tersedia</span>
-@endif
-
                     </div>
                     <div class="absolute top-4 right-4">
                         <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">{{ $product->category->name }}</span>
+                        <span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">{{ $product->brand->name }}</span>
                     </div>
                 </div>
                 

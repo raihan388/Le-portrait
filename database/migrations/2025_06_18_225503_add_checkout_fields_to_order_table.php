@@ -8,9 +8,8 @@ return new class extends Migration {
     {
         Schema::create('order', function (Blueprint $table) {
             $table->id();
-            
-            // Data keranjang sebagai JSON
-            $table->json('items');
+            $table->string('code_order')->nullable()->unique();
+            $table->string('midtrans_order_id')->nullable();
 
             // Informasi pengguna
             $table->string('email');
@@ -22,6 +21,11 @@ return new class extends Migration {
 
             // Total harga
             $table->decimal('total', 12, 2);
+            $table->enum('order_status', ['pending', 'processing', 'completed', 'cancelled'])->default('pending');
+            $table->enum('status',['unpaid','paid']);
+            $table->string('payment_method')->nullable();
+            $table->string('snap_token')->nullable();
+            $table->timestamp('paid_at')->nullable();
 
             $table->timestamps(); // created_at & updated_at
         });

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Profile Le-Portrait</title>
+  <title>Le-Portrait | Profile</title>
   <script src="{{ asset('styles/tailwindcss3.4.1.js') }}"></script>
 </head>
 <body class="font-sans bg-gray-100 text-gray-900">
@@ -28,8 +28,8 @@
         <h2 class="text-base font-medium mb-8">{{ $user->name ?? 'name' }}</h2>
 
         <div class="flex flex-col space-y-4 w-44">
-          <button type="submit" form="profileForm" class="w-full py-2 bg-gray-800 text-white text-sm rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">Edit profil</button>
-          <a href="/orders/history" class="w-full py-2 bg-gray-800 text-white text-sm rounded hover:bg-gray-700 text-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">Riwayat Pesanan</a>
+          <button type="submit" form="profileForm" class="w-full py-2 bg-gray-800 text-white text-sm rounded hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">Edit Profile</button>
+          <a href="{{route('pages.order-history')}}" class="w-full py-2 bg-gray-800 text-white text-sm rounded hover:bg-gray-700 text-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">Order History</a>
         </div>
       </div>
 

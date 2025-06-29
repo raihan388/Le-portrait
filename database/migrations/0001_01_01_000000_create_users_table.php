@@ -18,6 +18,9 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('role', ['pembeli', 'penjual'])->default('pembeli');
+            $table->string('profile_image')->nullable();
+            $table->string('address')->nullable();
+            $table->string('username')->unique()->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
