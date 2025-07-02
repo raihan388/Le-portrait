@@ -346,21 +346,39 @@ class CheckOutController extends Controller
 
 
     public function updatePaymentStatus(Request $request)
-    {
-        $order = Order::find($request->order_id);
+{
+    $order = Order::with('items')->find($request->order_id); // ⬅️ tambahkan relasi order_items
 
-        if ($order) {
-            if ($request->has('payment_type')) {
+    if ($order) {
+        if ($request->has('payment_type')) {
             $order->payment_method = $request->payment_type;
         }
-            if ($request->transaction_status === 'settlement' || $request->transaction_status === 'capture') {
+
+        if ($request->transaction_status === 'settlement' || $request->transaction_status === 'capture') {
+            // Hanya jika belum dibayar, lakukan update dan kurangi stok
+            if ($order->status !== 'paid') {
+                foreach ($order->items as $item) {
+                    $product = Product::find($item->product_id);
+                    if ($product) {
+                        $product->stock -= $item->quantity;
+                        if ($product->stock < 0) {
+                            $product->stock = 0; // pastikan tidak negatif
+                        }
+                        $product->save();
+                    }
+                }
+
                 $order->status = 'paid';
+                $order->paid_at = now();
             }
-            $order->save();
-            return response()->json(['success' => true]);
         }
 
-        return response()->json(['success' => false], 404);
+        $order->save();
+
+        return response()->json(['success' => true]);
     }
+
+    return response()->json(['success' => false], 404);
+}
 
 }

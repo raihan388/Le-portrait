@@ -20,6 +20,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ManualResetPasswordController;
 use Filament\Notifications\Notification;
 use App\Models\User;
 
@@ -90,3 +91,11 @@ Route::post('/checkout/confirm', [CheckOutController::class, 'checkoutConfirm'])
 
 Route::post('/get-snap-token', [PaymentController::class, 'getSnapToken'])->name('midtrans.token');
 Route::post('/midtrans/update-payment-status', [CheckOutController::class, 'updatePaymentStatus']);
+Route::patch('/orders/{id}/complete', [OrderController::class, 'markAsComplete'])->name('orders.complete');
+
+Route::get('/lupa-password', [ManualResetPasswordController::class, 'formEmail'])->name('manual.password.request');
+Route::post('/lupa-password', [ManualResetPasswordController::class, 'cekEmail'])->name('manual.password.check');
+
+Route::get('/atur-password/{email}', [ManualResetPasswordController::class, 'formReset'])->name('manual.password.form');
+Route::post('/atur-password', [ManualResetPasswordController::class, 'reset'])->name('manual.password.reset');
+
