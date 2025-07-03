@@ -1,6 +1,7 @@
 @extends('layout.main')
 
 @section('content')
+<div class="max-w-6xl mx-auto px-4">
     <!-- Progress Steps -->
     <div class="mb-8">
         <div class="flex items-center justify-center">
@@ -35,9 +36,9 @@
     </div>
 
     <!-- Page Title -->
-    <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">Complete Your Order</h1>
+    <h1 class="text-xl md:text-3xl font-bold text-gray-900 mb-6 text-center">Complete Your Order</h1>
 
-    <div class="grid lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- LEFT COLUMN (ORDER ITEMS) -->
         <div class="lg:col-span-2">
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
@@ -48,7 +49,7 @@
                     </h2>
                 </div>
 
-                <div class="p-6">
+                <div class="p-6 overflow-x-auto">
                     @php $total = 0; @endphp
                     @foreach ($cart as $index => $item)
                         @php
@@ -158,27 +159,23 @@
             </div>
 
             <!-- Confirm Button -->
-            <!-- <form action="{{ route('checkout.confirm') }}" method="POST">
-                @csrf
-                <button type="submit"
-                    class="w-full mt-6 px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white font-medium rounded-lg shadow-md hover:from-red-600 hover:to-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 transition-all flex items-center justify-center">
-                    Confirm
-                </button>
-            </form> -->
             <button type="button" id="pay-button"
                 class="w-full mt-6 px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white font-medium rounded-lg shadow-md hover:from-red-600 hover:to-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 transition-all flex items-center justify-center">
                 Pay Now
             </button>
-         
+
             <div class="text-center text-xs text-gray-500 mt-4">
                 <p>By completing your purchase, you agree to our <a href="#"
                         class="text-red-500 hover:underline">Terms of Service</a></p>
             </div>
         </div>
     </div>
-    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.clientKey') }}"></script>
+</div>
 
-    <script>
+<!-- Midtrans Snap.js -->
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.clientKey') }}"></script>
+
+<script>
 document.getElementById('pay-button').addEventListener('click', function () {
     fetch('/checkout/confirm', {
         method: 'POST',
@@ -195,12 +192,10 @@ document.getElementById('pay-button').addEventListener('click', function () {
             return;
         }
 
-        // Jalankan Midtrans Snap
         snap.pay(data.snapToken, {
             onSuccess: function(result) {
                 console.log("Sukses:", result);
 
-                // Kirim request ke server untuk ubah status jadi 'paid'
                 fetch('/midtrans/update-payment-status', {
                     method: 'POST',
                     headers: {
@@ -231,5 +226,4 @@ document.getElementById('pay-button').addEventListener('click', function () {
     });
 });
 </script>
-
 @endsection

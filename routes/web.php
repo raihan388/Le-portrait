@@ -24,7 +24,9 @@ use App\Http\Controllers\ManualResetPasswordController;
 use Filament\Notifications\Notification;
 use App\Models\User;
 
-
+Route::get('/',function () {
+    return view('welcome');
+});
 Route::prefix('produk')->group(function () {
     Route::get('/category/{categoryName}', [ProductController::class, 'showCategory'])->name('kategori.show');
     Route::get('/brand/{brandName}', [ProductController::class, 'showBrand'])->name('brand.show');
@@ -41,16 +43,14 @@ Route::prefix('checkout')->group(function () {
 
 Route::post('/checkout1', [CartController::class, 'checkoutStep1'])->name('checkout1');
 
-
 Route::middleware('auth')->group(function () {
-    Route::get('/', [ProductController::class, 'show'])->name('homepage.show');
+    Route::get('/homepage', [ProductController::class, 'show'])->name('homepage.show');
 });
-Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'auth'])->name('login');
-    Route::post('/login', [AuthController::class, 'submitLogin'])->name('login.submit');
-    Route::post('/registrasi', [AuthController::class, 'submitRegistrasi'])->name('registrasi');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-});
+
+Route::get('/login', [AuthController::class, 'auth'])->name('login');
+Route::post('/login', [AuthController::class, 'submitLogin'])->name('login.submit');
+Route::post('/registrasi', [AuthController::class, 'submitRegistrasi'])->name('registrasi');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');

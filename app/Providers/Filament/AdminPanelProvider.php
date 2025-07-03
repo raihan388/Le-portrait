@@ -18,6 +18,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Notifications\Livewire\DatabaseNotifications;
+use App\Models\User;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -55,6 +56,7 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                \App\Http\Middleware\EnsureUserIsPenjual::class,
             ])
             ->authMiddleware([
                 Authenticate::class,

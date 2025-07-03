@@ -33,8 +33,10 @@
             @endif
 
             @hasSection('produk')
-                <section class="bg-white p-6 rounded shadow">
-                    @yield('produk')
+                <section class="max-w-7xl mx-auto px-4 mt-12 bg-white p-6 rounded shadow">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                       @yield('produk')
+                    </div>
                 </section>
             @endif
         </div>

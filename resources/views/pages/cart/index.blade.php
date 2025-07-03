@@ -6,6 +6,18 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Le-Portrait | Cart</title>
         <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+              /* Hilangkan spinner dari input number */
+              input[type=number]::-webkit-inner-spin-button,
+              input[type=number]::-webkit-outer-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+              }
+          
+              input[type=number] {
+                -moz-appearance: textfield; /* Firefox */
+              }
+        </style>
     </head>
     <body class="bg-gray-50 text-gray-900">
     @include('components.navbar')
@@ -52,7 +64,7 @@
 
             @if ($cartItems->count())
                 <div class="overflow-x-auto bg-white shadow-md rounded-lg">
-                    <table class="min-w-full table-auto border-collapse">
+                    <table class="w-full table-auto border-collapse text-sm">
                         <thead class="bg-gray-100">
                             <tr>
                                 <th class="px-4 py-3 text-center">Pilih</th>
@@ -75,7 +87,7 @@
 
                                 <tr class="border-t" data-id="{{ $item->id }}" data-price="{{ $item->price }}">
                                     <td class="px-4 py-3 text-center">
-                                        <input type="checkbox" class="select-item" value="{{ $item->id }}">
+                                        <input type="checkbox" class="select-item" value="{{ $item->id }} {{ $item->product->stock == 0 ? 'disabled' : '' }}">
                                     </td>
                                     <td class="px-4 py-3 text-center">PRD-00{{ $loop->iteration }}</td>
                                     <td class="px-4 py-3 text-center">
@@ -83,7 +95,12 @@
                                             alt="{{ $item->product->name }}"
                                             class="w-16 h-16 object-cover rounded border">
                                     </td>
-                                    <td class="px-4 py-3 font-medium">{{ $item->product->name }}</td>
+                                    <td class="px-4 py-3 font-medium">
+                                        {{ $item->product->name }}
+                                        @if ($item->product->stock == 0)
+                                            <span class="text-xs text-red-500 font-semibold ml-2">(Stok Habis)</span>
+                                        @endif
+                                    </td>
                                     <td class="px-4 py-3">Rp{{ number_format($item->price, 0, ',', '.') }}</td>
                                     <td class="px-4 py-3">
                                         <div class="flex items-center gap-1">
@@ -243,14 +260,36 @@ document.addEventListener("DOMContentLoaded", () => {
     const checkoutForm = document.getElementById('checkout-form');
     if (checkoutForm) {
         checkoutForm.addEventListener('submit', function (e) {
-            const selectedIds = [...document.querySelectorAll('.select-item:checked')].map(cb => cb.value);
+            const selectedBoxes = document.querySelectorAll('.select-item:checked');
+            const selectedIds = [];
+            let hasOutOfStock = false;
+
+            selectedBoxes.forEach(cb => {
+                const row = cb.closest('tr');
+                const input = row.querySelector('.quantity-input');
+                const stock = parseInt(input.dataset.stock);
+                if (stock === 0) {
+                    hasOutOfStock = true;
+                } else {
+                    selectedIds.push(cb.value);
+                }
+            });
+        
             if (selectedIds.length === 0) {
                 e.preventDefault();
-                alert("Pilih setidaknya 1 produk untuk checkout.");
+                alert("Pilih setidaknya 1 produk yang memiliki stok.");
                 return;
             }
+        
+            if (hasOutOfStock) {
+                e.preventDefault();
+                alert("Ada produk dengan stok kosong. Hapus atau hilangkan centang sebelum checkout.");
+                return;
+            }
+        
             document.getElementById('selected-items-input').value = selectedIds.join(',');
         });
+
     }
 });
 </script>

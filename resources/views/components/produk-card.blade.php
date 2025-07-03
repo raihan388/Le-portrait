@@ -1,82 +1,75 @@
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        @foreach ($products as $product)
-            
-            <!-- Product 1 -->
-            <!-- Canon EOS 200D II Card -->
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                <div class="relative bg-gradient-to-br from-gray-100 to-gray-200 p-8">
-                    <div class="flex justify-center items-center h-64">
-                    @php
-                        $images = is_array($product->images) ? $product->images : json_decode($product->images, true);
-                    @endphp
+<div class="bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden flex flex-col group group-hover:ring-2 group-hover:ring-red-500">
+    <!-- Klik area produk -->
+    <a href="/produk/{{ $product->slug }}" class="block flex-1">
+        <div class="relative bg-gradient-to-br from-gray-100 to-gray-200 p-4">
+            <div class="flex justify-center items-center h-48">
+                @php
+                    $images = is_array($product->images) ? $product->images : json_decode($product->images, true);
+                @endphp
+                @if (!empty($images) && isset($images[0]))
+                    <img src="{{ asset('storage/' . $images[0]) }}" 
+                         alt="{{ $product->name }}" 
+                         class="h-36 object-contain transition-transform duration-300 group-hover:scale-105">
+                @else
+                    <span class="text-sm text-gray-400">Gambar tidak tersedia</span>
+                @endif
+            </div>
 
+            <!-- Label kategori & brand -->
+            <div class="absolute top-3 left-3 space-y-2">
+                <span class="bg-blue-500 text-white text-xs px-3 py-1 rounded-full font-semibold">
+                    {{ $product->category->name }}
+                </span>
+                <span class="bg-red-500 text-white text-xs px-3 py-1 rounded-full font-semibold">
+                    {{ $product->brand->name }}
+                </span>
+            </div>
+        </div>
 
-                    @if (!empty($images))
-                        <img src="{{ asset('storage/' . $images[2]) }}" 
-                             alt="{{$product->name}}" 
-                             class="max-w-full max-h-full object-contain drop-shadow-lg">
-                             @else
-                      <span class="text-sm text-gray-400">Gambar tidak tersedia</span>
-                    @endif
+        <!-- Konten Produk -->
+        <div class="p-5">
+            <h3 class="text-lg font-bold text-gray-800 mb-2 line-clamp-2">{{ $product->name }}</h3>
 
-                    </div>
-                    <div class="absolute top-4 right-4">
-                        <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">{{ $product->category->name }}</span>
-                        <span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">{{ $product->brand->name }}</span>
-                    </div>
-                </div>
-                
-                <div class="p-6">
-                    <a href="/produk/{{ $product->slug }}" >
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">{{$product->name}}</h3>
-                    </a>
-                    <div class="flex items-center mb-4">
-                        <div class="flex text-yellow-400 text-sm">
-                            ★★★★★
-                        </div>
-                        <span class="text-gray-500 text-sm ml-2">(4.8/5)</span>
-                    </div>
-                    
-                    <div class="mb-6 flex justify-between items-center" >
-                        <span class="text-3xl font-bold text-red-600">Rp {{ number_format($product->price, 0, ',', '.') }}</span>
-                        <span class="text-sm {{ $product->stock > 0 ? 'text-green-600' : 'text-red-600' }} font-semibold flex items-center">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 21v-4a4 4 0 00-8 0v4"></path>
-                            </svg>
-                            Stok: {{ $product->stock > 0 ? $product->stock : 'Habis' }}
-                        </span>
-                    </div>
+            <!-- Rating -->
+            <div class="flex items-center text-sm mb-3">
+                <div class="text-yellow-400 mr-2">★★★★★</div>
+                <span class="text-gray-500">(4.8/5)</span>
+            </div>
 
-      
-
-                    <form action="{{ route('cart.add') }}" method="POST">
-                        @csrf
-                        <input  type="hidden" name="quantity" value="1">
-                        <input type="hidden" name="product_id" value="{{ $product->id }}">
-                        @if ($product->stock > 0)
-                        <button 
-                            type="submit"
-                            class="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                      d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5 7m0 0h5.5m-5.5 0v2a1 1 0 001 1h5.5a1 1 0 001-1v-2"></path>
-                            </svg>
-                            Tambah ke Keranjang
-                        </button>
-                    @else
-                        <button 
-                            type="button"
-                            disabled
-                            class="w-full bg-gray-400 text-white font-semibold py-3 px-4 rounded-lg flex items-center justify-center cursor-not-allowed">
-                            Stok Habis
-                        </button>
-                    @endif
-                </form>
+            <!-- Harga & Stok -->
+            <div class="mb-4">
+                <div class="text-xl font-bold text-red-600 mb-1">Rp {{ number_format($product->price, 0, ',', '.') }}</div>
+                <div class="text-sm font-medium {{ $product->stock > 0 ? 'text-green-600' : 'text-red-600' }}">
+                    Stok: {{ $product->stock > 0 ? $product->stock : 'Habis' }}
                 </div>
             </div>
-        @endforeach
+        </div>
+    </a>
+
+    <!-- Tombol Add to Cart -->
+    <div class="p-4 pt-0">
+        <form method="POST" action="{{ route('cart.add') }}" onClick="event.stopPropagation();">
+            @csrf
+            <input type="hidden" name="product_id" value="{{ $product->id }}">
+            <input type="hidden" name="quantity" value="1">
+            @if ($product->stock > 0)
+                <button type="submit" class="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg font-semibold flex items-center justify-center transition-colors duration-200">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5 7m0 0h5.5m-5.5 0v2a1 1 0 001 1h5.5a1 1 0 001-1v-2"></path>
+                    </svg>
+                    Tambah ke Keranjang
+                </button>
+            @else
+                <button type="button" disabled class="w-full bg-gray-400 text-white py-2 rounded-lg font-semibold cursor-not-allowed">
+                    Stok Habis
+                </button>
+            @endif
+        </form>
+    </div>
 </div>
+
+
 
 <script>
 function addToCart(productId) {

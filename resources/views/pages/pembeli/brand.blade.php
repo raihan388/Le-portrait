@@ -12,5 +12,7 @@
       </p>
 @endsection
 @section('produk')
-    @include('components.produk-card')
+    @foreach ($products as $product)
+      @include('components.produk-card', ['product' => $product])
+  @endforeach
 @endsection

@@ -5,15 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <title>Le-Portrait</title>
+  <title>Le-Portrait | Login</title>
   <script src="{{ asset('styles/tailwindcss3.4.1.js') }}"></script>
+  <script src="https://unpkg.com/@heroicons/vue@2.0.13/dist/heroicons.min.js"></script>
 </head>
 <body class="flex flex-col min-h-screen bg-gray-100 font-sans">
   <!-- Header -->
   <header class="bg-white shadow sticky top-0 z-10">
     <div class="max-w-7xl mx-auto px-4">
       <div class="flex justify-between items-center py-4">
-        <a href="#" class="text-2xl font-bold text-gray-800">Le<span class="text-red-500">Portrait</span></a>
+        <a href="/" class="flex items-center gap-2">
+          <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10 w-auto object-contain">
+        </a>
       </div>
     </div>
   </header>
@@ -22,7 +25,9 @@
   <div class="flex-1 flex justify-center items-center py-10">
     <div class="flex w-full max-w-4xl bg-white rounded-lg shadow-lg overflow-hidden">
       <div class="w-5/12 bg-gray-800 bg-opacity-60 bg-blend-overlay bg-cover bg-center flex flex-col justify-center items-center text-white p-8 text-center" style="background-image: url('public/images/camera2.jpg')">
-        <div class="text-3xl font-bold mb-5">Le<span class="text-red-500">Portrait</span></div>
+        <div class="text-3xl font-bold mb-5"> 
+          <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10 w-auto object-contain">
+        </div>
         <h2 class="text-2xl mb-4">Welcome to LePortrait</h2>
         <p class="text-base mb-8 leading-relaxed">Discover the most complete and trusted camera collection. Get the best prices for your dream camera.</p>
       </div>
@@ -41,12 +46,35 @@
               <label for="login-email" class="block mb-2 font-medium text-gray-700">Email</label>
               <input type="email" name="email" id="login-email" placeholder="Enter your email" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300">
             </div>
-            
             <div class="mb-5">
               <label for="login-password" class="block mb-2 font-medium text-gray-700">Password</label>
-              <input type="password" name="password" id="login-password" placeholder="Enter your password" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300">
+              <div class="relative">
+                <input type="password" name="password" id="login-password"
+                       placeholder="Enter your password"
+                       class="w-full px-4 py-3 pr-12 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300">
+                <button type="button"
+                        onclick="togglePassword('login-password', this)"
+                        class="absolute inset-y-0 right-3 flex items-center text-gray-600 hover:text-red-500 focus:outline-none">
+                  <svg xmlns="http://www.w3.org/2000/svg"
+                       class="h-5 w-5"
+                       fill="none"
+                       viewBox="0 0 24 24"
+                       stroke="currentColor">
+                    <path stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M2.458 12C3.732 7.943 7.522 5 12 5
+                            c4.478 0 8.268 2.943 9.542 7
+                            -1.274 4.057-5.064 7-9.542 7
+                            -4.478 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                </button>
+              </div>
             </div>
-            
             <div class="flex items-center mt-4">
               <input type="checkbox" id="remember-me" class="mr-2">
               <label for="remember-me" class="text-sm text-gray-600">Remember me</label>
@@ -85,12 +113,45 @@
             
             <div class="mb-5">
               <label for="signup-password" class="block mb-2 font-medium text-gray-700">Password</label>
-              <input type="password" id="signup-password" name="password" placeholder="Create a password (min. 8 characters)" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300" required>
+              <div class="relative">
+                <input type="password" id="signup-password" name="password"
+                       placeholder="Create a password (min. 8 characters)"
+                       class="w-full px-4 py-3 pr-12 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300" required>
+                <button type="button" onclick="togglePassword('signup-password', this)"
+                        class="absolute inset-y-0 right-3 flex items-center text-gray-600 hover:text-red-500 focus:outline-none">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                       viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M2.458 12C3.732 7.943 7.522 5 12 5
+                             c4.478 0 8.268 2.943 9.542 7
+                             -1.274 4.057-5.064 7-9.542 7
+                             -4.478 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                </button>
+              </div>
             </div>
-            
             <div class="mb-5">
               <label for="signup-confirm-password" class="block mb-2 font-medium text-gray-700">Confirm Password</label>
-              <input type="password" id="signup-confirm-password" name="password_confirmation" placeholder="Confirm your password" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300" required>
+              <div class="relative">
+                <input type="password" id="signup-confirm-password" name="password_confirmation"
+                       placeholder="Confirm your password"
+                       class="w-full px-4 py-3 pr-12 border border-gray-300 rounded-md text-base focus:border-red-500 focus:outline-none transition duration-300" required>
+                <button type="button" onclick="togglePassword('signup-confirm-password', this)"
+                        class="absolute inset-y-0 right-3 flex items-center text-gray-600 hover:text-red-500 focus:outline-none">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                       viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M2.458 12C3.732 7.943 7.522 5 12 5
+                             c4.478 0 8.268 2.943 9.542 7
+                             -1.274 4.057-5.064 7-9.542 7
+                             -4.478 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                </button>
+              </div>
             </div>
             <input type="hidden" name="role" value="pembeli">
             <div class="mt-8">
@@ -134,7 +195,13 @@
         document.getElementById('login-form').classList.add('hidden');
       }
     }
+    function togglePassword(fieldId, button) {
+      const input = document.getElementById(fieldId);
+      const isPassword = input.getAttribute("type") === "password";
+      input.setAttribute("type", isPassword ? "text" : "password");
+    }
   </script>
+
   @if ($errors->any())
   <script>
     window.addEventListener('DOMContentLoaded', () => {
@@ -159,7 +226,5 @@
     });
   </script>
 @endif
-
-
 </body>
 </html>

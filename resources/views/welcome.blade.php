@@ -3,169 +3,311 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Camera Product Cards</title>
+    <title>Lé Portrait - Premium Camera Collection</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .hero-bg {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+        }
+        .floating-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
 </head>
-<body class="bg-blue-50 p-8">
-    <div class="max-w-6xl mx-auto">
-        <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">Kamera Terbaik</h1>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Canon EOS 200D II Card -->
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                <div class="relative bg-gradient-to-br from-gray-100 to-gray-200 p-8">
-                    <div class="flex justify-center items-center h-64">
-                        <img src="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=400&h=300&fit=crop&crop=center" 
-                             alt="Canon EOS 200D II" 
-                             class="max-w-full max-h-full object-contain drop-shadow-lg">
-                    </div>
-                    <div class="absolute top-4 right-4">
-                        <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">DSLR</span>
-                    </div>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10 w-auto object-contain">
                 </div>
                 
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">Canon EOS 200D II</h3>
-                    <p class="text-gray-600 mb-4 text-sm">(EF-S 18-55mm f/4-5.6 IS STM)</p>
-                    
-                    <div class="flex items-center mb-4">
-                        <div class="flex text-yellow-400 text-sm">
-                            ★★★★★
-                        </div>
-                        <span class="text-gray-500 text-sm ml-2">(4.8/5)</span>
+                <div class="flex items-center space-x-4">
+                    <div class="hidden md:flex items-center bg-gray-100 rounded-lg px-4 py-2">
+                        <input type="text" placeholder="Search cameras, lenses..." class="bg-transparent outline-none text-gray-700 placeholder-gray-500 w-64">
+                        <button class="bg-red-500 text-white px-4 py-2 rounded-md ml-2 hover:bg-red-600 transition-colors">
+                            Search
+                        </button>
                     </div>
-                    
-                    <div class="mb-6">
-                        <span class="text-3xl font-bold text-red-600">Rp 17.417.000</span>
-                        <span class="text-gray-500 line-through text-lg ml-2">Rp 19.000.000</span>
+                    <div class="flex items-center space-x-2">
+                        <a href="{{ route('login') }}" class="hidden md:block border-2 border-red-500 text-red-500 px-6 py-2 rounded-lg font-medium hover:bg-red-50 transition-all duration-300 transform hover:scale-105">
+                            Login
+                        </a>
+                        <a href="{{ route('login') }}" class="bg-red-500 text-white px-6 py-2 rounded-lg font-medium hover:bg-red-600 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
+                            Register
+                        </a>
                     </div>
-                    
-                    <div class="space-y-2 mb-6">
-                        <div class="flex items-center text-sm text-gray-600">
-                            <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                            24.1 MP APS-C CMOS Sensor
-                        </div>
-                        <div class="flex items-center text-sm text-gray-600">
-                            <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                            4K Video Recording
-                        </div>
-                        <div class="flex items-center text-sm text-gray-600">
-                            <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                            Vari-angle Touchscreen LCD
-                        </div>
-                    </div>
-                    
-                    <button class="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5 7m0 0h5.5m-5.5 0v2a1 1 0 001 1h5.5a1 1 0 001-1v-2"></path>
-                        </svg>
-                        Tambah ke Keranjang
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-bg min-h-screen flex items-center relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <!-- Left Content -->
+            <div class="text-center lg:text-left z-10">
+                <h1 class="text-5xl lg:text-7xl font-bold text-gray-800 mb-6 leading-tight">
+                    Premium <span class="gradient-text">Camera</span> Collection
+                </h1>
+                <p class="text-xl text-gray-600 mb-8 max-w-lg">
+                    Discover high-quality cameras at the best prices. Capture your moments with professional-grade equipment.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                    <button class="bg-red-500 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-red-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        View Collection
+                    </button>
+                    <button class="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-lg text-lg font-semibold hover:border-red-500 hover:text-red-500 transition-all duration-300">
+                        Browse Catalog
                     </button>
                 </div>
             </div>
 
-            <!-- Nikon Z6 II Card -->
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                <div class="relative bg-gradient-to-br from-gray-100 to-gray-200 p-8">
-                    <div class="flex justify-center items-center h-64">
-                        <img src="https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?w=400&h=300&fit=crop&crop=center" 
-                             alt="Nikon Z6 II" 
-                             class="max-w-full max-h-full object-contain drop-shadow-lg">
-                    </div>
-                    <div class="absolute top-4 right-4">
-                        <span class="bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-medium">Mirrorless</span>
-                    </div>
-                    <div class="absolute top-4 left-4">
-                        <span class="bg-orange-500 text-white px-2 py-1 rounded text-xs font-bold">HOT</span>
+            <!-- Right Visual -->
+            <div class="relative flex items-center justify-center">
+                <!-- Camera Illustration -->
+                <div class="floating-animation">
+                    <div class="w-96 h-96 bg-black rounded-3xl shadow-2xl relative overflow-hidden">
+                        <!-- Camera Body -->
+                        <div class="absolute inset-4 bg-gray-900 rounded-2xl">
+                            <!-- Lens -->
+                            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full shadow-inner">
+                                <div class="absolute inset-4 bg-blue-400 rounded-full">
+                                    <div class="absolute inset-2 bg-blue-600 rounded-full"></div>
+                                </div>
+                            </div>
+                            <!-- Flash -->
+                            <div class="absolute top-4 left-4 w-6 h-4 bg-white rounded-sm"></div>
+                            <!-- Viewfinder -->
+                            <div class="absolute top-4 right-4 w-8 h-6 bg-gray-700 rounded-sm"></div>
+                        </div>
+                        <!-- Camera Strap -->
+                        <div class="absolute -top-2 left-8 w-4 h-6 bg-gray-800 rounded-sm"></div>
+                        <div class="absolute -top-2 right-8 w-4 h-6 bg-gray-800 rounded-sm"></div>
                     </div>
                 </div>
+
+                <!-- Floating Elements -->
+                <div class="absolute top-10 left-10 w-16 h-20 bg-orange-400 rounded-lg shadow-lg floating-animation" style="animation-delay: -2s;"></div>
+                <div class="absolute bottom-10 right-10 w-20 h-16 bg-blue-400 rounded-lg shadow-lg floating-animation" style="animation-delay: -4s;"></div>
                 
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">Nikon Z6 II</h3>
-                    <p class="text-gray-600 mb-4 text-sm">Full Frame Mirrorless Camera Body</p>
-                    
-                    <div class="flex items-center mb-4">
-                        <div class="flex text-yellow-400 text-sm">
-                            ★★★★★
-                        </div>
-                        <span class="text-gray-500 text-sm ml-2">(4.9/5)</span>
-                    </div>
-                    
-                    <div class="mb-6">
-                        <span class="text-3xl font-bold text-red-600">Rp 24.999.000</span>
-                        <span class="text-gray-500 line-through text-lg ml-2">Rp 27.500.000</span>
-                    </div>
-                    
-                    <div class="space-y-2 mb-6">
-                        <div class="flex items-center text-sm text-gray-600">
-                            <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                            24.5 MP Full Frame CMOS
-                        </div>
-                        <div class="flex items-center text-sm text-gray-600">
-                            <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                            Dual Card Slots
-                        </div>
-                        <div class="flex items-center text-sm text-gray-600">
-                            <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                            4K UHD 60p Video
+                <!-- Decorative Photos -->
+                <div class="absolute -top-8 -left-8 w-24 h-32 bg-gradient-to-br from-red-400 to-pink-500 rounded-lg shadow-lg transform rotate-12 floating-animation" style="animation-delay: -1s;"></div>
+                <div class="absolute -bottom-8 -right-8 w-28 h-20 bg-gradient-to-br from-green-400 to-teal-500 rounded-lg shadow-lg transform -rotate-12 floating-animation" style="animation-delay: -3s;"></div>
+            </div>
+        </div>
+
+        <!-- Background Decorations -->
+        <div class="absolute top-20 left-20 w-32 h-32 bg-yellow-200 rounded-full opacity-20"></div>
+        <div class="absolute bottom-20 right-20 w-48 h-48 bg-green-200 rounded-full opacity-20"></div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-gray-800 mb-12 text-center">Featured Products</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Product Card 1 -->
+                <div class="card-hover bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+                    <div class="h-64 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                        <div class="w-32 h-24 bg-black rounded-lg relative">
+                            <div class="absolute top-2 left-2 w-6 h-6 bg-red-500 rounded-full"></div>
+                            <div class="absolute bottom-2 right-2 text-white text-xs font-bold">DSLR</div>
                         </div>
                     </div>
-                    
-                    <button class="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5 7m0 0h5.5m-5.5 0v2a1 1 0 001 1h5.5a1 1 0 001-1v-2"></path>
-                        </svg>
-                        Tambah ke Keranjang
-                    </button>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">DSLR</span>
+                            <span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">Nikon</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Nikon D850</h3>
+                        <p class="text-gray-600 mb-4">Professional DSLR camera with 45.7MP sensor</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-2xl font-bold text-red-500">$2,999</span>
+                            <a href="{{ route('login') }}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 2 -->
+                <div class="card-hover bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+                    <div class="h-64 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                        <div class="w-28 h-20 bg-gray-800 rounded-lg relative">
+                            <div class="absolute top-1 left-1 w-4 h-4 bg-blue-400 rounded-full"></div>
+                            <div class="absolute bottom-1 right-1 text-white text-xs font-bold">M</div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">DSLR</span>
+                            <span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">Nikon</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Sony A7R IV</h3>
+                        <p class="text-gray-600 mb-4">High-resolution mirrorless camera</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-2xl font-bold text-red-500">$3,499</span>
+                            <a href="{{ route('login') }}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 3 -->
+                <div class="card-hover bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+                    <div class="h-64 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                        <div class="w-20 h-32 bg-gray-700 rounded-lg relative">
+                            <div class="absolute top-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-green-400 rounded-full"></div>
+                            <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-white text-xs font-bold">L</div>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">DSLR</span>
+                            <span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">Nikon</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Canon 70-200mm f/2.8</h3>
+                        <p class="text-gray-600 mb-4">Professional telephoto zoom lens</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-2xl font-bold text-red-500">$1,899</span>
+                            <a href="{{ route('login') }}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Additional Info Section -->
-        <div class="mt-12 bg-white rounded-xl shadow-lg p-8">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Mengapa Memilih Kami?</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="text-center">
-                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold text-gray-800 mb-12 text-center">Why Choose Lé Portrait?</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center p-8 bg-white rounded-2xl shadow-lg card-hover">
+                    <div class="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                         </svg>
                     </div>
-                    <h3 class="font-semibold text-gray-800 mb-2">Kualitas Terjamin</h3>
-                    <p class="text-gray-600 text-sm">Semua produk bergaransi resmi dan telah teruji kualitasnya</p>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Premium Quality</h3>
+                    <p class="text-gray-600">Only the finest cameras from top brands, thoroughly tested and verified.</p>
                 </div>
-                <div class="text-center">
-                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                
+                <div class="text-center p-8 bg-white rounded-2xl shadow-lg card-hover">
+                    <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
                         </svg>
                     </div>
-                    <h3 class="font-semibold text-gray-800 mb-2">Harga Terbaik</h3>
-                    <p class="text-gray-600 text-sm">Dapatkan harga kompetitif dengan berbagai promo menarik</p>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Best Prices</h3>
+                    <p class="text-gray-600">Competitive pricing with regular discounts and special offers.</p>
                 </div>
-                <div class="text-center">
-                    <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                
+                <div class="text-center p-8 bg-white rounded-2xl shadow-lg card-hover">
+                    <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M12 12h.01"></path>
                         </svg>
                     </div>
-                    <h3 class="font-semibold text-gray-800 mb-2">Pengiriman Cepat</h3>
-                    <p class="text-gray-600 text-sm">Gratis ongkir seluruh Indonesia dengan pengiriman yang aman</p>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Expert Support</h3>
+                    <p class="text-gray-600">Professional guidance from photography experts to help you choose.</p>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="py-20 bg-red-500">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-bold text-white mb-4">Stay Updated</h2>
+            <p class="text-xl text-red-100 mb-8">Get the latest camera deals and photography tips delivered to your inbox.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+                <input type="email" placeholder="Enter your email" class="flex-1 px-6 py-3 rounded-lg text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white">
+                <button class="bg-white text-red-500 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                    Subscribe
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="bg-white text-black px-3 py-1 rounded font-bold text-lg">
+                            Lé
+                        </div>
+                        <span class="ml-2 text-xl font-semibold">Portrait</span>
+                    </div>
+                    <p class="text-gray-400">Your trusted partner for premium photography equipment.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Products</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">DSLR Cameras</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Mirrorless</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Lenses</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Accessories</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Warranty</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Returns</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Connect</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Instagram</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Facebook</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Twitter</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 Lé Portrait. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

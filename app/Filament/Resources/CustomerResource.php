@@ -2,19 +2,19 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\UserResource\Pages;
-use App\Models\User;
+use App\Filament\Resources\CustomerResource\Pages;
+use App\Filament\Resources\CustomerResource\RelationManagers;
+use App\Models\Customer;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\Pages\CreateRecord;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use App\Filament\Resources\page;
-use App\Filament\Resources\UserResource\Pages\CreateUser;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Models\User;
 
-
-class UserResource extends Resource
+class CustomerResource extends Resource
 {
     protected static ?string $model = User::class;
 
@@ -25,31 +25,15 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->label('Name')
-                    ->placeholder('Enter your name'),
-                Forms\Components\TextInput::make('email')
-                    ->required()
-                    ->email()
-                    ->label('Email')
-                    ->maxLength(255)
-                    ->unique(ignoreRecord: true)
-                    ->placeholder('Enter your email address'),
-               Forms\Components\DateTimePicker::make('email_verified_at')
-                    ->label('Email Verified At')
-                    ->default(now()),
-                Forms\Components\TextInput::make('password')
-                    ->required(fn ($livewire): bool => $livewire instanceof CreateRecord)
-                    ->password()
-                    ->dehydrated(fn ($state) => filled($state))
-                    
+                //
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
+            ->query(User::query()->where('role', 'pembeli'))
+            ->defaultSort('created_at', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('Name')
@@ -74,12 +58,7 @@ class UserResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make(),
-                ])
-
-                    
+                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -98,9 +77,9 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
-            //'create' => Pages\CreateUser::route('/create'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'index' => Pages\ListCustomers::route('/'),
+           // 'create' => Pages\CreateCustomer::route('/create'),
+            'edit' => Pages\EditCustomer::route('/{record}/edit'),
         ];
     }
 }

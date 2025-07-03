@@ -18,7 +18,7 @@ class PenjualSeeder extends Seeder
             ['email' => 'penjual@example.com'],
             [
                 'name' => 'Penjual',
-                'email' => 'penjual@example.com',
+                'email' => 'penjual@gmail.com',
                 'password' => Hash::make('password123'), // Ganti jika perlu
                 'phone' => '081234567890',
                 'role' => 'penjual',

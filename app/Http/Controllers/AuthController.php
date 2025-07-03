@@ -72,10 +72,18 @@ class AuthController extends Controller
         ];
 
         if (Auth::guard('web')->attempt($infologin)) {
+            $user = Auth::guard('web')->user();
             $request->session()->regenerate();
 
-            if (Auth::guard('web')->user()->role == 'pembeli') {
+            if ($user->role == 'pembeli') {
                 return redirect()->route('homepage.show');
+            } elseif($user->role == 'penjual') {
+                Auth::guard('web')->logout();
+
+                Auth::guard('admin')->login($user);
+                $request->session()->regenerate();
+
+                return redirect()->intended(route('filament.admin.pages.dashboard'));
             }
         } else {
             return redirect()->back()->withErrors(['email' => 'Email atau kata sandi salah.']);
@@ -85,6 +93,7 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         Auth::guard('web')->logout();
+        Auth::guard('admin')->logout(); 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('login')->with('success', 'Anda telah keluar.');

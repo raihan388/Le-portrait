@@ -9,10 +9,16 @@ class ProductController extends Controller
 {
     public function show()
     {
+        $featuredProducts = Product::with('category', 'brand')
+        ->where('is_active', true)
+        ->where('is_featured', true)
+        ->take(4)
+        ->get();
+
         // Ambil hanya produk yang aktif
         $products = Product::with('category', 'brand')->where('is_active', true)->get();
 
-        return view('pages.homepage', compact('products'));
+        return view('pages.homepage', compact('products', 'featuredProducts'));
     }
 
     public function search(Request $request)
