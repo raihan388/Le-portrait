@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Le-Portrait | homepage</title>
+  <title>Le-Portrait | Homepage</title>
   <script src="{{ asset('styles/tailwindcss3.4.1.js') }}"></script>
 </head>
 <body class="font-sans bg-gray-50 text-gray-900">
