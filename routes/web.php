@@ -24,9 +24,10 @@ use App\Http\Controllers\ManualResetPasswordController;
 use Filament\Notifications\Notification;
 use App\Models\User;
 
-Route::get('/',function () {
-    return view('welcome');
-});
+Route::get('/', [ProductController::class, 'landing'])->name('home');
+
+Route::get('/search', [ProductController::class, 'search'])->name('produk.search');
+
 Route::prefix('produk')->group(function () {
     Route::get('/category/{categoryName}', [ProductController::class, 'showCategory'])->name('kategori.show');
     Route::get('/brand/{brandName}', [ProductController::class, 'showBrand'])->name('brand.show');
@@ -59,13 +60,8 @@ Route::middleware('auth')->group(function () {
 
 Route::post('/logout',[AuthController::class,'logout'])->name('logout');
 
-
-
-Route::get('/search', [ProductController::class, 'search'])->name('search');
-
 Route::get('/order-history', [OrderController::class, 'history'])->name('pages.order-history');
 
-Route::get('/search', [ProductController::class, 'search'])->name('produk.search');
 Route::get('/order',[OrderController::class, 'order'])->name('order');
 
 Route::prefix('cart')->group(function() {

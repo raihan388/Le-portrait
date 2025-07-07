@@ -6,6 +6,7 @@
     <title>Lé Portrait - Premium Camera Collection</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="camera.png" type="image/x-icon">
     <style>
         body { font-family: 'Inter', sans-serif; }
         .hero-bg {
@@ -129,79 +130,39 @@
     <section class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-4xl font-bold text-gray-800 mb-12 text-center">Featured Products</h2>
-            
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                @foreach ($featuredProducts as $product)    
                 <!-- Product Card 1 -->
                 <div class="card-hover bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
                     <div class="h-64 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                        <div class="w-32 h-24 bg-black rounded-lg relative">
-                            <div class="absolute top-2 left-2 w-6 h-6 bg-red-500 rounded-full"></div>
-                            <div class="absolute bottom-2 right-2 text-white text-xs font-bold">DSLR</div>
-                        </div>
+                        @php
+                            $images = is_array($product->images) ? $product->images : json_decode($product->images, true);
+                        @endphp
+                        @if (!empty($images) && isset($images[0]))
+                            <img src="{{ asset('storage/' . $images[0]) }}" 
+                                 alt="{{ $product->name }}" 
+                                 class="h-36 object-contain transition-transform duration-300 group-hover:scale-105">
+                        @else
+                            <span class="text-sm text-gray-400">Gambar tidak tersedia</span>
+                        @endif
                     </div>
                     <div class="p-6">
                         <div class="flex items-center gap-2 mb-3">
-                            <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">DSLR</span>
+                            <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">{{$product->category->name}}</span>
                             <span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">Nikon</span>
                         </div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Nikon D850</h3>
-                        <p class="text-gray-600 mb-4">Professional DSLR camera with 45.7MP sensor</p>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ $product->name }}</h3>
+                        <p class="text-gray-600 mb-4">{{ $product->description }}</p>
                         <div class="flex items-center justify-between">
-                            <span class="text-2xl font-bold text-red-500">$2,999</span>
+                            <span class="text-2xl font-bold text-red-500">Rp. {{ number_format($product->price, 0, ',', '.') }}</span>
                             <a href="{{ route('login') }}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
                                 View Details
                             </a>
                         </div>
                     </div>
                 </div>
+                @endforeach
 
-                <!-- Product Card 2 -->
-                <div class="card-hover bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
-                    <div class="h-64 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                        <div class="w-28 h-20 bg-gray-800 rounded-lg relative">
-                            <div class="absolute top-1 left-1 w-4 h-4 bg-blue-400 rounded-full"></div>
-                            <div class="absolute bottom-1 right-1 text-white text-xs font-bold">M</div>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center gap-2 mb-3">
-                            <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">DSLR</span>
-                            <span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">Nikon</span>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Sony A7R IV</h3>
-                        <p class="text-gray-600 mb-4">High-resolution mirrorless camera</p>
-                        <div class="flex items-center justify-between">
-                            <span class="text-2xl font-bold text-red-500">$3,499</span>
-                            <a href="{{ route('login') }}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
-                                View Details
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 3 -->
-                <div class="card-hover bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
-                    <div class="h-64 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                        <div class="w-20 h-32 bg-gray-700 rounded-lg relative">
-                            <div class="absolute top-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-green-400 rounded-full"></div>
-                            <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-white text-xs font-bold">L</div>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center gap-2 mb-3">
-                            <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">DSLR</span>
-                            <span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">Nikon</span>
-                        </div>
-                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Canon 70-200mm f/2.8</h3>
-                        <p class="text-gray-600 mb-4">Professional telephoto zoom lens</p>
-                        <div class="flex items-center justify-between">
-                            <span class="text-2xl font-bold text-red-500">$1,899</span>
-                            <a href="{{ route('login') }}" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
-                                View Details
-                            </a>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>

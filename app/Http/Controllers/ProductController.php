@@ -7,6 +7,20 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+
+    public function landing()
+    {
+        $featuredProducts = Product::with('category', 'brand')
+        ->where('is_active', true)
+        ->where('is_featured', true)
+        ->take(4)
+        ->get();
+
+        // Ambil hanya produk yang aktif
+        $products = Product::with('category', 'brand')->where('is_active', true)->get();
+
+        return view('welcome', compact('products', 'featuredProducts'));
+    }
     public function show()
     {
         $featuredProducts = Product::with('category', 'brand')
@@ -30,9 +44,9 @@ class ProductController extends Controller
               ->orWhere('description', 'LIKE', '%' . $search . '%');
         })
         ->where('is_active', true)
-        ->get();
+        ->paginate(12);
 
-        return view('pages.homepage', compact('products', 'search'));
+        return view('pages.search', compact('products', 'search'));
     }
 
     public function detail($slug) {
