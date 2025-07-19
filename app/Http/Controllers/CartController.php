@@ -38,7 +38,7 @@ class CartController extends Controller
             ]);
         }
 
-        return redirect()->route('cart.show')->with('success', 'Produk berhasil ditambahkan ke keranjang.');
+        return redirect()->back()->with('success', 'Product successfully added to cart.');
     }
 
     public function showCart()

@@ -35,8 +35,8 @@
 
       <!-- Right Side - Profile Form -->
       <div class="w-full border border-gray-200 bg-white p-6 sm:p-10 rounded-md">
-        <h1 class="text-xl font-medium">Profil Saya</h1>
-        <p class="text-sm text-gray-600 mb-6">Kelola informasi profil Anda untuk mengontrol, melindungi, dan mengamankan akun.</p>
+        <h1 class="text-xl font-medium">My Profile</h1>
+        <p class="text-sm text-gray-600 mb-6">Manage your profile information to control, protect, and secure your account.</p>
 
         <hr class="mb-6">
 
@@ -72,7 +72,7 @@
             </div>
 
             <label for="profile_image" class="text-sm border border-gray-300 px-4 py-1 cursor-pointer hover:bg-gray-50 rounded text-center">
-              Pilih Gambar *
+              Select Image *
               <input type="file" name="profile_image" id="profile_image" class="hidden" accept="image/*" onchange="previewImages(event)">
             </label>
           </div>

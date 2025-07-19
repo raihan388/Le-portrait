@@ -67,7 +67,7 @@
                     <table class="w-full table-auto border-collapse text-sm">
                         <thead class="bg-gray-100">
                             <tr>
-                                <th class="px-4 py-3 text-center">Pilih</th>
+                                <th class="px-4 py-3 text-center">Select</th>
                                 <th class="px-4 py-3 text-center">No</th>
                                 <th class="px-4 py-3 text-left">Image</th>
                                 <th class="px-4 py-3 text-left">Product Name</th>
@@ -98,7 +98,7 @@
                                     <td class="px-4 py-3 font-medium">
                                         {{ $item->product->name }}
                                         @if ($item->product->stock == 0)
-                                            <span class="text-xs text-red-500 font-semibold ml-2">(Stok Habis)</span>
+                                            <span class="text-xs text-red-500 font-semibold ml-2">(Out of stock)</span>
                                         @endif
                                     </td>
                                     <td class="px-4 py-3">Rp{{ number_format($item->price, 0, ',', '.') }}</td>
@@ -118,7 +118,7 @@
                                             <button type="button" class="increase-btn bg-gray-200 px-2 rounded" data-id="{{ $item->id }}">+</button>
                                         </div>
                                         <p class="stock-warning text-sm text-red-500 mt-1 hidden">
-                                            Maksimal stok hanya {{ $item->product->stock }}
+                                            Maximum stock only {{ $item->product->stock }}
                                         </p>
 
                                     </td>

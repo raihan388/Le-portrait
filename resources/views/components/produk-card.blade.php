@@ -11,7 +11,7 @@
                          alt="{{ $product->name }}" 
                          class="h-36 object-contain transition-transform duration-300 group-hover:scale-105">
                 @else
-                    <span class="text-sm text-gray-400">Gambar tidak tersedia</span>
+                    <span class="text-sm text-gray-400">Image not available</span>
                 @endif
             </div>
 
@@ -40,7 +40,7 @@
             <div class="mb-4">
                 <div class="text-xl font-bold text-red-600 mb-1">Rp {{ number_format($product->price, 0, ',', '.') }}</div>
                 <div class="text-sm font-medium {{ $product->stock > 0 ? 'text-green-600' : 'text-red-600' }}">
-                    Stok: {{ $product->stock > 0 ? $product->stock : 'Habis' }}
+                    Stock: {{ $product->stock > 0 ? $product->stock : 'Finished' }}
                 </div>
             </div>
         </div>
@@ -58,16 +58,34 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
                               d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5 7m0 0h5.5m-5.5 0v2a1 1 0 001 1h5.5a1 1 0 001-1v-2"></path>
                     </svg>
-                    Tambah ke Keranjang
+                    Add To Cart
                 </button>
             @else
                 <button type="button" disabled class="w-full bg-gray-400 text-white py-2 rounded-lg font-semibold cursor-not-allowed">
-                    Stok Habis
+                    Out of stock
                 </button>
             @endif
         </form>
     </div>
 </div>
+<!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm mx-4">
+            <div class="text-center">
+                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h3 class="font-semibold text-gray-900 mb-2">Added Successfully!</h3>
+                <p class="text-gray-600 text-sm mb-4">The product has been added to your shopping cart.</p>
+                <button id="closeModal" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+
 
 
 
@@ -89,7 +107,7 @@ function addToCart(productId) {
             // Update tampilan keranjang
             updateCartCount();
             // Tampilkan notifikasi
-            alert('Produk berhasil ditambahkan ke keranjang!');
+            alert('Product successfully added to cart!');
         }
     })
     .catch(error => console.error('Error:', error));
@@ -104,4 +122,34 @@ function updateCartCount() {
             document.getElementById('cart-count').innerText = data.count;
         });
 }
+// Success Modal functionality
+        const successModal = document.getElementById('successModal');
+        const closeModal = document.getElementById('closeModal');
+
+        // Close modal functionality
+        if (closeModal) {
+            closeModal.addEventListener('click', () => {
+                successModal.classList.add('hidden');
+                successModal.classList.remove('flex');
+            });
+        }
+
+        // Close modal when clicking outside
+        successModal.addEventListener('click', (e) => {
+            if (e.target === successModal) {
+                successModal.classList.add('hidden');
+                successModal.classList.remove('flex');
+            }
+        });
 </script>
+@if (session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const successModal = document.getElementById('successModal');
+                if (successModal) {
+                    successModal.classList.remove('hidden');
+                    successModal.classList.add('flex');
+                }
+            });
+        </script>
+    @endif

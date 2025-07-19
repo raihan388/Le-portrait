@@ -47,7 +47,7 @@
                             @endforeach
                         </div>
                     @else
-                        <span class="text-sm text-gray-400">Gambar tidak tersedia</span>
+                        <span class="text-sm text-gray-400">Image not available</span>
                     @endif
                 </div>
 
@@ -78,19 +78,19 @@
                                 <svg class="w-4 h-4 text-green-500 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                                 </svg>
-                                <span class="text-gray-700">Garansi Resmi 2 Tahun</span>
+                                <span class="text-gray-700">2 Year Official Warranty</span>
                             </div>
                             <div class="flex items-start gap-2">
                                 <svg class="w-4 h-4 text-green-500 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                                 </svg>
-                                <span class="text-gray-700">1 Tahun Full Coverage (Service & Spareparts)</span>
+                                <span class="text-gray-700">1 Year Full Coverage (Service & Spare Parts)</span>
                             </div>
                             <div class="flex items-start gap-2">
                                 <svg class="w-4 h-4 text-green-500 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                                 </svg>
-                                <span class="text-gray-700">1 Tahun Free Service Only</span>
+                                <span class="text-gray-700">1 Year Free Service Only</span>
                             </div>
                             <div class="flex items-start gap-2">
                                 <svg class="w-4 h-4 text-green-500 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -125,7 +125,7 @@
                         <input type="hidden" name="product_id" value="{{ $item->id }}">
                         <div class="space-y-4 pt-4 border-t">
                             <div class="flex items-center gap-4">
-                                <label class="font-semibold text-gray-700">Jumlah:</label>
+                                <label class="font-semibold text-gray-700">Quantity :</label>
                                 <div class="flex items-center border rounded-lg">
                                     <button id="decreaseBtn" type="button" class="px-3 py-2 hover:bg-gray-100 transition-colors">-</button>
                                     <input id="quantityInput" name="quantity" type="number" value="1" min="1" max="10" class="w-16 text-center py-2 border-x">
@@ -141,14 +141,14 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
                                       d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 7M7 13l2.5 7m0 0h5.5m-5.5 0v2a1 1 0 001 1h5.5a1 1 0 001-1v-2"></path>
                             </svg>
-                            Tambah ke Keranjang
+                            Add To Cart
                         </button>
                     @else
                         <button 
                             type="button"
                             disabled
                             class="w-full bg-gray-400 text-white font-semibold py-3 px-4 rounded-lg flex items-center justify-center cursor-not-allowed">
-                            Stok Habis
+                            Out Of Stock
                         </button>
                     @endif
                             </div>
@@ -170,8 +170,8 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                 </div>
-                <h3 class="font-semibold text-gray-900 mb-2">Berhasil Ditambahkan!</h3>
-                <p class="text-gray-600 text-sm mb-4">Produk telah ditambahkan ke keranjang belanja Anda.</p>
+                <h3 class="font-semibold text-gray-900 mb-2">Added Successfully!</h3>
+                <p class="text-gray-600 text-sm mb-4">The product has been added to your shopping cart.</p>
                 <button id="closeModal" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors">
                     OK
                 </button>
@@ -279,5 +279,16 @@
             return 'Rp ' + price.toLocaleString('id-ID');
         }
     </script>
+    @if (session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const successModal = document.getElementById('successModal');
+                if (successModal) {
+                    successModal.classList.remove('hidden');
+                    successModal.classList.add('flex');
+                }
+            });
+        </script>
+    @endif
 </body>
 </html>
