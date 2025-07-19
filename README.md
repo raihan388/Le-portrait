@@ -13,7 +13,7 @@ Selamat datang di repository **Le-Portrait**, sebuah sistem informasi berbasis w
 | Annisa Fadilla Efendi Harahap | 3312401024 |
 | Sabrina Rosa Salsyabilla      | 3312401028 |
 
-*(Silakan lengkapi sesuai data anggota kelompok)*
+
 
 ---
 
@@ -21,7 +21,6 @@ Selamat datang di repository **Le-Portrait**, sebuah sistem informasi berbasis w
 
 📺 Tonton penjelasan lengkap sistem Le-Portrait di video berikut:  
 👉 [Klik untuk Menonton Video Presentasi](https://youtu.be/zxiv8MpyjbM)  
-*(Ganti `#` dengan link YouTube atau Google Drive kamu)*
 
 ---
 
@@ -29,7 +28,6 @@ Selamat datang di repository **Le-Portrait**, sebuah sistem informasi berbasis w
 
 🚀 Coba langsung aplikasi Le-Portrait melalui AAS demo berikut:  
 🔗 [Coba Demo AAS di Sini](https://youtu.be/d4fDLycEwso)  
-*(Masukkan link ke demo AAS yang kamu gunakan)*
 
 ---
 
